@@ -153,7 +153,7 @@
 
           <b-card-text class="text-center mt-2">
             <span>New on our platform? </span>
-            <b-link :to="'/register'">
+            <b-link :to="'/login'">
               <span>&nbsp;Create an account</span>
             </b-link>
           </b-card-text>
@@ -305,4 +305,4 @@ export default {
 
 <style lang="scss">
 @import '@core/scss/vue/pages/page-auth.scss';
-</style>
+</style>
