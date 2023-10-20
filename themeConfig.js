@@ -9,7 +9,7 @@ export const $themeBreakpoints = {}
 // APP CONFIG
 export const $themeConfig = {
   app: {
-    appName: 'FMF-DTS', // Will update name in navigation menu (Branding)
+    appName: 'HPW-ADMIN', // Will update name in navigation menu (Branding)
     // eslint-disable-next-line global-require
     appLogoImage: require('./src/assets/images/logo/logo.png'), // Will update logo in navigation menu (Branding)
   },

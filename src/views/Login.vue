@@ -6,11 +6,11 @@
       <b-link class="brand-logo">
         <img
           style="max-height: 50px;"
-          src="@/assets/images/logo/logo.png"
+          src="https://www.hopepathway.uk/wp-content/uploads/2021/04/cropped-Blood-Donation-Logo-4.png"
           alt=""
         >
         <h5 class="brand-text text-primary ml-1 mb-5">
-          Federal Ministry of <br> <span class="">Finance, Budget and National Planning</span>
+           <br> <span class=""></span>
         </h5>
       </b-link>
       <!-- /Brand logo-->
@@ -45,7 +45,7 @@
             title-tag="h4"
             class="font-weight-bold mb-1"
           >
-            <span class="text-success h3">Welcome to: </span> <br> ASSET MANAGEMENT AND TRACKING FOR ACCOUNTABILITY <br>
+            <span class="text-primary h3">Welcome to: </span> <br> Hope Pathway, Management System <br>
            
           </b-card-title>
           <b-card-text class="mb-2">
@@ -115,7 +115,7 @@
               </b-form-group>
 
 
-              <div class="form-group">
+              <div class="form-group d-none">
                 <label for="select-role">Select Designation:</label>
                 <select name="" id="select-role" class="form-control">
                   <option>- Select Designation -</option>
@@ -305,4 +305,4 @@ export default {
 
 <style lang="scss">
 @import '@core/scss/vue/pages/page-auth.scss';
-</style>
+</style>
