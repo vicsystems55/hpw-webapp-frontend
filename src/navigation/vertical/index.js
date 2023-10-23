@@ -4,15 +4,15 @@ export default [{
   icon: 'HomeIcon',
 },
 {
-  title: 'Submissions',
-  route: 'submissions',
+  title: 'Manage Records',
+  route: 'residents-management',
   icon: 'FileIcon',
 },
-{
-  title: 'Departments',
-  route: 'departments',
-  icon: 'FileIcon',
-},
+// {
+//   title: 'Departments',
+//   route: 'departments',
+//   icon: 'FileIcon',
+// },
 {
   title: 'Notifications',
   route: 'notifications',

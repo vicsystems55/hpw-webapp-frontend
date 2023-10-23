@@ -40,14 +40,14 @@ const router = new VueRouter({
     },
 
     {
-      path: '/submissions',
-      name: 'submissions',
-      component: () => import('@/views/Submissions.vue'),
+      path: '/management',
+      name: 'residents-management',
+      component: () => import('@/views/ResidentsManagement.vue'),
       meta: {
-        pageTitle: 'Submissions',
+        pageTitle: 'Manage Records',
         breadcrumb: [
           {
-            text: 'Submissions',
+            text: 'Residents Management',
             active: true,
           },
         ],
@@ -85,14 +85,19 @@ const router = new VueRouter({
     },
 
     {
-      path: '/create-ad',
-      name: 'create-ad',
-      component: () => import('@/views/CreateAdvert.vue'),
+      path: '/create-record',
+      name: 'create-record',
+      component: () => import('@/views/CreateRecord.vue'),
       meta: {
-        pageTitle: 'Create Advert',
+        pageTitle: 'Home',
         breadcrumb: [
           {
-            text: 'Create Advert',
+            text: 'Residents Management',
+            name: 'residents-management',
+            active: false,
+          },
+          {
+            text: 'Create Record',
             active: true,
           },
         ],

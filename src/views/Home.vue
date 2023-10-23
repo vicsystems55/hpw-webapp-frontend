@@ -6,7 +6,7 @@
         <div class="col-md-6">
           <div class="card">
             <div class="card-body">
-              <h4>Contractor Applications</h4>
+              <h4>Total Registrations</h4>
               <h5>0</h5>
 
             </div>
@@ -16,7 +16,7 @@
         <div class="col-md-6">
           <div class="card">
             <div class="card-body">
-              <h4>Executed Projects</h4>
+              <h4>Total Missing</h4>
               <h5>0</h5>
 
             </div>
@@ -38,7 +38,7 @@
                 <h4 class="text-warning">New Application </h4>
                 <hr>
               
-              <h6>Your have a new contractor application submission by Deicon Nig. Ltd.</h6>
+              <h6>Your have a new submission</h6>
             </div>
           </div>
 

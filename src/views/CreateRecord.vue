@@ -27,7 +27,7 @@
                   placeholder="Enter email"
                 >
               </div>
-              <div class="form-group">
+              <!-- <div class="form-group">
                 <label for="">Select Department:</label>
                 <select
                   id=""
@@ -42,8 +42,8 @@
                     {{ office.name }}
                   </option>
                 </select>
-              </div>
-
+              </div> -->
+<!-- 
               <div class="form-group">
                 <label for="">Title</label>
                 <input
@@ -52,7 +52,7 @@
                   class="form-control"
                   placeholder="Enter title or subject"
                 >
-              </div>
+              </div> -->
 
               <div class="form-group">
                 <label for="">From Address</label>
@@ -64,7 +64,7 @@
                 >
               </div>
 
-              <div class="form-group">
+              <!-- <div class="form-group">
                 <label for="">Select Submission format</label>
                 <select
                   id=""
@@ -89,10 +89,10 @@
                   </option>
 
                 </select>
-              </div>
+              </div> -->
 
               <div class="form-group">
-                <label for="">Date</label>
+                <label for="">Date of Admission</label>
                 <input
                   v-model="submission_date"
                   type="date"
@@ -111,7 +111,7 @@
               </div>
 
               <div class="form-group">
-                <label for="">Upload file:</label>
+                <label for="">Upload previous records:</label>
 
                 <b-form-file
                   placeholder="Choose a file or drop it here..."

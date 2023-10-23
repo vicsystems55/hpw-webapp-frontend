@@ -5,10 +5,10 @@
       <div class="row">
         <div class="col-md-12">
 
-          <div v-show="userData.role=='perm-sec'" class="mx-auto py-5 text-center">
-            <router-link :to="'/create-ad'">
+          <div v-show="userData.role=='admin'" class="mx-auto py-5 text-center">
+            <router-link :to="'/create-record'">
               <buttons class="btn btn-primary btn-lg">
-                Create Advertisment
+               Add New Record
               </buttons>
             </router-link>
           </div>
@@ -20,7 +20,7 @@
                 <thead>
                   <tr>
                     <th>#</th>
-                    <th>Contractor Name</th>
+                    <th>Residents Name</th>
                     <th>Department</th>
                     <th>Date</th>
                     <th>Status</th>
@@ -30,12 +30,13 @@
                 <tbody>
                   <tr>
                     <td>1</td>
-                    <td>De Icon Nig Ltd.</td>
-                    <td>Accounting</td>
+                    <td>John Doe</td>
+                    <td>Teen</td>
                     <td>10-09-2023</td>
-                    <td><span class="badge badge-primary">pending confirmation</span></td>
+                    <td><span class="badge badge-primary">active</span></td>
                     <td>
-                      <b-dropdown
+                      <button class="btn btn-sm btn-primary">view more</button>
+                      <!-- <b-dropdown
                         id="dropdown-1"
                         v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                         text="Action"
@@ -44,7 +45,7 @@
                         <b-dropdown-item>View</b-dropdown-item>
                         <b-dropdown-item>Authorize</b-dropdown-item>
                         <b-dropdown-item>Notify Perm. Sec.</b-dropdown-item>
-                      </b-dropdown>
+                      </b-dropdown> -->
                     </td>
                   </tr>
                   <tr v-for="submission,key in submissions" :key="submission.index">
@@ -80,6 +81,7 @@ import axios from 'axios'
 import { BDropdown, BDropdownItem, BCardText } from 'bootstrap-vue'
 
 export default {
+  name: 'residents-management',
   components: {
 
     BDropdown,
