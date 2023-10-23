@@ -1,153 +1,135 @@
 <template>
   <div>
 
-    <div class="container">
-      <div class="row">
-        <div class="col-md-12">
+    <div class="container card card-body">
+      <div class="row ">
+        <div class=" col-md-6 ">
+          <div class=" ">
 
-          <div class="card col-md-6 mx-auto">
-            <div class="card-body ">
-
-              <div class="form-group">
-                <label for="">Full name</label>
-                <input
-                  v-model="name"
-                  type="text"
-                  class="form-control"
-                  placeholder="Enter your name"
-                >
-              </div>
-
-              <div class="form-group">
-                <label for="">Email</label>
-                <input
-                  v-model="email"
-                  type="text"
-                  class="form-control"
-                  placeholder="Enter email"
-                >
-              </div>
-              <!-- <div class="form-group">
-                <label for="">Select Department:</label>
-                <select
-                  id=""
-                  v-model="office_id"
-                  class="form-control"
-                >
-                  <option
-                    v-for="office in offices"
-                    :key="office.index"
-                    :value="office.id"
-                  >
-                    {{ office.name }}
-                  </option>
-                </select>
-              </div> -->
-<!-- 
-              <div class="form-group">
-                <label for="">Title</label>
-                <input
-                  v-model="title"
-                  type="text"
-                  class="form-control"
-                  placeholder="Enter title or subject"
-                >
-              </div> -->
-
-              <div class="form-group">
-                <label for="">From Address</label>
-                <input
-                  v-model="from_address"
-                  type="text"
-                  class="form-control"
-                  placeholder="Enter senders address"
-                >
-              </div>
-
-              <!-- <div class="form-group">
-                <label for="">Select Submission format</label>
-                <select
-                  id=""
-                  v-model="submission_format"
-                  name=""
-                  class="form-control"
-                >
-                  <option :value="'Check'">
-                    Cheque
-                  </option>
-                  <option :value="'Letter'">
-                    Letter
-                  </option>
-                  <option :value="'Document'">
-                    Document
-                  </option>
-                  <option :value="'Proposal'">
-                    Proposal
-                  </option>
-                  <option :value="'File'">
-                    File
-                  </option>
-
-                </select>
-              </div> -->
-
-              <div class="form-group">
-                <label for="">Date of Admission</label>
-                <input
-                  v-model="submission_date"
-                  type="date"
-                  class="form-control"
-                >
-              </div>
-
-              <div class="form-group">
-                <label for="">Phone</label>
-                <input
-                  v-model="phone"
-                  type="text"
-                  class="form-control"
-                  placeholder="Enter Phone"
-                >
-              </div>
-
-              <div class="form-group">
-                <label for="">Upload previous records:</label>
-
-                <b-form-file
-                  placeholder="Choose a file or drop it here..."
-                  drop-placeholder="Drop file here..."
-                  no-drop
-                />
-
-              </div>
-
-              <!-- <div class="form-group">
-                <label for="">Remarks</label>
-                <textarea
-                  id=""
-                  name=""
-                  cols="30"
-                  rows="5"
-                  class="form-control"
-                  placeholder="Any remarks or comments."
-                />
-              </div> -->
-
-              <div class="form-group">
-
-                <button
-                  class="btn btn-primary btn-lg btn-block"
-                  @click="createSubmission()"
-                >
-                  {{ loadingy?'Please wait...':'Submit' }}
-                </button>
-
-              </div>
-
+            <div class="form-group">
+              <label for="">Full name</label>
+              <input v-model="fullname" type="text" class="form-control" placeholder="Enter your name">
             </div>
+
+            <div class="form-group">
+              <label for="">Date of birth:</label>
+              <input v-model="date_of_birth" type="date" class="form-control" placeholder="Enter date">
+            </div>
+
+            <div class="form-group">
+              <label for="">Gender</label>
+              <select v-model="gender" class="form-control" id="">
+                <option :value="'male'">Male</option>
+                <option :vvalue="'female'">Female</option>
+                <option :vvalue="'not-say'">Rather Not Say</option>
+
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="">Upload photo</label>
+              <b-form-file v-model="passport_file" placeholder="Upload photo" drop-placeholder="Drop file here..." no-drop />
+            </div>
+
+
+
+            <div class="form-group">
+              <label for="">National Insurance Number:</label>
+              <input v-model="national_insurance_number" type="text" class="form-control" placeholder="Enter NIN">
+            </div>
+
+            <div class="form-group">
+              <label for="">NHS Number:</label>
+              <input v-model="nhs_number" type="text" class="form-control" placeholder="Enter NHS">
+            </div>
+
+            <div class="form-group">
+              <label for="">Emergency Contact Address</label>
+              <input v-model="emergency_contact_name" type="text" class="form-control"
+                placeholder="Enter senders address">
+            </div>
+
+            <div class="form-group">
+              <label for="">Emergency Contact Relationship</label>
+              <input v-model="emergency_contact_relationship" type="text" class="form-control"
+                placeholder="Enter relationship">
+            </div>
+
+            <div class="form-group">
+              <label for="">Emergency Contact Phone</label>
+              <input v-model="emergency_contact_phone" type="text" class="form-control" placeholder="Enter phone">
+            </div>
+
+          </div>
+        </div>
+
+        <div class="col-md-6">
+
+          <div class="form-group">
+            <label for="">Room Assignment:</label>
+            <input v-model="room_assignment" type="text" class="form-control" placeholder="Enter Room no.">
+
+          </div>
+
+
+
+
+
+          <div class="form-group">
+            <label for="">Medical History</label>
+            <textarea cols="10" rows="5" v-model="medical_history" type="text" class="form-control"></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="">Care Level</label>
+            <select v-model="care_level" class="form-control" id="">
+              <option value="">Intensive</option>
+              <option value="">Basic</option>
+              <option value="">Emergency</option>
+
+            </select>
+          </div>
+
+
+
+          <div class="form-group">
+            <label for="">Dietary Restrictions</label>
+            <input v-model="room_assignment" type="text" class="form-control" placeholder="Dietary specialties">
+          </div>
+
+          <div class="form-group">
+            <label for="">Special Request or notes</label>
+            <input v-model="special_requests_or_notes" type="text" class="form-control"
+              placeholder="Enter Special request">
+          </div>
+
+          <div class="form-group">
+            <label for="">Admission Date:</label>
+            <input v-model="admission_date" type="date" class="form-control" placeholder="Enter Special request">
+          </div>
+
+          <div class="form-group">
+            <label for="">discharge Date:</label>
+            <input v-model="discharge_date" type="date" class="form-control" placeholder="Enter Special request">
+          </div>
+
+          <div class="form-group">
+            <label for="">Allergies:</label>
+            <input v-model="allergies" type="text" class="form-control" placeholder="separated by commas">
+          </div>
+
+
+
+          <div class="form-group">
+
+            <button class="btn btn-primary btn-lg btn-block" @click="createSubmission()">
+              {{ loadingy ? 'Please wait...' : 'Submit' }}
+            </button>
+
           </div>
 
         </div>
+
       </div>
     </div>
 
@@ -168,50 +150,67 @@ export default {
     return {
       offices: [],
 
-
-      name: '',
-      email: '',
-      office_id: '',
-      from_address: '',
-      title: '',
-      submission_format: '',
-      submission_date: '',
-      phone: '',
+      fullname: '',
+      date_of_birth: '',
+      gender: '',
+      address: '',
+      caregiver_id: '',
+      passport_file: '',
+      government_details_file: '',
+      past_records_file: '',
+      national_insurance_number: '',
+      nhs_number: '',
+      emergency_contact_name: '',
+      emergency_contact_relationship: '',
+      emergency_contact_phone: '',
+      medical_history: '',
+      care_level: '',
+      payment_information: '',
+      room_assignment: '',
+      dietary_restrictions: '',
+      special_requests_or_notes: '',
+      admission_date: '',
+      discharge_date: '',
+      allergies: '',
 
       loadingy: false,
 
     }
   },
   mounted() {
-    this.getOffices()
+    // this.getOffices()
   },
   methods: {
-    getOffices() {
-      axios({
-        url: `${process.env.VUE_APP_BACKEND_URL}/api/offices`,
-        method: 'get',
-      }).then(res => {
-        console.log(res)
-        this.offices = res.data
-      }).catch(error => {
-        console.log(error)
-      })
-    },
+ 
 
     createSubmission() {
       this.loadingy = true
       axios({
-        url: `${process.env.VUE_APP_BACKEND_URL}/api/visitor-submissions`,
+        url: `${process.env.VUE_APP_BACKEND_URL}/api/residents-management`,
         method: 'post',
         data: {
-          name: this.name,
-          email: this.email,
-          office_id: this.office_id,
-          title: this.title,
-          submission_format: this.submission_format,
-          submission_date: this.submission_date,
-          phone: this.phone,
-          from_address: this.from_address,
+          fullname: this.fullname,
+          date_of_birth: this.date_of_birth,
+          gender: this.gender,
+          address: this.address,
+          caregiver_id: this.caregiver_id,
+          passport_file: this.passport_file,
+          government_details_file: this.government_details_file,
+          past_records_file: this.past_records_file,
+          national_insurance_number: this.national_insurance_number,
+          nhs_number: this.nhs_number,
+          emergency_contact_name: this.emergency_contact_name,
+          emergency_contact_relationship: this.emergency_contact_relationship,
+          emergency_contact_phone: this.emergency_contact_phone,
+          medical_history: this.medical_history,
+          care_level: this.care_level,
+          payment_information: this.payment_information,
+          room_assignment: this.room_assignment,
+          dietary_restrictions: this.dietary_restrictions,
+          special_requests_or_notes: this.special_requests_or_notes,
+          admission_date: this.admission_date,
+          discharge_date: this.discharge_date,
+          allergies: this.allergies,
         },
       }).then(res => {
         this.loadingy = false
@@ -220,20 +219,19 @@ export default {
         this.$toast({
           component: ToastificationContent,
           props: {
-            title: 'Submission sent',
+            title: 'Record created',
             icon: 'EditIcon',
             variant: 'success',
           },
         })
 
-        this.$router.push('/submission-success')
+        this.$router.push('/management')
       }).catch(error => {
         this.loadingy = false
 
         console.log(error)
       })
     },
-
 
   },
 }
