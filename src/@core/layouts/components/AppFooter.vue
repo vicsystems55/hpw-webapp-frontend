@@ -6,11 +6,11 @@
         class="ml-25"
         href="https://1.envato.market/pixinvent_portfolio"
         target="_blank"
-      >Federal Ministry of Finance Budget and National Planning</b-link>
+      >Hope Pathway</b-link>
       <span class="d-none d-sm-inline-block">, All rights Reserved</span>
     </span>
 
-    <span class="float-md-right d-none d-md-block"> Powered by De'iCON Consult Limited
+    <span class="float-md-right d-none d-md-block"> Powered by vicSystems Technologies Ltd.
     
     </span>
   </p>

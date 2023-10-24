@@ -55,14 +55,14 @@ const router = new VueRouter({
     },
 
     {
-      path: '/submission/:id',
-      name: 'submission',
-      component: () => import('@/views/Submission.vue'),
+      path: '/record/:id',
+      name: 'record',
+      component: () => import('@/views/Record.vue'),
       meta: {
-        pageTitle: 'Submission Details',
+        pageTitle: "Details Page",
         breadcrumb: [
           {
-            text: 'Submission',
+            text: "Resident's Details",
             active: true,
           },
         ],

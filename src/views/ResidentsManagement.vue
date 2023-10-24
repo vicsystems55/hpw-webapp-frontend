@@ -28,7 +28,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
+                  <tr class="d-none">
                     <td>1</td>
                     <td>John Doe</td>
                     <td>Teen</td>
@@ -48,18 +48,18 @@
                       </b-dropdown> -->
                     </td>
                   </tr>
-                  <tr v-for="submission,key in submissions" :key="submission.index">
+                  <tr v-for="record,key in records" :key="record.index">
                     <td>{{ key +1 }}</td>
-                    <td>
-                      <router-link :to="'/submission/'+submission.id">
-                        {{submission.tracking_code}}
-                      </router-link>
+                
+                    <td>{{record.fullname}}</td>
+                    <td>{{record.date}}</td>
+                    <td>{{record.admission_date}}</td>
 
-                    </td>
-                    <td>{{submission.office.name}}</td>
-                    <td>{{submission.date}}</td>
                     <td>
-                      <span class="badge badge-primary">pending</span>
+                      <span class="badge badge-primary">{{record.status}}</span>
+                    </td>
+                    <td>
+                      <a :href="'/record/'+record.id" class="btn btn-sm btn-primary">view more</a>
                     </td>
 
                   </tr>
@@ -92,26 +92,30 @@ export default {
 
   data() {
     return {
-      submissions: [],
+      records: [],
       userData: '',
 
     }
   },
 
   mounted() {
-    this.getSubmissions()
+    this.getRecords()
     this.userData = JSON.parse(localStorage.getItem('user_data'));
   },
 
   methods: {
 
-    getSubmissions() {
+    getRecords() {
       axios({
-        url: `${process.env.VUE_APP_BACKEND_URL}/api/visitor-submissions`,
+        url: `${process.env.VUE_APP_BACKEND_URL}/api/residents-management`,
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
         method: 'get',
       }).then(res => {
         console.log(res)
-        this.submissions = res.data
+        this.records = res.data
       }).catch(error => {
         console.log(error)
       })

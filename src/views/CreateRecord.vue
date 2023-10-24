@@ -36,7 +36,7 @@
 
             </div>
 
-            <div class="form-group text-center">
+            <div class="form-group text-center d-none">
               <button
                 class="btn btn-primary btn-sm"
                 @click="uploadAvatar()"
@@ -51,11 +51,12 @@
           <div class=" ">
 
             <div class="form-group">
-              <label for="">Full name</label>
+              <label for="name">Full name</label>
               <input
+                id="name"
                 v-model="fullname"
                 type="text"
-                class="form-control"
+                class="form-control "
                 placeholder="Enter your name"
               >
             </div>
@@ -71,9 +72,9 @@
             </div>
 
             <div class="form-group">
-              <label for="">Gender</label>
+              <label for="gender">Gender</label>
               <select
-                id=""
+                id="gender"
                 v-model="gender"
                 class="form-control"
               >
@@ -91,13 +92,14 @@
             </div>
 
             <div class="form-group">
-              <label for="">Upload photo</label>
-              <b-form-file
-                v-model="passport_file"
-                placeholder="Upload photo"
-                drop-placeholder="Drop file here..."
-                no-drop
-              />
+              <label for="address">Address</label>
+              <input
+                id="address"
+                v-model="address"
+                type="text"
+                class="form-control"
+                placeholder="Enter Address"
+              >
             </div>
 
             <div class="form-group">
@@ -150,18 +152,29 @@
               >
             </div>
 
+            <div class="form-group">
+              <label for="">Room Assignment:</label>
+              <input
+                v-model="room_assignment"
+                type="text"
+                class="form-control"
+                placeholder="Enter Room no."
+              >
+
+            </div>
+
           </div>
         </div>
 
         <div class="col-md-6">
 
           <div class="form-group">
-            <label for="">Room Assignment:</label>
+            <label for="">Past Records: (PDF, EXCEL DOCS, OR SCANNED IMAGES)</label>
             <input
-              v-model="room_assignment"
-              type="text"
-              class="form-control"
+              type="file"
+              class="form-control-file"
               placeholder="Enter Room no."
+              @change="previewPastRecords"
             >
 
           </div>
@@ -178,19 +191,19 @@
           </div>
 
           <div class="form-group">
-            <label for="">Care Level</label>
+            <label for="care_level">Care Level</label>
             <select
-              id=""
+              id="care_level"
               v-model="care_level"
               class="form-control"
             >
-              <option value="">
+              <option :value="'Intensive'">
                 Intensive
               </option>
-              <option value="">
+              <option :value="'Basic'">
                 Basic
               </option>
-              <option value="">
+              <option :value="'Emergency'">
                 Emergency
               </option>
 
@@ -200,7 +213,7 @@
           <div class="form-group">
             <label for="">Dietary Restrictions</label>
             <input
-              v-model="room_assignment"
+              v-model="dietary_restrictions"
               type="text"
               class="form-control"
               placeholder="Dietary specialties"
@@ -279,7 +292,7 @@ export default {
   data() {
     return {
       offices: [],
-
+      file: '',
       fullname: '',
       date_of_birth: '',
       gender: '',
@@ -302,6 +315,7 @@ export default {
       admission_date: '',
       discharge_date: '',
       allergies: '',
+      avatar: null,
 
       loadingy: false,
 
@@ -322,38 +336,60 @@ export default {
         // preview.style.display = "block";
       }
 
-      this.file = this.$refs.file.files[0]
+      this.passport_file = event.target.files[0]
+
+      console.log(this.passport_file)
+    },
+
+    previewPastRecords(event) {
+      console.log(event)
+
+      if (event.target.files.length > 0) {
+        // const src = URL.createObjectURL(event.target.files[0])
+        // const preview = document.getElementById('previewImg')
+        // preview.src = src
+        // preview.style.display = "block";
+        this.past_records_file = event.target.files[0]
+      }
     },
 
     createSubmission() {
       this.loadingy = true
+
+      const formData = new FormData()
+
+      formData.append('name', this.fullname)
+      formData.append('date_of_birth', this.date_of_birth)
+      formData.append('gender', this.gender)
+      formData.append('address', this.address)
+      formData.append('caregiver_id', this.caregiver_id)
+      formData.append('passport_file', this.passport_file)
+      formData.append('government_details_file', this.government_details_file)
+      formData.append('past_records_file', this.past_records_file)
+      formData.append('national_insurance_number', this.national_insurance_number)
+      formData.append('nhs_number', this.nhs_number)
+      formData.append('emergency_contact_name', this.emergency_contact_name)
+      formData.append('emergency_contact_relationship', this.emergency_contact_relationship)
+      formData.append('emergency_contact_phone', this.emergency_contact_phone)
+      formData.append('medical_history', this.medical_history)
+      formData.append('care_level', this.care_level)
+      formData.append('payment_information', this.payment_information)
+      formData.append('room_assignment', this.room_assignment)
+      formData.append('dietary_restrictions', this.dietary_restrictions)
+      formData.append('special_requests_or_notes', this.special_requests_or_notes)
+      formData.append('admission_date', this.admission_date)
+      formData.append('discharge_date', this.discharge_date)
+      formData.append('allergies', this.allergies)
+
       axios({
         url: `${process.env.VUE_APP_BACKEND_URL}/api/residents-management`,
-        method: 'post',
-        data: {
-          fullname: this.fullname,
-          date_of_birth: this.date_of_birth,
-          gender: this.gender,
-          address: this.address,
-          caregiver_id: this.caregiver_id,
-          passport_file: this.passport_file,
-          government_details_file: this.government_details_file,
-          past_records_file: this.past_records_file,
-          national_insurance_number: this.national_insurance_number,
-          nhs_number: this.nhs_number,
-          emergency_contact_name: this.emergency_contact_name,
-          emergency_contact_relationship: this.emergency_contact_relationship,
-          emergency_contact_phone: this.emergency_contact_phone,
-          medical_history: this.medical_history,
-          care_level: this.care_level,
-          payment_information: this.payment_information,
-          room_assignment: this.room_assignment,
-          dietary_restrictions: this.dietary_restrictions,
-          special_requests_or_notes: this.special_requests_or_notes,
-          admission_date: this.admission_date,
-          discharge_date: this.discharge_date,
-          allergies: this.allergies,
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+
         },
+        method: 'post',
+        data: formData,
       }).then(res => {
         this.loadingy = false
         console.log(res)
@@ -370,6 +406,24 @@ export default {
         this.$router.push('/management')
       }).catch(error => {
         this.loadingy = false
+
+        this.$toast({
+          component: ToastificationContent,
+          props: {
+            title: error.response.data.errors.name.toString(),
+            icon: 'EditIcon',
+            variant: 'danger',
+          },
+        })
+
+        this.$toast({
+          component: ToastificationContent,
+          props: {
+            title: error.response.data.errors.passport_file.toString(),
+            icon: 'EditIcon',
+            variant: 'danger',
+          },
+        })
 
         console.log(error)
       })
