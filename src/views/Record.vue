@@ -5,45 +5,45 @@
       <div class="card card-body">
         <div class="">
 
+          <div class="d-flex justify-content-end">
+            <div class="update p-1">
+              <a :href="'/update-record/'+record.id" class="btn btn-primary btn-sm">
+                Update
+              </a>
+            </div>
+            <div class="activate p-1">
+              <button class="btn btn-secondary btn-sm" @click="deactivateRecord()">
+                Deactivate
+              </button>
+            </div>
+            <div class="update p-1">
+              <button class="btn btn-danger btn-sm" @click="deleteRecord()">
+                Delete
+              </button>
+            </div>
+          </div>
+
           <div class="row ">
             <div class="col-md-12">
 
               <div class="col-md-12">
                 <div class="form-group mx-auto text-center">
-                  <img
-                    v-if="avatar"
-                    id="previewImg"
-                    onclick="document.getElementById('customFile').click()"
-                    style="height: 200px; width: 200px; object-fit: cover; border-radius: 50%;"
-                    class="shadow"
-                    :src="resolveImg(record.passport_file)"
-                  >
+                  <img v-if="avatar" id="previewImg" onclick="document.getElementById('customFile').click()"
+                    style="height: 200px; width: 200px; object-fit: cover; border-radius: 50%;" class="shadow"
+                    :src="resolveImg(record.passport_file)">
 
-                  <img
-                    v-else
-                    id="previewImg"
-                    onclick="document.getElementById('customFile').click()"
-                    style="height: 200px; width: 200px; object-fit: cover; border-radius: 50%;"
-                    class="shadow"
-                    :src="resolveImg(record.passport_file)"
-                  >
+                  <img v-else id="previewImg" onclick="document.getElementById('customFile').click()"
+                    style="height: 200px; width: 200px; object-fit: cover; border-radius: 50%;" class="shadow"
+                    :src="resolveImg(record.passport_file)">
 
                 </div>
                 <div class="text-center d-none">
-                  <input
-                    id="customFile"
-                    ref="file"
-                    type="file"
-                    @change="previewFile4"
-                  >
+                  <input id="customFile" ref="file" type="file" @change="previewFile4">
 
                 </div>
 
                 <div class="form-group text-center d-none">
-                  <button
-                    class="btn btn-primary btn-sm"
-                    @click="uploadAvatar()"
-                  >
+                  <button class="btn btn-primary btn-sm" @click="uploadAvatar()">
                     Upload
                   </button>
                 </div>
@@ -188,8 +188,8 @@
             <div class="col-md-6">
 
               <div class="form-group">
-                <label for="">Past Records: (PDF, EXCEL DOCS, OR SCANNED IMAGES)</label>
-                <a :href="resolveImg(record.past_records_file)" class="btn btn-primary btn-block">View doc</a>
+                <label for="">Past Records: (PDF, EXCEL DOCS, OR SCANNED IMAGES)</label> <br>
+                <a :href="resolveImg(record.past_records_file)" class="btn btn-primary btn-sm">View doc</a>
                 <!-- <input
                   type="file"
                   class="form-control-file"
@@ -261,7 +261,7 @@
               <div class="form-group">
                 <label for="">Admission Date:</label>
                 <h6>{{ record.admission_date }}</h6>
-                
+
                 <!-- <input
                   v-model="admission_date"
                   type="date"
@@ -294,10 +294,7 @@
 
               <div class="form-group d-none">
 
-                <button
-                  class="btn btn-primary btn-lg btn-block"
-                  @click="createSubmission()"
-                >
+                <button class="btn btn-primary btn-lg btn-block" @click="createSubmission()">
                   {{ loadingy ? 'Please wait...' : 'Submit' }}
                 </button>
 
@@ -366,6 +363,27 @@ export default {
   },
 
   methods: {
+
+    deactivateRecord() {
+      const confirmation = confirm('Are you sure?')
+
+      if (confirmation) {
+        alert('deleted')
+      } else {
+        alert('cancelled')
+      }
+    },
+    deleteRecord() {
+
+      const confirmation = confirm('Are you sure?')
+
+      if (confirmation) {
+        alert('deleted')
+      } else {
+        alert('cancelled')
+      }
+
+    },
 
     resolveImg(img) {
       return `${process.env.VUE_APP_BACKEND_URL}/storage/${img}`

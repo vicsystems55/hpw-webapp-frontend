@@ -70,6 +70,21 @@ const router = new VueRouter({
     },
 
     {
+      path: '/update-record/:id',
+      name: 'record',
+      component: () => import('@/views/UpdateRecord.vue'),
+      meta: {
+        pageTitle: "Details Page",
+        breadcrumb: [
+          {
+            text: "Update Resident's Details",
+            active: true,
+          },
+        ],
+      },
+    },
+
+    {
       path: '/create-submission',
       name: 'create-submission',
       component: () => import('@/views/CreateSubmission.vue'),

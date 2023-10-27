@@ -8,8 +8,21 @@
 
           <div v-for="notification in notifications" :key="notification.index" class="card mb-2">
             <div class="card-body">
+              <div class="d-flex justify-content-start">
+                <feather-icon class="text-success"
+              icon="BellIcon"
+              size="27"
+            />
+            <div class="c px-2">
               <h4>{{notification.subject}} </h4>
               <h6>{{notification.msg}}</h6>
+            </div>
+
+              </div>
+
+
+              <hr>
+              <span class="font-italic float-right">{{ notification.created_at }}</span>
             </div>
           </div>
 
