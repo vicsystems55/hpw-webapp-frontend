@@ -5,10 +5,13 @@
       <div class="row">
         <div class="col-md-12">
 
-          <div v-show="userData.role=='admin'" class="mx-auto py-5 text-center">
+          <div
+            v-show="userData.role=='admin'"
+            class="mx-auto py-5 text-center"
+          >
             <router-link :to="'/create-record'">
               <buttons class="btn btn-primary btn-lg">
-               Add New Record
+                Add New Record
               </buttons>
             </router-link>
           </div>
@@ -35,7 +38,9 @@
                     <td>10-09-2023</td>
                     <td><span class="badge badge-primary">active</span></td>
                     <td>
-                      <button class="btn btn-sm btn-primary">view more</button>
+                      <button class="btn btn-sm btn-primary">
+                        view more
+                      </button>
                       <!-- <b-dropdown
                         id="dropdown-1"
                         v-ripple.400="'rgba(255, 255, 255, 0.15)'"
@@ -48,18 +53,24 @@
                       </b-dropdown> -->
                     </td>
                   </tr>
-                  <tr v-for="record,key in records" :key="record.index">
+                  <tr
+                    v-for="record,key in records"
+                    :key="record.index"
+                  >
                     <td>{{ key +1 }}</td>
-                
-                    <td>{{record.fullname}}</td>
-                    <td>{{record.date}}</td>
-                    <td>{{record.admission_date}}</td>
+
+                    <td>{{ record.fullname }}</td>
+                    <td>{{ record.date }}</td>
+                    <td>{{ record.admission_date }}</td>
 
                     <td>
-                      <span class="badge badge-primary">{{record.status}}</span>
+                      <span class="badge badge-primary">{{ record.status }}</span>
                     </td>
                     <td>
-                      <a :href="'/record/'+record.id" class="btn btn-sm btn-primary">view more</a>
+                      <a
+                        :href="'/record/'+record.id"
+                        class="btn btn-sm btn-primary"
+                      >view more</a>
                     </td>
 
                   </tr>
@@ -78,14 +89,18 @@
 
 <script>
 import axios from 'axios'
-import { BDropdown, BDropdownItem, BCardText } from 'bootstrap-vue'
+import {
+  // BDropdown,
+  // BDropdownItem,
+  BCardText,
+} from 'bootstrap-vue'
 
 export default {
-  name: 'residents-management',
+  name: 'ResidentsManagement',
   components: {
 
-    BDropdown,
-    BDropdownItem,
+    // BDropdown,
+    // BDropdownItem,
     // eslint-disable-next-line vue/no-unused-components
     BCardText,
   },
@@ -100,7 +115,7 @@ export default {
 
   mounted() {
     this.getRecords()
-    this.userData = JSON.parse(localStorage.getItem('user_data'));
+    this.userData = JSON.parse(localStorage.getItem('user_data'))
   },
 
   methods: {

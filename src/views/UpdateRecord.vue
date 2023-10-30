@@ -281,12 +281,12 @@
 
 <script>
 import axios from 'axios'
-import { BFormFile } from 'bootstrap-vue'
+// import { BFormFile } from 'bootstrap-vue'
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
 
 export default {
   components: {
-    BFormFile,
+    // BFormFile,
   },
 
   data() {
@@ -337,6 +337,7 @@ export default {
         // preview.style.display = "block";
       }
 
+      // eslint-disable-next-line prefer-destructuring
       this.avatar = event.target.files[0]
 
       console.log(this.passport_file)
@@ -350,6 +351,7 @@ export default {
         // const preview = document.getElementById('previewImg')
         // preview.src = src
         // preview.style.display = "block";
+        // eslint-disable-next-line prefer-destructuring
         this.past = event.target.files[0]
       }
     },
@@ -404,9 +406,7 @@ export default {
       this.loadingy = true
 
       if (this.avatar || this.past) {
-
         alert('yes a')
-
 
         console.log(this.avatar)
 
@@ -436,7 +436,6 @@ export default {
         formData.append('allergies', this.allergies)
         formData.append('update', true)
         formData.append('recordId', this.$route.params.id)
-
 
         console.log(formData)
 
@@ -487,7 +486,6 @@ export default {
           console.log(error)
         })
       } else {
-
         alert('yes b')
 
         axios({

@@ -120,6 +120,36 @@ const router = new VueRouter({
     },
 
     {
+      path: '/file-manager',
+      name: 'file-manager',
+      component: () => import('@/views/FilemanagerComponent.vue'),
+      meta: {
+        pageTitle: 'Home',
+        breadcrumb: [
+          {
+            text: 'File Manager',
+            active: true,
+          },
+        ],
+      },
+    },
+
+    {
+      path: '/file-browser',
+      name: 'file-browser',
+      component: () => import('@/views/FileBrowser.vue'),
+      meta: {
+        pageTitle: 'Home',
+        breadcrumb: [
+          {
+            text: 'File Manager',
+            active: true,
+          },
+        ],
+      },
+    },
+
+    {
       path: '/departments',
       name: 'departments',
       component: () => import('@/views/Departments.vue'),
