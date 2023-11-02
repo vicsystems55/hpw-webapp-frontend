@@ -9,10 +9,6 @@ export default [{
   icon: 'FileIcon',
   children: [
     {
-      title: 'Create Record',
-      route: 'create-record',
-    },
-    {
       title: 'Residents Records',
       route: { name: 'residents-management'},
     },
