@@ -10,14 +10,14 @@ export default [{
   children: [
     {
       title: 'Residents Records',
-      route: { name: 'residents-management'},
+      route: { name: 'residents-management' },
     },
 
     {
       title: 'Staff Records',
-      route: { name: 'residents-manangement'},
+      route: { name: 'staff-records' },
     },
-  ]
+  ],
 },
 // {
 //   title: 'Departments',
@@ -35,19 +35,19 @@ export default [{
     },
     {
       title: 'File Browser',
-      route: { name: 'file-browser'},
+      route: { name: 'file-browser' },
     },
 
     {
       title: 'Activity',
-      route: { name: 'file-activity-log'},
+      route: { name: 'file-activity-log' },
     },
 
     {
       title: 'Settings',
-      route: { name: 'disk-settings'},
+      route: { name: 'disk-settings' },
     },
-  ]
+  ],
 },
 {
   title: 'Notifications',

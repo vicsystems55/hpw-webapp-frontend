@@ -59,10 +59,57 @@ const router = new VueRouter({
       name: 'record',
       component: () => import('@/views/Record.vue'),
       meta: {
-        pageTitle: "Details Page",
+        pageTitle: 'Details Page',
         breadcrumb: [
           {
             text: "Resident's Details",
+            active: true,
+          },
+        ],
+      },
+    },
+
+    {
+      path: '/staff-records',
+      name: 'staff-records',
+      component: () => import('@/views/StaffRecords.vue'),
+      meta: {
+        pageTitle: 'Manage Records',
+        breadcrumb: [
+          {
+            text: 'Staff Records',
+            active: true,
+          },
+        ],
+      },
+    },
+
+    {
+      path: '/staff-details/:id',
+      name: 'staff-details',
+      component: () => import('@/views/StaffRecordDetails.vue'),
+      meta: {
+        pageTitle: 'Manage Records',
+
+        breadcrumb: [
+          {
+            text: 'Staff Record Details',
+            active: true,
+          },
+        ],
+      },
+    },
+
+    {
+      path: '/staff-details-update/:id',
+      name: 'staff-details-update',
+      component: () => import('@/views/StaffUpdate.vue'),
+      meta: {
+        pageTitle: 'Manage Records',
+
+        breadcrumb: [
+          {
+            text: 'Staff Record Details',
             active: true,
           },
         ],
@@ -74,7 +121,7 @@ const router = new VueRouter({
       name: 'record',
       component: () => import('@/views/UpdateRecord.vue'),
       meta: {
-        pageTitle: "Details Page",
+        pageTitle: 'Details Page',
         breadcrumb: [
           {
             text: "Update Resident's Details",
@@ -109,6 +156,27 @@ const router = new VueRouter({
           {
             text: 'Residents Management',
             name: 'residents-management',
+            active: false,
+          },
+          {
+            text: 'Create Record',
+            active: true,
+          },
+        ],
+      },
+    },
+
+    {
+      path: '/create-staff-record',
+      name: 'create-record',
+      component: () => import('@/views/CreateStaff.vue'),
+      meta: {
+        pageTitle: 'Home',
+        breadcrumb: [
+          {
+            text: 'Staff Records',
+            name: 'staff-records',
+            path: '/staff-records',
             active: false,
           },
           {
