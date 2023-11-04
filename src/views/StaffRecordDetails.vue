@@ -260,7 +260,7 @@
   
         if (confirmation) {
           axios({
-            url: `${process.env.VUE_APP_BACKEND_URL}/api/residents-management/${this.$route.params.id}`,
+            url: `${process.env.VUE_APP_BACKEND_URL}/api/staff-records/${this.$route.params.id}`,
             method: 'delete',
             headers: {
               Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -270,7 +270,7 @@
           }).catch(error => {
             console.log(error)
           })
-          this.$router.push('/management')
+          this.$router.push('/staff-records')
   
           alert('deleted')
         } else {
