@@ -61,14 +61,14 @@
 
                     <td>{{ record.fullname }}</td>
                     <td>{{ record.date }}</td>
-                    <td>{{ record.admission_date }}</td>
+                    <td>{{ record.created_at }}</td>
 
                     <td>
-                      <span class="badge badge-primary">{{ record.status }}</span>
+                      <span class="badge badge-primary">{{ record.id }}</span>
                     </td>
                     <td>
                       <a
-                        :href="'/record/'+record.id"
+                        :href="'/staff-details/'+record.id"
                         class="btn btn-sm btn-primary"
                       >view more</a>
                     </td>

@@ -160,7 +160,7 @@
               <div class="form-group mt-2">
                 <label for="">Qualification Name:</label>
                 <input
-                  v-model="qualification"
+                v-model="field.text"
                   type="text"
                   class="form-control"
                   placeholder="Enter Qualification Title"
@@ -172,7 +172,7 @@
                 <input
                   type="file"
                   class="form-control-file"
-
+                  :id="'fileInput_'+[index]"
                   @change="previewQualificationFile(index)"
                 >
 
@@ -275,7 +275,7 @@ export default {
     },
 
     previewQualificationFile(index) {
-      const fileInput = this.$refs[`fileInput_${index}`]
+      const fileInput = document.getElementById('fileInput_'+[index])
       console.log('File input changed', fileInput.files[0]) // Debugging
       if (fileInput.files.length > 0) {
         this.fields[index].file = fileInput.files[0]
@@ -285,7 +285,7 @@ export default {
     registerStaff() {
       this.loadingy = true
 
-      console.log(this.fields)
+      // console.log(this.fields)
 
       const formData = new FormData()
 
@@ -294,7 +294,18 @@ export default {
         formData.append(`text_${index}`, field.text)
       })
 
-      formData.append()
+      formData.append('fullname', this.fullname)
+      formData.append('date_of_birth', this.date_of_birth)
+      formData.append('gender', this.gender)
+      formData.append('address', this.address)
+      formData.append('email', this.email)
+      formData.append('notes', this.notes)
+      formData.append('phone', this.phone)
+      formData.append('passport_file', this.passport_file)
+
+      
+
+  
 
       axios({
         url: `${process.env.VUE_APP_BACKEND_URL}/api/staff-records`,
@@ -318,7 +329,7 @@ export default {
           },
         })
 
-        this.$router.push('/management')
+        this.$router.push('/staff-records')
       }).catch(error => {
         this.loadingy = false
 
