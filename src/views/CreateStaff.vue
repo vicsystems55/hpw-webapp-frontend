@@ -329,7 +329,7 @@ export default {
           },
         })
 
-        this.$router.push('/staff-records')
+        // this.$router.push('/staff-records')
       }).catch(error => {
         this.loadingy = false
 
