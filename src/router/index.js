@@ -85,6 +85,21 @@ const router = new VueRouter({
     },
 
     {
+      path: '/policies',
+      name: 'policies',
+      component: () => import('@/views/Policies.vue'),
+      meta: {
+        pageTitle: 'Manage Policies',
+        breadcrumb: [
+          {
+            text: 'Policies',
+            active: true,
+          },
+        ],
+      },
+    },
+
+    {
       path: '/staff-details/:id',
       name: 'staff-details',
       component: () => import('@/views/StaffRecordDetails.vue'),

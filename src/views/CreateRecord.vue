@@ -191,21 +191,19 @@
           </div>
 
           <div class="form-group">
-            <label for="care_level">Care Level</label>
+            <label for="care_level">Type of support</label>
             <select
               id="care_level"
               v-model="care_level"
               class="form-control"
             >
               <option :value="'Intensive'">
-                Intensive
+                Intensive (2:1)
               </option>
               <option :value="'Basic'">
-                Basic
+                Basic (1:1)
               </option>
-              <option :value="'Emergency'">
-                Emergency
-              </option>
+          
 
             </select>
           </div>

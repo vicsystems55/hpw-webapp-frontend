@@ -102,6 +102,28 @@
                   placeholder="Enter Address"
                 >
               </div>
+
+              <div class="form-group">
+                <label for="address">Observation</label>
+                <input
+                  id="address"
+                  v-model="address"
+                  type="text"
+                  class="form-control"
+                  placeholder="Enter observation"
+                >
+              </div>
+
+              <div class="form-group">
+                <label for="address">Supervision</label>
+                <input
+                  id="address"
+                  v-model="address"
+                  type="text"
+                  class="form-control"
+                  placeholder="Enter Supervision"
+                >
+              </div>
             </div>
             <div class="col-md-6">
 
@@ -144,6 +166,12 @@
 
         <hr>
 
+        <div class="col-md-12">
+          <h6 class="text-danger">Make sure to upload DBS (Disclosure and Barring Service) as the first document.</h6>
+        </div>
+
+       
+
         <div class="d-flex justify-content-start flex-wrap">
           <div
             v-for="(field, index) in fields"
@@ -158,7 +186,7 @@
                 >x</span>
               </div>
               <div class="form-group mt-2">
-                <label for="">Qualification Name:</label>
+                <label for="">Training Name:</label>
                 <input
                 v-model="field.text"
                   type="text"

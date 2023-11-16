@@ -49,6 +49,16 @@ export default [{
     },
   ],
 },
+// {
+//   title: 'Payroll',
+//   route: 'notifications',
+//   icon: 'FileIcon',
+// },
+{
+  title: 'Policies',
+  route: 'policies',
+  icon: 'FileIcon',
+},
 {
   title: 'Notifications',
   route: 'notifications',
