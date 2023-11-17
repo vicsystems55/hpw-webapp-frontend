@@ -100,6 +100,36 @@ const router = new VueRouter({
     },
 
     {
+      path: '/create-policies',
+      name: 'create-policies',
+      component: () => import('@/views/CreatePolicies.vue'),
+      meta: {
+        pageTitle: 'Manage Policies',
+        breadcrumb: [
+          {
+            text: 'Policies',
+            active: true,
+          },
+        ],
+      },
+    },
+
+    {
+      path: '/policy/:id',
+      name: 'policy',
+      component: () => import('@/views/Policy.vue'),
+      meta: {
+        pageTitle: 'Manage Policies',
+        breadcrumb: [
+          {
+            text: 'Policy Details',
+            active: true,
+          },
+        ],
+      },
+    },
+
+    {
       path: '/staff-details/:id',
       name: 'staff-details',
       component: () => import('@/views/StaffRecordDetails.vue'),

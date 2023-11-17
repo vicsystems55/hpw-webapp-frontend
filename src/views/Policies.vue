@@ -6,10 +6,10 @@
         <div class="col-md-12">
 
           <div
-            v-show="userData.role=='admin'"
+
             class="mx-auto py-5 text-center"
           >
-            <router-link :to="''">
+            <router-link :to="'/create-policies'">
               <buttons class="btn btn-primary btn-lg">
                 Add New Policy
               </buttons>
@@ -59,16 +59,14 @@
                   >
                     <td>{{ key +1 }}</td>
 
-                    <td>{{ record.fullname }}</td>
-                    <td>{{ record.date }}</td>
-                    <td>{{ record.created_at }}</td>
+                    <td>{{ record.name }}</td>
+                    <td>{{ record.type }}</td>
+                    <td>{{ formatDate(record.created_at) }}</td>
+                    <td>{{ record.status }}</td>
 
                     <td>
-                      <span class="badge badge-primary">{{ record.id }}</span>
-                    </td>
-                    <td>
                       <a
-                        :href="'/staff-details/'+record.id"
+                        :href="'/policy/'+record.id"
                         class="btn btn-sm btn-primary"
                       >view more</a>
                     </td>
@@ -114,13 +112,23 @@ export default {
   },
 
   mounted() {
-    this.getRecords()
+    this.getPolicies()
     this.userData = JSON.parse(localStorage.getItem('user_data'))
   },
 
   methods: {
 
-    getRecords() {
+    formatDate(date) {
+      const createdAt = new Date(date)
+
+      // Format the date in "day, month year" format
+      const options = { day: 'numeric', month: 'long', year: 'numeric' }
+      const formattedDate = createdAt.toLocaleString('en-US', options)
+
+      return formattedDate
+    },
+
+    getPolicies() {
       axios({
         url: `${process.env.VUE_APP_BACKEND_URL}/api/policies`,
         headers: {
