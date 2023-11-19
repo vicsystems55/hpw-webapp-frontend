@@ -55,6 +55,11 @@ export default [{
 //   icon: 'FileIcon',
 // },
 {
+  title: 'Calendar',
+  route: 'calendar',
+  icon: 'FileIcon',
+},
+{
   title: 'Policies',
   route: 'policies',
   icon: 'FileIcon',

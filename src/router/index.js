@@ -85,6 +85,21 @@ const router = new VueRouter({
     },
 
     {
+      path: '/calendar',
+      name: 'calendar',
+      component: () => import('@/views/calendar/Calendar.vue'),
+      meta: {
+        pageTitle: 'Manage Schedules',
+        breadcrumb: [
+          {
+            text: 'Schedules',
+            active: true,
+          },
+        ],
+      },
+    },
+
+    {
       path: '/policies',
       name: 'policies',
       component: () => import('@/views/Policies.vue'),
