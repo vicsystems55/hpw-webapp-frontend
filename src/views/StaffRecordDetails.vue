@@ -184,6 +184,29 @@
 
         </div>
       </div>
+
+      <div class="card card-body table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Schedule Date (30 Days Intv.)</th>
+              <th>Status</th>
+              <td></td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="schedule in record.supervision_schedule" :key="schedule.id">
+              <td>#</td>
+              <td>{{ schedule.next_supervision_date }}</td>
+              <td>{{ schedule.status }}</td>
+              <td>
+                <button class="btn btn-primary btn-sm " disabled>Mark as done</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
 
   </div>

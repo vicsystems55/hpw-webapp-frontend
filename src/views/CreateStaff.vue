@@ -104,10 +104,10 @@
               </div>
 
               <div class="form-group">
-                <label for="address">Observation</label>
+                <label for="observation">Observation</label>
                 <input
-                  id="address"
-                  v-model="address"
+                  id="observation"
+                  v-model="oberservation"
                   type="text"
                   class="form-control"
                   placeholder="Enter observation"
@@ -115,13 +115,13 @@
               </div>
 
               <div class="form-group">
-                <label for="address">Supervision</label>
+                <label for="supervision">Last Supervision Date</label>
                 <input
-                  id="address"
-                  v-model="address"
-                  type="text"
+                  id="supervision"
+                  v-model="last_supervision_date"
+                  type="date"
                   class="form-control"
-                  placeholder="Enter Supervision"
+                  placeholder="Enter Supervision Date"
                 >
               </div>
             </div>
@@ -159,6 +159,22 @@
                 />
               </div>
 
+              <div class="form-group">
+                <label for="dbs_date">Date</label>
+                <input
+                  id="dbs_date"
+                  v-model="dbs_date"
+                  type="date"
+                  class="form-control "
+                  placeholder="Enter DBS Date"
+                >
+              </div>
+
+              <div class="form-group">
+                <label for="dbs">Upload DBS File.</label> <br>
+                <input @change="previewDBS" type="file"  class="file-form-control">
+              </div>
+
             </div>
           </div>
 
@@ -167,7 +183,7 @@
         <hr>
 
         <div class="col-md-12">
-          <h6 class="text-danger">Make sure to upload DBS (Disclosure and Barring Service) as the first document.</h6>
+          <h6 class="text-danger">Upload Staff Qualifications below.</h6>
         </div>
 
        
@@ -250,6 +266,12 @@ export default {
       offices: [],
       file: '',
 
+      dbs_file: '',
+      dbs_date: '',
+      last_supervision_date: '',
+
+      
+
       fullname: '',
       date_of_birth: '',
       gender: '',
@@ -302,6 +324,21 @@ export default {
       console.log(this.passport_file)
     },
 
+    previewDBS(event) {
+      console.log(event)
+
+      // if (event.target.files.length > 0) {
+      //   const src = URL.createObjectURL(event.target.files[0])
+      //   const preview = document.getElementById('previewImg')
+      //   preview.src = src
+      //   // preview.style.display = "block";
+      // }
+
+      this.dbs_file = event.target.files[0]
+
+      console.log(this.passport_file)
+    },
+
     previewQualificationFile(index) {
       const fileInput = document.getElementById('fileInput_'+[index])
       console.log('File input changed', fileInput.files[0]) // Debugging
@@ -330,10 +367,12 @@ export default {
       formData.append('notes', this.notes)
       formData.append('phone', this.phone)
       formData.append('passport_file', this.passport_file)
+      formData.append('dbs_file', this.dbs_file)
+      formData.append('dbs_date', this.dbs_date)
+      formData.append('last_supervision_date', this.last_supervision_date)
 
-      
 
-  
+    
 
       axios({
         url: `${process.env.VUE_APP_BACKEND_URL}/api/staff-records`,
