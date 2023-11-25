@@ -7,6 +7,7 @@ import interactionPlugin from '@fullcalendar/interaction'
 // Notification
 import { useToast } from 'vue-toastification/composition'
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
+import axios from 'axios'
 
 // eslint-disable-next-line object-curly-newline
 import { ref, computed, watch, onMounted } from '@vue/composition-api'
@@ -169,12 +170,6 @@ export default function userCalendar() {
   // ------------------------------------------------
   // addEvent
   // ------------------------------------------------
-  const addEvent = eventData => {
-    store.dispatch('calendar/addEvent', { event: eventData }).then(() => {
-      // eslint-disable-next-line no-use-before-define
-      refetchEvents()
-    })
-  }
 
   // ------------------------------------------------
   // updateEvent
@@ -224,24 +219,64 @@ export default function userCalendar() {
     // If there's no info => Don't make useless API call
     if (!info) return
 
+    axios({
+      url: `${process.env.VUE_APP_BACKEND_URL}/api/calendar-events`,
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+      method: 'get',
+    }).then(res => {
+      console.log(res)
+      successCallback(res.data.data)
+      // this.records = res.data
+    }).catch(error => {
+      console.log(error)
+    })
+
     // Fetch Events from API endpoint
-    store
-      .dispatch('calendar/fetchEvents', {
-        calendars: selectedCalendars.value,
-      })
-      .then(response => {
-        successCallback(response.data)
-      })
-      .catch(() => {
-        toast({
-          component: ToastificationContent,
-          props: {
-            title: 'Error fetching calendar events',
-            icon: 'AlertTriangleIcon',
-            variant: 'danger',
-          },
-        })
-      })
+    // store
+    //   .dispatch('calendar/fetchEvents', {
+    //     calendars: selectedCalendars.value,
+    //   })
+    //   .then(response => {
+    //     successCallback(response.data)
+    //   })
+    //   .catch(() => {
+    //     toast({
+    //       component: ToastificationContent,
+    //       props: {
+    //         title: 'Error fetching calendar events',
+    //         icon: 'AlertTriangleIcon',
+    //         variant: 'danger',
+    //       },
+    //     })
+    //   })
+  }
+
+  const addEvent = eventData => {
+    // store.dispatch('calendar/addEvent', { event: eventData }).then(() => {
+    //   // eslint-disable-next-line no-use-before-define
+    //   refetchEvents()
+    // })
+
+    axios({
+      url: `${process.env.VUE_APP_BACKEND_URL}/api/calendar-events`,
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+      method: 'post',
+      data: eventData,
+    }).then(res => {
+      console.log(res)
+      refetchEvents()
+
+      // successCallback(res.data)
+      // this.records = res.data
+    }).catch(error => {
+      console.log(error)
+    })
   }
 
   // ------------------------------------------------------------------------

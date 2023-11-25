@@ -1,6 +1,8 @@
 import { ref, computed, watch } from '@vue/composition-api'
 import store from '@/store'
 
+
+
 export default function useCalendarEventHandler(props, clearForm, emit) {
   // ------------------------------------------------
   // eventLocal
@@ -31,12 +33,17 @@ export default function useCalendarEventHandler(props, clearForm, emit) {
   const calendarOptions = computed(() => store.state.calendar.calendarOptions)
 
   const onSubmit = () => {
+    console.log()
     const eventData = JSON.parse(JSON.stringify(eventLocal))
+
+    console.log(eventData)
+
 
     // * If event has id => Edit Event
     // Emit event for add/update event
-    if (props.event.value.id) emit('update-event', eventData.value)
-    else emit('add-event', eventData.value)
+    // if (props.event.value.id) emit('update-event', eventData.value)
+    // else 
+    emit('add-event', eventData)
 
     // Close sidebar
     emit('update:is-event-handler-sidebar-active', false)

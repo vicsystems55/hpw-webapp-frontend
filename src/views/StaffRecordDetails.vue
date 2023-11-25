@@ -8,7 +8,7 @@
           <div class="d-flex justify-content-end">
             <div class="update p-1">
               <a
-                :href="'/update-record/'+record.id"
+                :href="'/staff-details-update/'+record.id"
                 class="btn btn-primary btn-sm"
               >
                 Update
@@ -192,17 +192,23 @@
               <th>#</th>
               <th>Schedule Date (30 Days Intv.)</th>
               <th>Status</th>
-              <td></td>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>
-            <tr v-for="schedule in record.supervision_schedule" :key="schedule.id">
-              <td>#</td>
+            <tr v-for="schedule,index in record.supervision_schedule" :key="schedule.index"
+            :class="schedule.staff_reminder?'bg-success text-white':'bg-white text-dark'"
+            >
+              <td>{{ index + 1 }}</td>
               <td>{{ schedule.next_supervision_date }}</td>
               <td>{{ schedule.status }}</td>
-              <td>
-                <button class="btn btn-primary btn-sm " disabled>Mark as done</button>
+              <td v-if="schedule.staff_reminder">
+                <button class="btn btn-secondary btn-sm " disabled>done</button>
               </td>
+              <td v-else>
+                <button class="btn btn-primary btn-sm " >Mark as done</button>
+              </td>
+
             </tr>
           </tbody>
         </table>

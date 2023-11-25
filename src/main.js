@@ -1,10 +1,14 @@
 import Vue from 'vue'
 import { ToastPlugin, ModalPlugin } from 'bootstrap-vue'
 import VueCompositionAPI from '@vue/composition-api'
+import VueGoodTablePlugin from 'vue-good-table'
 
 import router from './router'
 import store from './store'
 import App from './App.vue'
+
+// import the styles
+import 'vue-good-table/dist/vue-good-table.css'
 
 // Global Components
 import './global-components'
@@ -14,6 +18,9 @@ import '@/libs/portal-vue'
 import '@/libs/toastification'
 
 // BSV Plugin Registration
+
+Vue.use(VueGoodTablePlugin);
+
 Vue.use(ToastPlugin)
 Vue.use(ModalPlugin)
 

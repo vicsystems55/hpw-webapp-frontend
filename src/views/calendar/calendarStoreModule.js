@@ -25,7 +25,7 @@ export default {
         label: 'ETC',
       },
     ],
-    selectedCalendars: ['Personal', 'Business', 'Family', 'Holiday', 'ETC'],
+    selectedCalendars: ['Personal', 'Business', 'Family', 'Holiday'],
   },
   getters: {},
   mutations: {
