@@ -197,16 +197,16 @@
           </thead>
           <tbody>
             <tr v-for="schedule,index in record.supervision_schedule" :key="schedule.index"
-            :class="schedule.staff_reminder==true?'bg-success text-white':'bg-white text-dark'"
+            :class="schedule.status=='completed'?'bg-success text-white':'bg-white text-dark'"
             >
               <td>{{ index + 1 }}</td>
               <td>{{ schedule.next_supervision_date }}</td>
               <td>{{ schedule.status }}</td>
-              <td v-if="schedule.staff_reminder==false">
+              <td v-if="schedule.status=='active'">
                 <a :href="'/staff-supervision/'+schedule.id" class="btn btn-primary btn-sm " >view</a>
               </td>
               <td v-else>
-                <button class="btn btn-secondary btn-sm " disabled>done</button>
+                <button class="btn btn-secondary btn-sm " disabled>completed</button>
               </td>
 
             </tr>

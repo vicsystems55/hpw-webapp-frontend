@@ -368,6 +368,9 @@ export default {
       this.loadingy = true
 
       if (!this.dbs_file) {
+
+      this.loadingy = false
+
         return this.$toast({
           component: ToastificationContent,
           props: {
