@@ -203,7 +203,7 @@
               <td>{{ schedule.next_supervision_date }}</td>
               <td>{{ schedule.status }}</td>
               <td v-if="schedule.staff_reminder==false">
-                <button class="btn btn-primary btn-sm " >Mark as done</button>
+                <a :href="'/staff-supervision/'+schedule.id" class="btn btn-primary btn-sm " >view</a>
               </td>
               <td v-else>
                 <button class="btn btn-secondary btn-sm " disabled>done</button>

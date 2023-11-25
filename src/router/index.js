@@ -159,6 +159,21 @@ const router = new VueRouter({
         ],
       },
     },
+    {
+      path: '/staff-supervision/:id',
+      name: 'staff-supervision',
+      component: () => import('@/views/supervision/StaffSupervisionDetails.vue'),
+      meta: {
+        pageTitle: 'Manage Supervision',
+
+        breadcrumb: [
+          {
+            text: 'Staff Supervision Details',
+            active: true,
+          },
+        ],
+      },
+    },
 
     {
       path: '/staff-details-update/:id',

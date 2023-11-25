@@ -2,6 +2,17 @@
   <div>
 
     <div class="container">
+
+      <div
+            v-show="userData.role=='admin'"
+            class="mx-auto py-5 text-center"
+          >
+            <router-link :to="'/create-staff-record'">
+              <buttons class="btn btn-primary btn-lg">
+                Add New Staff
+              </buttons>
+            </router-link>
+          </div>
       <div class="row">
         <div class="col-md-12 d-none">
 
