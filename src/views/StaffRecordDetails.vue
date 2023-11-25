@@ -197,16 +197,16 @@
           </thead>
           <tbody>
             <tr v-for="schedule,index in record.supervision_schedule" :key="schedule.index"
-            :class="schedule.staff_reminder?'bg-success text-white':'bg-white text-dark'"
+            :class="schedule.staff_reminder==true?'bg-success text-white':'bg-white text-dark'"
             >
               <td>{{ index + 1 }}</td>
               <td>{{ schedule.next_supervision_date }}</td>
               <td>{{ schedule.status }}</td>
-              <td v-if="schedule.staff_reminder">
-                <button class="btn btn-secondary btn-sm " disabled>done</button>
+              <td v-if="schedule.staff_reminder==false">
+                <button class="btn btn-primary btn-sm " >Mark as done</button>
               </td>
               <td v-else>
-                <button class="btn btn-primary btn-sm " >Mark as done</button>
+                <button class="btn btn-secondary btn-sm " disabled>done</button>
               </td>
 
             </tr>
