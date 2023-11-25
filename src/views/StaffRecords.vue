@@ -9,7 +9,7 @@
           >
             <router-link :to="'/create-staff-record'">
               <buttons class="btn btn-primary btn-lg">
-                Add New Staff
+                Add New Staff.
               </buttons>
             </router-link>
           </div>
