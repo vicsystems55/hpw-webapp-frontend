@@ -6,15 +6,18 @@ export default [{
 {
   title: 'Manage Records',
   route: 'residents-management',
-  icon: 'FileIcon',
+  icon: 'UsersIcon',
   children: [
     {
       title: 'Residents Records',
+      icon: 'FileIcon',
       route: { name: 'residents-management' },
     },
 
     {
       title: 'Staff Records',
+      icon: 'FileIcon',
+
       route: { name: 'staff-records' },
     },
   ],
@@ -27,7 +30,7 @@ export default [{
 {
   title: 'File Manager',
   route: 'file-manager',
-  icon: 'FileIcon',
+  icon: 'DatabaseIcon',
   children: [
     {
       title: 'Overview',
@@ -57,20 +60,20 @@ export default [{
 {
   title: 'Calendar',
   route: 'calendar',
-  icon: 'FileIcon',
+  icon: 'CalendarIcon',
 },
 {
   title: 'Policies',
   route: 'policies',
-  icon: 'FileIcon',
+  icon: 'ShieldIcon',
 },
 {
   title: 'Notifications',
   route: 'notifications',
-  icon: 'FileIcon',
+  icon: 'BellIcon',
 },
 {
   title: 'Settings',
   route: 'settings',
-  icon: 'FileIcon',
+  icon: 'SettingsIcon',
 }]
