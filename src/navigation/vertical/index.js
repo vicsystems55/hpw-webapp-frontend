@@ -66,6 +66,20 @@ export default [{
   title: 'Policies',
   route: 'policies',
   icon: 'ShieldIcon',
+  children: [
+    {
+      title: 'All Policies',
+      icon: 'FileIcon',
+      route: { name: 'policies' },
+    },
+
+    {
+      title: 'Create Policy',
+      icon: 'FileIcon',
+      route: { name: 'create-policies' },
+    },
+
+  ],
 },
 {
   title: 'Notifications',
