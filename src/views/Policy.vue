@@ -147,6 +147,16 @@
                 >
               </div>
 
+              <h6>List of uploaded documents for this policy.</h6>
+
+              <ul>
+                <li v-for="doc in policy_docs" :key="doc.id">
+                <a :href="resolveImg(doc.file_path)"> 
+                  {{ doc.title }}
+                </a> 
+                </li>
+              </ul>
+
               <div class="form-group">
                 <label for="">Upload proof: (PDF, EXCEL DOCS, OR SCANNED IMAGES)</label>
                 <input
@@ -160,13 +170,7 @@
             </div>
           </div>
 
-          <ul>
-            <li v-for="doc in policy_docs">
-            <a :href="resolveImg(doc.file_path)"> 
-              {{ doc.title }}
-            </a> 
-            </li>
-          </ul>
+        
 
           <div class=" py-5 text-center btn">
             <h4
