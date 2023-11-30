@@ -160,6 +160,14 @@
             </div>
           </div>
 
+          <ul>
+            <li v-for="doc in policy_docs">
+            <a :href="resolveImg(doc.file_path)"> 
+              {{ doc.title }}
+            </a> 
+            </li>
+          </ul>
+
           <div class=" py-5 text-center btn">
             <h4
               class="text-center border border-secondary"
@@ -208,6 +216,8 @@ export default {
       postData: null,
       policy_type: '',
 
+      policy_docs: [],
+
       records: [],
 
       avatar: null,
@@ -222,6 +232,10 @@ export default {
     this.getPolicy()
   },
   methods: {
+
+    resolveImg(img) {
+      return `${process.env.VUE_APP_BACKEND_URL}/storage/${img}`
+    },
 
     removePolicy() {
       axios({
@@ -312,11 +326,12 @@ export default {
         },
         method: 'get',
       }).then(res => {
+        console.log(res.data)
         this.name = res.data.name
         this.content = res.data.content
         this.policy_type = res.data.policy_type
         this.exp_date = res.data.exp_date
-
+        this.policy_docs = res.data.documents
     
 
         console.log(this.records)
