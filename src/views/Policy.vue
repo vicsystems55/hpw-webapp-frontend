@@ -119,6 +119,15 @@
         <hr>
 
         <div class="col-md-12">
+          <h6>List of uploaded documents for this policy.</h6>
+
+          <ul>
+            <li v-for="doc in policy_docs" :key="doc.id">
+            <a :href="resolveImg(doc.file_path)">
+              {{ doc.title }}
+            </a> 
+            </li>
+          </ul>
           <h6 class="text-danger">
             Upload an attachment (Optional)
           </h6>
@@ -147,15 +156,7 @@
                 >
               </div>
 
-              <h6>List of uploaded documents for this policy.</h6>
-
-              <ul>
-                <li v-for="doc in policy_docs" :key="doc.id">
-                <a :href="resolveImg(doc.file_path)">
-                  {{ doc.title }}
-                </a> 
-                </li>
-              </ul>
+           
 
               <div class="form-group">
                 <label for="">Upload proof: (PDF, EXCEL DOCS, OR SCANNED IMAGES)</label>
