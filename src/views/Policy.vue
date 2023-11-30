@@ -151,7 +151,7 @@
 
               <ul>
                 <li v-for="doc in policy_docs" :key="doc.id">
-                <a :href="resolveImg(doc.file_path)"> 
+                <a :href="resolveImg(doc.file_path)">
                   {{ doc.title }}
                 </a> 
                 </li>
