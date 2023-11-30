@@ -6,7 +6,7 @@
     <div class="container"
     >
     <div class="row">
-      <div class="col-md-6">
+      <div class="col-md-4">
         <div class="card">
           <div class="card-body">
             <h4>Total Registrations</h4>
@@ -16,10 +16,20 @@
         </div>
       </div>
 
-      <div class="col-md-6">
+      <div class="col-md-4">
         <div class="card">
           <div class="card-body">
             <h4>Total Missing</h4>
+            <h5>0</h5>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="card">
+          <div class="card-body">
+            <h4>Policies</h4>
             <h5>0</h5>
 
           </div>

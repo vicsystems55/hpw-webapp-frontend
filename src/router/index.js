@@ -175,6 +175,12 @@ const router = new VueRouter({
 
         breadcrumb: [
           {
+            text: 'Staff Record Details',
+            active: false,
+            to: '/staff-records',
+
+          },
+          {
             text: 'Staff Supervision Details',
             active: true,
           },

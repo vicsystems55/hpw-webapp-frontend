@@ -63,7 +63,7 @@
               </div>
 
               <div class="form-group">
-                <label for="">Expiration Date:</label>
+                <label for="">Last Review Date:</label>
                 <input
                   v-model="exp_date"
                   type="date"
