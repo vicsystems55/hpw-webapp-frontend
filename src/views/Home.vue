@@ -1,43 +1,61 @@
 <template>
   <div>
+    <div>
 
-
-
-    <div class="container"
+    <div
+      class="container"
     >
-    <div class="row">
-      <div class="col-md-4">
-        <div class="card">
-          <div class="card-body">
-            <h4>Total Registrations</h4>
-            <h5>{{ records.length }}</h5>
+      <div class="row">
+        <div class="col-md-4">
+          <a :href="'/residence-management'">
+            <div
+              style="height: 120px;"
+              class="card border border-primary"
+            >
+              <div class="card-body">
+                <h4>Total Residence</h4>
+                <h2>{{ records.length }}</h2>
 
-          </div>
+              </div>
+            </div>
+          </a>
         </div>
-      </div>
 
-      <div class="col-md-4">
-        <div class="card">
-          <div class="card-body">
-            <h4>Total Missing</h4>
-            <h5>0</h5>
+        <div class="col-md-4">
+          <a :href="'/staff-records'">
+            <div
+              style="height: 120px;"
+              class="card border border-warning"
+            >
+              <div class="card-body">
+                <h4>Total Staff</h4>
+                <h2>0</h2>
 
-          </div>
+              </div>
+            </div>
+          </a>
         </div>
-      </div>
+        <div class="col-md-4">
+          <a :href="'/policies'">
 
-      <div class="col-md-4">
-        <div class="card">
-          <div class="card-body">
-            <h4>Policies</h4>
-            <h5>0</h5>
+            <div
+              style="height: 120px;"
+              class="card border border-success"
+            >
+              <div class="card-body">
+                <h4>Policies</h4>
+                <h2>0</h2>
 
-          </div>
+              </div>
+            </div>
+          </a>
         </div>
       </div>
 
     </div>
   </div>
+
+  <hr>
 
   <div class="container">
     <div class="row">
@@ -61,14 +79,17 @@
                   size="27"
                 />
                 <div class="c px-2">
-                  <h4>{{ notification.subject }} </h4>
-                  <h6>{{ notification.msg }}</h6>
+                  <h6>{{ notification.subject }} </h6>
+                  <p>{{ notification.msg }}</p>
                 </div>
 
               </div>
 
               <hr>
-              <span class="font-italic float-right">{{ notification.created_at }}</span>
+              <span
+                style="font-size: 8pt;"
+                class="font-italic float-right"
+              >{{ notification.created_at }}</span>
             </div>
           </div>
         </div>
@@ -82,6 +103,15 @@
           </div>
         </div>
 
+      </div>
+      <div class="col-md-6">
+        <h4 class="py-2">
+          Reminders
+        </h4>
+
+        <div class="card card">
+          <h6 class="text-center py-5">No reminders yet.</h6>
+        </div>
       </div>
     </div>
   </div>
@@ -111,6 +141,10 @@ export default {
 
   methods: {
 
+    dashCardLink(routeName) {
+      this.$router.push('/some-route')
+    },
+
     getNotifications() {
       axios({
         url: `${process.env.VUE_APP_BACKEND_URL}/api/notifications`,
@@ -121,6 +155,8 @@ export default {
       }).then(res => {
         console.log(res)
         this.notifications = res.data
+
+        this.notifications = this.notifications.slice(0, 4)
       }).catch(error => {
         console.log(error)
       })
