@@ -11,7 +11,7 @@
           >
             <router-link :to="'/create-policies'">
               <buttons class="btn btn-primary btn-lg">
-                Add New Policy
+              Create New Policy
               </buttons>
             </router-link>
           </div>

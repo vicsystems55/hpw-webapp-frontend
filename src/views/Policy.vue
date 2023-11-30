@@ -122,10 +122,13 @@
           <h6>List of uploaded documents for this policy.</h6>
 
           <ul>
-            <li v-for="doc in policy_docs" :key="doc.id">
-            <a :href="resolveImg(doc.file_path)">
-              {{ doc.title }}
-            </a> 
+            <li
+              v-for="doc in policy_docs"
+              :key="doc.id"
+            >
+              <a :href="resolveImg(doc.file_path)">
+                {{ doc.title }}
+              </a>
             </li>
           </ul>
           <h6 class="text-danger">
@@ -147,16 +150,14 @@
                 >x</span>
               </div>
               <div class="form-group mt-2">
-                <label for="">Training Name:</label>
+                <label for="">Title of Document:</label>
                 <input
                   v-model="field.text"
                   type="text"
                   class="form-control"
-                  placeholder="Enter Qualification Title"
+                  placeholder="Enter Policy Title here"
                 >
               </div>
-
-           
 
               <div class="form-group">
                 <label for="">Upload proof: (PDF, EXCEL DOCS, OR SCANNED IMAGES)</label>
@@ -170,8 +171,6 @@
               </div>
             </div>
           </div>
-
-        
 
           <div class=" py-5 text-center btn">
             <h4
@@ -189,7 +188,7 @@
 
         <button
           class="btn btn-primary btn-lg btn-block"
-          @click="createPolicy()"
+          @click="updatePolicy()"
         >
           {{ loadingy ? 'Please wait...' : 'Update' }}
         </button>
@@ -266,9 +265,6 @@ export default {
         })
 
         this.$router.push('/policies')
-
-
-
       }).catch(error => {
         this.loadingy = false
 
@@ -334,12 +330,90 @@ export default {
         console.log(res.data)
         this.name = res.data.name
         this.content = res.data.content
-        this.policy_type = res.data.policy_type
+        this.policy_type = res.data.type
         this.exp_date = res.data.exp_date
         this.policy_docs = res.data.documents
-    
 
         console.log(this.records)
+      }).catch(error => {
+        this.loadingy = false
+
+        this.$toast({
+          component: ToastificationContent,
+          props: {
+            title: 'An unusual error occured',
+            icon: 'EditIcon',
+            variant: 'danger',
+          },
+        })
+
+        // this.$toast({
+        //   component: ToastificationContent,
+        //   props: {
+        //     title: error.response.data.errors.passport_file.toString(),
+        //     icon: 'EditIcon',
+        //     variant: 'error',
+        //   },
+        // })
+
+        console.log(error)
+      })
+    },
+
+    updatePolicy() {
+      this.loadingy = true
+
+      // console.log(this.fields)
+
+      const formData = new FormData()
+
+      if (this.fields.length != 0) {
+        alert('yes files')
+
+        this.fields.forEach((field, index) => {
+          formData.append(`file_${index}`, field.file)
+          formData.append(`text_${index}`, field.text)
+        })
+
+        formData.append('name', this.name)
+        formData.append('content', this.content)
+        formData.append('exp_date', this.exp_date)
+        formData.append('type', this.policy_type)
+        formData.append('policy_id', this.$route.params.id)
+      } else {
+        this.postData = {
+          name: this.name,
+          content: this.content,
+          exp_date: this.exp_date,
+          type: this.policy_type,
+          policy_id: this.$route.params.id,
+
+        }
+      }
+
+      axios({
+        url: `${process.env.VUE_APP_BACKEND_URL}/api/update-policies`,
+        headers: {
+          'Content-Type': this.postData == null ? 'multipart/form-data' : 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+
+        },
+        method: 'post',
+        data: this.postData == null ? formData : this.postData,
+      }).then(res => {
+        this.loadingy = false
+        console.log(res)
+
+        this.$toast({
+          component: ToastificationContent,
+          props: {
+            title: 'Record updated',
+            icon: 'EditIcon',
+            variant: 'success',
+          },
+        })
+
+        // this.$router.push('/policies')
       }).catch(error => {
         this.loadingy = false
 

@@ -137,6 +137,13 @@ const router = new VueRouter({
         pageTitle: 'Manage Policies',
         breadcrumb: [
           {
+            text: 'Policies',
+            active: false,
+            to: '/policies'
+            // component: () => import('@/views/Policies.vue'),
+
+          },
+          {
             text: 'Policy Details',
             active: true,
           },

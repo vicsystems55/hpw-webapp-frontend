@@ -121,12 +121,12 @@
                 >x</span>
               </div>
               <div class="form-group mt-2">
-                <label for="">Training Name:</label>
+                <label for="">Title of Document:</label>
                 <input
                   v-model="field.text"
                   type="text"
                   class="form-control"
-                  placeholder="Enter Qualification Title"
+                  placeholder="Enter Policy Title here"
                 >
               </div>
 
