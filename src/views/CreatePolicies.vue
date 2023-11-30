@@ -261,7 +261,7 @@ export default {
         formData.append('name', this.name)
         formData.append('content', this.content)
         formData.append('exp_date', this.exp_date)
-        formData.append('policy_type', this.policy_type)
+        formData.append('type', this.policy_type)
 
       } else {
         this.postData = {
