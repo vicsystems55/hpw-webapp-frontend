@@ -90,6 +90,7 @@
                   placeholder="Enter your name"
                 > -->
                   <h6>{{ record.fullname }}</h6>
+                  <hr>
                 </div>
 
                 <div class="form-group">
@@ -206,7 +207,7 @@
                 <a :href="'/staff-supervision/'+schedule.id" class="btn btn-primary btn-sm " >view</a>
               </td>
               <td v-else>
-                <button class="btn btn-secondary btn-sm " disabled>completed</button>
+                <a :href="'/staff-supervision/'+schedule.id" class="btn btn-secondary btn-sm " >review</a>
               </td>
 
             </tr>

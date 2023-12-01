@@ -29,7 +29,7 @@
             >
               <div class="card-body">
                 <h4>Total Staff</h4>
-                <h2>0</h2>
+                <h2>{{ total_staff }}</h2>
 
               </div>
             </div>
@@ -44,7 +44,7 @@
             >
               <div class="card-body">
                 <h4>Policies</h4>
-                <h2>0</h2>
+                <h2>{{ total_policies }}</h2>
 
               </div>
             </div>
@@ -130,6 +130,8 @@ export default {
     return {
       notifications: [],
       records: [],
+      total_policies: 0,
+      total_staff: 0,
 
     }
   },
@@ -169,10 +171,15 @@ export default {
           'Content-Type': 'multipart/form-data',
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
+        params:{
+          dashboard: true,
+        },
         method: 'get',
       }).then(res => {
-        console.log(res)
-        this.records = res.data
+        console.log(res.data.residentsRecords)
+        this.records = res.data.residentsRecords
+        this.total_policies = res.data.total_policies
+        this.total_staff = res.data.total_staff
       }).catch(error => {
         console.log(error)
       })

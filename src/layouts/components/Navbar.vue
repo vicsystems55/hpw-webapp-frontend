@@ -31,11 +31,20 @@
     </div>
 
     <b-navbar-nav class="nav align-items-center ml-auto ">
+      <b-nav-item class="btn" @click="$router.push('/notifications')">
+        <feather-icon
+            badge-classes="bg-danger"
+        class="text-body"
+        icon="BellIcon"
+        size="21"
+      />
+  </b-nav-item>
       <b-nav-item-dropdown
         right
         toggle-class="d-flex align-items-center dropdown-user-link"
         class="dropdown-user"
       >
+    
         <template #button-content>
           <div class="d-sm-flex d-none user-nav">
             <p class="user-name font-weight-bolder mb-0">

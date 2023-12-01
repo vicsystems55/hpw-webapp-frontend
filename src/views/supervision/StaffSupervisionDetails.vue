@@ -54,6 +54,8 @@
 <script>
 import axios from 'axios'
 import { forEach } from 'postcss-rtl/lib/affected-props'
+import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
+
 
 export default {
 
@@ -101,6 +103,15 @@ export default {
         },
       }).then(res => {
         console.log(res)
+
+        this.$toast({
+          component: ToastificationContent,
+          props: {
+            title: 'Supervision Submitted Successfully',
+            icon: 'EditIcon',
+            variant: 'success',
+          },
+        })
       }).catch(error => {
         console.log(error)
       })
