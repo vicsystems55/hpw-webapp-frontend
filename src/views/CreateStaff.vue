@@ -62,7 +62,7 @@
                 >
               </div>
 
-              <div class="form-group">
+              <div class="form-group d-none">
                 <label for="">Date of birth:</label>
                 <input
                   v-model="date_of_birth"

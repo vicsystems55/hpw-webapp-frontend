@@ -62,7 +62,7 @@
                 >
               </div>
 
-              <div class="form-group">
+              <div class="form-group d-none">
                 <label for="">Date of birth:</label>
                 <input
                   v-model="date_of_birth"
@@ -103,7 +103,7 @@
                 >
               </div>
 
-              <div class="form-group">
+              <div class="form-group d-none">
                 <label for="observation">Observation</label>
                 <input
                   id="observation"
@@ -171,7 +171,14 @@
               </div>
 
               <div class="form-group">
+                <a
+                  class="h6 d-block"
+                  :href="resolveImg(dbs_file_path)"
+                >Previously uploaded document</a>
+                <h6>{{ dbs_date }}</h6>
+
                 <label for="dbs">Upload DBS File.</label> <br>
+
                 <input
                   type="file"
                   class="file-form-control"
@@ -276,6 +283,8 @@ export default {
       offices: [],
       file: '',
 
+      postData: null,
+
       record: '',
       dbs_file: '',
       dbs_date: '',
@@ -368,19 +377,35 @@ export default {
       this.loadingy = true
 
       if (!this.dbs_file) {
+        this.loadingy = false
 
-      this.loadingy = false
+        this.postData = {
+          fullname: this.fullname,
+          date_of_birth: this.date_of_birth,
+          gender: this.gender,
+          address: this.address,
+          email: this.email,
+          notes: this.notes,
+          phone: this.phone,
+          passport_file: this.passport_file,
+          dbs_file: this.dbs_file,
+          dbs_date: this.dbs_date,
+          last_supervision_date: this.last_supervision_date,
 
-        return this.$toast({
-          component: ToastificationContent,
-          props: {
-            title: 'Please upload DBS Doc.',
-            icon: 'EditIcon',
-            variant: 'danger',
-          },
-        })
+        }
+
+        // return this.$toast({
+        //   component: ToastificationContent,
+        //   props: {
+        //     title: 'Please upload DBS Doc.',
+        //     icon: 'EditIcon',
+        //     variant: 'danger',
+        //   },
+        // })
+
+
+
       }
-
       // console.log(this.fields)
 
       const formData = new FormData()
@@ -405,12 +430,12 @@ export default {
       axios({
         url: `${process.env.VUE_APP_BACKEND_URL}/api/staff-recordsx/${this.$route.params.id}`,
         headers: {
-          'Content-Type': 'multipart/form-data',
+          'Content-Type': this.postData == null ? 'multipart/form-data' : 'application/json',
           Authorization: `Bearer ${localStorage.getItem('token')}`,
 
         },
         method: 'post',
-        data: formData,
+        data: this.postData == null ? formData : this.postData,
       }).then(res => {
         this.loadingy = false
         console.log(res)
@@ -475,6 +500,7 @@ export default {
         this.notes = res.data.notes
         this.phone = res.data.phone_number
         this.dbs_date = res.data.dbs_date
+        this.dbs_file_path = res.data.dbs_path
         this.last_supervision_date = res.data.last_supervision_date
       }).catch(error => {
         this.loadingy = false

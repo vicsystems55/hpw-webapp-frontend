@@ -90,7 +90,7 @@
                   placeholder="Enter your name"
                 > -->
                   <h6>{{ record.fullname }}</h6>
-                  <hr>
+              
                 </div>
 
                 <div class="form-group">
