@@ -124,10 +124,8 @@
                   placeholder="Enter Supervision Date"
                 >
               </div>
-            </div>
-            <div class="col-md-6">
 
-              <div class="form-group">
+                  <div class="form-group">
                 <label for="phone">Phone</label>
                 <input
                   id="phone"
@@ -148,6 +146,10 @@
                   placeholder="Enter staff email"
                 >
               </div>
+            </div>
+            <div class="col-md-6">
+
+          
               <div class="form-group">
                 <label for="">Note</label>
                 <textarea
