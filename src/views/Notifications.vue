@@ -2,27 +2,34 @@
   <div>
     <div class="container">
       <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-6">
 
           
 
-          <div v-for="notification in notifications" :key="notification.index" class="card mb-2">
+          <div
+            v-for="notification in notifications"
+            :key="notification.index"
+            class="card mb-2"
+          >
             <div class="card-body">
               <div class="d-flex justify-content-start">
-                <feather-icon class="text-success"
-              icon="BellIcon"
-              size="27"
-            />
-            <div class="c px-2">
-              <h4>{{notification.subject}} </h4>
-              <h6>{{notification.msg}}</h6>
-            </div>
+                <feather-icon
+                  class="text-success"
+                  icon="BellIcon"
+                  size="27"
+                />
+                <div class="c px-2">
+                  <h6>{{ notification.subject }} </h6>
+                  <p>{{ notification.msg }}</p>
+                </div>
 
               </div>
 
-
               <hr>
-              <span class="font-italic float-right">{{ notification.created_at }}</span>
+              <span
+                style="font-size: 8pt;"
+                class="font-italic float-right"
+              >{{ notification.created_at }}</span>
             </div>
           </div>
 
