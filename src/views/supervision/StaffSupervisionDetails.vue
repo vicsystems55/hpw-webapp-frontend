@@ -1,6 +1,14 @@
 <template>
 
   <div class="card card-body">
+
+    <marquee behavior="" direction="">
+
+      <h3 class="text-center text-danger">
+        This page is currently under development. Please bear with us.
+      </h3>
+    </marquee>
+
     <h3 class="text-center text-primary">
       Supervision Questions
     </h3>
@@ -64,7 +72,7 @@
             class="form-control"
             placeholder="Enter response"
             @input="updateFormData('ans'+[supervisionQuestion.id], $event.target.value)"
-          >{{ supervisionAnswers.length>0?supervisionAnswers[index].answer:'' }}</textarea>
+          >{{ supervisionAnswers.length>0?resolveAnswers(supervisionQuestion.id):''}}</textarea>
 
           <input
             :id="'ansx'+supervisionQuestion.id"
@@ -145,6 +153,16 @@ export default {
   },
 
   methods: {
+
+  resolveAnswers(supervisionQuestionId){
+
+    var foundObject = this.supervisionAnswers.find(item => item['supervision_question_id'] === supervisionQuestionId);
+
+    console.log(foundObject)
+
+    return foundObject.answer;
+
+  },
 
     resolveImg(img) {
       return `${process.env.VUE_APP_BACKEND_URL}/storage/${img}`

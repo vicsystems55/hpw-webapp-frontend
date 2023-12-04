@@ -3,7 +3,7 @@
 <template>
   <div>
 
-    <b-card-code title="">
+    <b-card-code title="sd">
 
       <!-- modal trigger button -->
 
@@ -51,7 +51,7 @@
         centered
         title="Edit Department"
         ok-only
-        footerClass-d-none
+        footer-class-d-none
       >
 
         <div class="col-md-12">
@@ -108,13 +108,7 @@
               <option value="">
                 None
               </option>
-              <option
-                v-for="office in offices"
-                :key="office.index"
-                :value="office.id"
-              >
-                {{ office.name }}
-              </option>
+
             </select>
           </div>
 
@@ -211,26 +205,6 @@
                   </div>
 
                   <div class="form-group">
-                    <label for="">Choose Parent Office:</label>
-                    <select
-                      id=""
-                      v-model="parent_id"
-                      class="form-control"
-                    >
-                      <option value="">
-                        None
-                      </option>
-                      <option
-                        v-for="office in offices"
-                        :key="office.index"
-                        :value="office.id"
-                      >
-                        {{ office.name }}
-                      </option>
-                    </select>
-                  </div>
-
-                  <div class="form-group">
                     <button
                       class="btn btn-primary btn-block"
                       @click="createOffice()"
@@ -245,62 +219,7 @@
             <div class="col-md-12">
 
               <div class="card">
-                <div class="card-body table-responsive">
-
-                  <table class="table">
-                    <thead>
-                      <tr>
-                        <th>#</th>
-                        <th>DEPARMENT</th>
-                        <th>ABBREV.</th>
-                        <th>OFFICER</th>
-                        <th>HEAD</th>
-                        <th />
-
-                        <th />
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr
-                        v-for="office,key in offices"
-                        :key="office.index"
-                      >
-                        <td>{{ key + 1 }}</td>
-                        <td>{{ office.name }}</td>
-
-                        <td>{{ office.abbrev }}</td>
-
-                        <td>
-                          <span class="badge badge-primary">
-                            {{ office.officer?office.officer.name:'not assigned' }}
-                          </span>
-                        </td>
-                        <td>
-                          <span class="badge badge-primary">
-                            {{ office.parent?office.parent.name:'null' }}
-                          </span>
-                        </td>
-
-                        <td>
-                          <div class="demo-inline-spacing">
-
-                            <b-button
-                              v-ripple.400="'rgba(113, 102, 240, 0.15)'"
-                              v-b-modal.modal-center
-                              class="bt-sm btn-success "
-                              @click="setEditValues(office.id, office.name, office.abbrev, office.officer?office.officer.name:'', office.parent?office.parent.name:'')"
-                            >
-                              Edit
-                            </b-button>
-
-                          </div>
-                        </td>
-
-                      </tr>
-                    </tbody>
-                  </table>
-
-                </div>
+                <div class="card-body table-responsive" />
               </div>
 
             </div>
@@ -379,16 +298,74 @@
           </div>
 
         </b-tab>
-        <!-- <b-tab
-          title="Disabled"
-
+        <b-tab
+          title="Supervision Questions"
         >
 
-        <div class="form-group">
-            <input type="text" class="form-control">
-        </div>
+          <draggable
+            v-model="supervisionQuestions"
+            group="people"
+            class="row"
+            @choose="drag"
+            @end="drag2"
+          >
 
-        </b-tab> -->
+            <div
+              v-for="element,index in supervisionQuestions"
+              :id="'con'+index"
+              :key="element.id"
+              class="col-md-6 "
+            >
+              <div class="form-group border border-primary p-1">
+                <label
+                  for=""
+                  class="font-weight-bold"
+                >{{ index + 1 }}</label>
+
+                <input
+                  :id="'ques'+index"
+                  type="text"
+                  class="form-control"
+                  :value="element.question"
+                >
+                <div class="">
+
+                  <button
+                    class="btn btn-primary btn-sm m-1"
+                    @click="updateQuestion(element.id, index)"
+                  >
+                    update
+                  </button>
+                  <button
+                    class="btn btn-danger btn-sm m-1"
+                    @click="removeQuestion(element.id)"
+                  >
+                    remove
+                  </button>
+                </div>
+
+              </div>
+            </div>
+          </draggable>
+
+          <hr>
+          <h5>Add Questions</h5>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="" />
+              <input
+                type="text"
+                class="form-control"
+              >
+            </div>
+            <div class="form-group">
+              <button class="btn btn-primary">
+                Add Question
+              </button>
+            </div>
+          </div>
+
+        </b-tab>
 
       </b-tabs>
 
@@ -407,6 +384,7 @@ import {
   BModal, BButton, VBModal, BAlert, BTabs, BTab, BCardText,
 } from 'bootstrap-vue'
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
+import draggable from 'vuedraggable'
 
 export default {
   components: {
@@ -417,6 +395,7 @@ export default {
     BButton,
     BModal,
     BAlert,
+    draggable,
 
   },
   directives: {
@@ -438,9 +417,13 @@ export default {
       edit_user_id: '',
       edit_parent_id: '',
 
+      
+
+      list: [],
+
       loading: false,
       users: [],
-      offices: [],
+      supervisionQuestions: [],
 
       regname: '',
       email: '',
@@ -454,18 +437,148 @@ export default {
     }
   },
   mounted() {
-    this.getOffices()
+    // this.getOffices()
     this.getUsers()
+    this.getSupervisionData()
   },
 
   methods: {
+
+    handleChange(event) {
+      console.log(event)
+    },
+
+    drag(event) {
+
+    },
+
+    drag2(event) {
+
+      this.loadingx = true
+
+      // return console.log(this.supervisionQuestions)
+      axios({
+        url: `${process.env.VUE_APP_BACKEND_URL}/api/rearrange-staff-supervision`,
+        method: 'post',
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+        data: this.supervisionQuestions,
+      }).then(res => {
+
+        this.loadingx = false
+        console.log(res)
+   
+       this.$toast({
+          component: ToastificationContent,
+          props: {
+            title: 'Arrangement Saved',
+            icon: 'EditIcon',
+            variant: 'success',
+          },
+        })
+      }).catch(error => {
+
+        this.loadingx = false
+
+        console.log(error)
+      })
+    },
+
+    updateQuestion(questionId, index) {
+
+      const newEntry = document.getElementById('ques'+index).value
+
+      alert(newEntry)
+      axios({
+        url: `${process.env.VUE_APP_BACKEND_URL}/api/staff-supervision/${questionId}`,
+        method: 'put',
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+        data: {
+          question: newEntry
+        }
+      }).then(res => {
+        console.log(res)
+
+        this.$toast({
+          component: ToastificationContent,
+          props: {
+            title: 'Question Updated',
+            icon: 'EditIcon',
+            variant: 'success',
+          },
+        })
+      
+
+        // console.log(this.supervisionAnswers)
+        // this.loadAnswers()
+      }).catch(error => {
+        console.log(error)
+      })
+    },
+    removeQuestion(questionId) {
+      // eslint-disable-next-line no-restricted-globals
+      const confirmation = confirm('Are you sure?')
+
+      if (confirmation) {
+        axios({
+          url: `${process.env.VUE_APP_BACKEND_URL}/api/staff-supervision/${questionId}`,
+          method: 'delete',
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+        }).then(res => {
+          console.log(res)
+          this.getSupervisionData()
+
+        // console.log(this.supervisionAnswers)
+        // this.loadAnswers()
+        }).catch(error => {
+          console.log(error)
+        })
+
+        alert('deleted')
+      } else {
+        alert('cancelled')
+      }
+    },
+
+    updateFormData(field, value) {
+      // Manually update the form data for each input field
+    //   alert(field)
+      this.formData[field] = value
+    //   this.formData['staff_supervision_schedule_id'] = this.staff_supervision_schedule_id
+    },
+
+    getSupervisionData() {
+      axios({
+        url: `${process.env.VUE_APP_BACKEND_URL}/api/staff-supervision`,
+        method: 'get',
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      }).then(res => {
+        console.log(res)
+        this.staffSupervisionData = res.data.scheduleData
+        this.supervisionQuestions = res.data.supervisionQuestions
+        this.supervisionAnswers = res.data.supervisionAnswers
+        this.staff_supervision_schedule_id = this.$route.params.id
+
+        // console.log(this.supervisionAnswers)
+        // this.loadAnswers()
+      }).catch(error => {
+        console.log(error)
+      })
+    },
     getOffices() {
       axios({
         url: `${process.env.VUE_APP_BACKEND_URL}/api/offices`,
         method: 'get',
       }).then(res => {
         console.log(res)
-        this.offices = res.data
+        // this.offices = res.data
       }).catch(error => {
         console.log(error)
       })
@@ -504,7 +617,7 @@ export default {
             variant: 'success',
           },
         })
-        this.getOffices()
+        // this.getOffices()
       }).catch(error => {
         this.loading = false
         console.log(error)
@@ -567,7 +680,7 @@ export default {
             variant: 'success',
           },
         })
-        this.getOffices()
+        // this.getOffices()
       }).catch(error => {
         this.loading = false
         console.log(error)
