@@ -2,7 +2,10 @@
 
   <div class="card card-body">
 
-    <marquee behavior="" direction="">
+    <marquee
+      behavior=""
+      direction=""
+    >
 
       <h3 class="text-center text-danger">
         This page is currently under development. Please bear with us.
@@ -72,7 +75,7 @@
             class="form-control"
             placeholder="Enter response"
             @input="updateFormData('ans'+[supervisionQuestion.id], $event.target.value)"
-          >{{ supervisionAnswers.length>0?resolveAnswers(supervisionQuestion.id):''}}</textarea>
+          >{{ supervisionAnswers.length>0?resolveAnswers(supervisionQuestion.id):'' }}</textarea>
 
           <input
             :id="'ansx'+supervisionQuestion.id"
@@ -115,7 +118,8 @@
         <button
           style="min-width: 220px;"
           class="btn btn-lg btn-success text-center"
-          type="submit" disabled
+          type="submit"
+          disabled
         >
           Upload
         </button>
@@ -154,15 +158,13 @@ export default {
 
   methods: {
 
-  resolveAnswers(supervisionQuestionId){
+    resolveAnswers(supervisionQuestionId) {
+      const foundObject = this.supervisionAnswers.find(item => item.supervision_question_id == supervisionQuestionId)
 
-    var foundObject = this.supervisionAnswers.find(item => item['supervision_question_id'] === supervisionQuestionId);
+      console.log(foundObject)
 
-    console.log(foundObject)
-
-    return foundObject.answer;
-
-  },
+      return foundObject.answer
+    },
 
     resolveImg(img) {
       return `${process.env.VUE_APP_BACKEND_URL}/storage/${img}`
