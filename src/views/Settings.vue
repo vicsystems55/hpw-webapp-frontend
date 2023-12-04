@@ -359,7 +359,7 @@
               >
             </div>
             <div class="form-group">
-              <button class="btn btn-primary">
+              <button class="btn btn-primary" disabled>
                 Add Question
               </button>
             </div>
