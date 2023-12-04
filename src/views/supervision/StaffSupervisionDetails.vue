@@ -288,7 +288,7 @@ export default {
         // console.log(item.answer)
         this.formData[`ans${item.supervision_question_id}`] = item.answer
 
-        console.log(this.formData)
+        // console.log(this.formData)
         // this.updateFormData(`ans${item.supervision_question_id}`, item.answer)
 
         // You can perform any action for each item here
