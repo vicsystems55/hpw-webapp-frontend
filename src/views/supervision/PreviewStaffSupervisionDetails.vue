@@ -1,83 +1,87 @@
 <template>
+  <div class="container py-5">
 
-  <div class="card card-body">
-
-    <marquee
-      behavior=""
-      direction=""
-    >
-
-      <h3 class="text-center text-danger">
-        This page is currently under development. Please bear with us.
-      </h3>
-    </marquee>
-
-    <h3 class="text-center text-primary">
-      Supervision Questions
-    </h3>
-    <h4 class="text-center ">
-      Supervision Date
-    </h4>
-    <p class="font-weight-bold text-center text-warning">
-      {{ staffSupervisionData.next_supervision_date }}
-    </p>
-
-    <div class="container py-2">
-      <div class="d-flex justify-content-around">
-        <div class="bt">
-          <a
-            :href="resolveImg('supervision_docs/Supervision_Policy.docx')"
-            class="btn btn-warning btn-sm"
-            download
-          >
-            Supervision Policy
-          </a>
-        </div>
-        <div class="bt">
-          <a
-            :href="resolveImg('supervision_docs/Staff_Supervision_Record.docx')"
-            class="btn btn-primary btn-sm"
-            download
-          >
-            Staff Supervision Form 1
-          </a>
-        </div>
-        <div class="bt">
-          <a
-            :href="resolveImg('supervision_docs/Staff_Supervision_Record_Form.docx')"
-            class="btn btn-primary btn-sm"
-            download
-          >
-            Staff Supervision Form 2
-          </a>
-        </div>
-
-        <div v-show="supervisionAnswers.length>0" class="bt">
-          <a
-            :href="'/preview-staff-supervision/'+staffSupervisionData.id"
-            class="btn btn-primary btn-sm"
-            
-          >
-            Preview
-          </a>
-        </div>
-      </div>
+    <div class="text-center py-2">
+      <button
+        class="btn btn-primary"
+        @click="printDiv()"
+      >
+        Print
+      </button>
     </div>
 
-    <hr>
-    <form @submit.prevent="submitAnswers">
-      <div class="row">
-
-        <div
-          v-for="supervisionQuestion,index in supervisionQuestions"
-          :key="supervisionQuestion.index"
-          class="form-group col-md-6"
+    <div id="card" class="card ">
+      <div class="card-body px-3">
+      <div class="text-center">
+        <img
+          style="max-height: 50px;"
+          src="https://www.hopepathway.uk/wp-content/uploads/2021/04/cropped-Blood-Donation-Logo-4.png"
+          alt=""
         >
-          <label
-            :for="'ans'+supervisionQuestion.id"
-            class="font-weight-bold"
-          >{{ index + 1 }}. {{ supervisionQuestion.question }}</label>
-          <textarea
+      </div>
+
+     
+        <h6 class="text-center">Staff Supervision</h6>
+        <div class="col-md-12">
+
+          <div class="col-md-12">
+            <div class="form-group mx-auto text-center">
+              <img
+                v-if="avatar"
+                id="previewImg"
+                onclick="document.getElementById('customFile').click()"
+                style="height: 100px; width: 100px; object-fit: cover; border-radius: 50%;"
+                class="shadow"
+                :src="resolveImg(record.passport_file)"
+              >
+
+              <img
+                v-else
+                id="previewImg"
+                onclick="document.getElementById('customFile').click()"
+                style="height: 100px; width: 100px; object-fit: cover; border-radius: 50%;"
+                class="shadow"
+                :src="resolveImg(record.passport_file)"
+              >
+
+            </div>
+            <div class="text-center d-none">
+              <input
+                id="customFile"
+                ref="file"
+                type="file"
+                @change="previewFile4"
+              >
+
+            </div>
+
+            <div class="form-group text-center d-none">
+              <button
+                class="btn btn-primary btn-sm"
+                @click="uploadAvatar()"
+              >
+                Upload
+              </button>
+            </div>
+          </div>
+
+        </div>
+
+        <h4 class="text-center py-2">{{ staffSupervisionData.staff.fullname }}</h4>
+
+      
+      
+        <div class="row">
+          <div
+            v-for="supervisionQuestion,index in supervisionQuestions"
+            :key="supervisionQuestion.index"
+            class="form-group col-md-6 border border-secondary"
+          >
+            <h6
+              :for="'ans'+supervisionQuestion.id"
+              class="font-weight-bold"
+            >{{ index + 1 }}. {{ supervisionQuestion.question }}</h6>
+            <!-- <textarea
             :id="'ans'+supervisionQuestion.id"
 
             cols="30"
@@ -85,61 +89,42 @@
             class="form-control"
             placeholder="Enter response"
             @input="updateFormData('ans'+[supervisionQuestion.id], $event.target.value)"
-          >{{ supervisionAnswers.length>0?resolveAnswers(supervisionQuestion.question):'' }}</textarea>
+          > -->
+            <h6 class="text-success">
+              Ans: {{ supervisionAnswers.length>0?resolveAnswers(supervisionQuestion.question):'' }}
+            </h6>
+            <!-- </textarea> -->
 
-          <input
-            :id="'ansx'+supervisionQuestion.id"
-            v-model="staff_supervision_schedule_id"
+            <input
+              :id="'ansx'+supervisionQuestion.id"
+              v-model="staff_supervision_schedule_id"
 
-            type="hidden"
-          >
+              type="hidden"
+            >
+          </div>
         </div>
 
-        <div class="container text-center py-3">
-          <button
-            style="min-width: 220px;"
-            class="btn btn-lg btn-primary"
-            type="submit"
-          >
-            Submit
-          </button>
+        <div class="row">
+          <div class="col-6">
+            <div class="form py-2">
+              <h6>_______________________________</h6>
+              <h6>Staff Sign / Date</h6>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="form py-2">
+              <h6>_______________________________</h6>
+              <h6>Management Sign / Date</h6>
+            </div>
+          </div>
         </div>
 
       </div>
-    </form>
-
-    <div class="container py-3">
-
-      <hr>
-      <h5 class="text-center py-1">
-        Upload Completed Form or Audio Recording
-      </h5>
-
-      <div class="form-group text-center">
-
-        <input
-          type="file"
-          class="file-form-control"
-          @change="previewSupervisionDocs"
-        >
-      </div>
-
-      <div class="form-group text-center">
-        <button
-          style="min-width: 220px;"
-          class="btn btn-lg btn-success text-center"
-          type="submit"
-          disabled
-        >
-          Upload
-        </button>
-
-      </div>
-
     </div>
 
   </div>
 </template>
+
 <script>
 import axios from 'axios'
 import { forEach } from 'postcss-rtl/lib/affected-props'
@@ -149,6 +134,10 @@ export default {
 
   data() {
     return {
+      record: '',
+      avatar: null,
+      passport_file: '',
+
       staffSupervisionData: '',
       supervisionQuestions: [],
       supervisionAnswers: [],
@@ -167,6 +156,47 @@ export default {
   },
 
   methods: {
+
+    printDiv() {
+      const printContents = document.getElementById('card').innerHTML
+      const originalContents = document.body.innerHTML
+
+      document.body.innerHTML = printContents
+
+      window.print()
+
+      document.body.innerHTML = originalContents
+    },
+
+    previewFile4(event) {
+      console.log(event)
+
+      if (event.target.files.length > 0) {
+        const src = URL.createObjectURL(event.target.files[0])
+        const preview = document.getElementById('previewImg')
+        preview.src = src
+        // preview.style.display = "block";
+      }
+
+      this.passport_file = event.target.files[0]
+
+      console.log(this.passport_file)
+    },
+
+    getSubmissionStatus(staffId) {
+      axios({
+        url: `${process.env.VUE_APP_BACKEND_URL}/api/staff-records/${staffId}`,
+        method: 'get',
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      }).then(res => {
+        console.log(res)
+        this.record = res.data
+      }).catch(error => {
+        console.log(error)
+      })
+    },
 
     resolveAnswers(supervisionQuestionId) {
       const foundObject = this.supervisionAnswers.find(item => item.questions.question == supervisionQuestionId)
@@ -287,6 +317,8 @@ export default {
         this.supervisionQuestions = res.data.supervisionQuestions
         this.supervisionAnswers = res.data.supervisionAnswers
         this.staff_supervision_schedule_id = this.$route.params.id
+
+        this.getSubmissionStatus(this.staffSupervisionData.staff_record_id)
 
         // console.log(this.supervisionAnswers)
         this.loadAnswers()

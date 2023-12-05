@@ -189,6 +189,29 @@ const router = new VueRouter({
     },
 
     {
+      path: '/preview-staff-supervision/:id',
+      name: 'preview-staff-supervision',
+      component: () => import('@/views/supervision/PreviewStaffSupervisionDetails.vue'),
+      meta: {
+        pageTitle: 'Preview Supervision',
+        layout: 'full',
+
+        // breadcrumb: [
+        //   {
+        //     text: 'Staff Record Details',
+        //     active: false,
+        //     to: '/staff-records',
+
+        //   },
+        //   {
+        //     text: 'Staff Supervision Details',
+        //     active: true,
+        //   },
+        // ],
+      },
+    },
+
+    {
       path: '/staff-details-update/:id',
       name: 'staff-details-update',
       component: () => import('@/views/StaffUpdate.vue'),
