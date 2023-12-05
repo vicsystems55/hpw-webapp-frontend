@@ -75,7 +75,7 @@
             class="form-control"
             placeholder="Enter response"
             @input="updateFormData('ans'+[supervisionQuestion.id], $event.target.value)"
-          >{{ supervisionAnswers.length>0?resolveAnswers(supervisionQuestion.id):'' }}</textarea>
+          >{{ supervisionAnswers.length>0?resolveAnswers(supervisionQuestion.question):'' }}</textarea>
 
           <input
             :id="'ansx'+supervisionQuestion.id"
@@ -159,7 +159,7 @@ export default {
   methods: {
 
     resolveAnswers(supervisionQuestionId) {
-      const foundObject = this.supervisionAnswers.find(item => item.supervision_question_id == supervisionQuestionId)
+      const foundObject = this.supervisionAnswers.find(item => item.questions.question == supervisionQuestionId)
 
       console.log(foundObject)
 

@@ -302,13 +302,14 @@
           title="Supervision Questions"
         >
 
-          <draggable
+          <!-- <draggable
             v-model="supervisionQuestions"
             group="people"
             class="row"
             @choose="drag"
             @end="drag2"
-          >
+          > -->
+          <div class="row">
 
             <div
               v-for="element,index in supervisionQuestions"
@@ -346,21 +347,28 @@
 
               </div>
             </div>
-          </draggable>
+          </div>
+          <!-- </draggable> -->
 
           <hr>
           <h5>Add Questions</h5>
           <div class="col-md-6">
             <div class="form-group">
-              <label for="" />
+              <label>Enter question:</label>
               <input
+                v-model="newQuestion"
                 type="text"
+                placeholder="Enter new question here"
                 class="form-control"
               >
             </div>
             <div class="form-group">
-              <button class="btn btn-primary" disabled>
-                Add Question
+              <button
+                class="btn btn-primary"
+                
+                @click="addQuestion()"
+              >
+                {{ loadingn?'Creating...':'Add Question' }}
               </button>
             </div>
           </div>
@@ -417,7 +425,7 @@ export default {
       edit_user_id: '',
       edit_parent_id: '',
 
-      
+      newQuestion: '',
 
       list: [],
 
@@ -434,6 +442,8 @@ export default {
       email_error: '',
 
       loadingx: false,
+      loadingn: false,
+
     }
   },
   mounted() {
@@ -444,6 +454,40 @@ export default {
 
   methods: {
 
+    addQuestion() {
+      this.loadingn = true
+
+      // return console.log(this.supervisionQuestions)
+      axios({
+        url: `${process.env.VUE_APP_BACKEND_URL}/api/add-supervision-questions`,
+        method: 'post',
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+        data: {
+          question: this.newQuestion,
+        },
+      }).then(res => {
+        this.loadingn = false
+        console.log(res)
+
+        this.getSupervisionData()
+
+        this.$toast({
+          component: ToastificationContent,
+          props: {
+            title: 'Question Added',
+            icon: 'EditIcon',
+            variant: 'success',
+          },
+        })
+      }).catch(error => {
+        this.loadingn = false
+
+        console.log(error)
+      })
+    },
+
     handleChange(event) {
       console.log(event)
     },
@@ -453,7 +497,6 @@ export default {
     },
 
     drag2(event) {
-
       this.loadingx = true
 
       // return console.log(this.supervisionQuestions)
@@ -465,11 +508,10 @@ export default {
         },
         data: this.supervisionQuestions,
       }).then(res => {
-
         this.loadingx = false
         console.log(res)
-   
-       this.$toast({
+
+        this.$toast({
           component: ToastificationContent,
           props: {
             title: 'Arrangement Saved',
@@ -478,7 +520,6 @@ export default {
           },
         })
       }).catch(error => {
-
         this.loadingx = false
 
         console.log(error)
@@ -486,8 +527,7 @@ export default {
     },
 
     updateQuestion(questionId, index) {
-
-      const newEntry = document.getElementById('ques'+index).value
+      const newEntry = document.getElementById(`ques${index}`).value
 
       alert(newEntry)
       axios({
@@ -497,8 +537,8 @@ export default {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
         data: {
-          question: newEntry
-        }
+          question: newEntry,
+        },
       }).then(res => {
         console.log(res)
 
@@ -510,7 +550,6 @@ export default {
             variant: 'success',
           },
         })
-      
 
         // console.log(this.supervisionAnswers)
         // this.loadAnswers()
