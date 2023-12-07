@@ -2,15 +2,7 @@
 
   <div class="card card-body">
 
-    <marquee
-      behavior=""
-      direction=""
-    >
-
-      <h3 class="text-center text-danger">
-        This page is currently under development. Please bear with us.
-      </h3>
-    </marquee>
+    
 
     <h3 class="text-center text-primary">
       Supervision Questions
