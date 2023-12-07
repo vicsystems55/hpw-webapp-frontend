@@ -103,7 +103,7 @@
                 >
               </div>
 
-              <div class="form-group">
+              <!-- <div class="form-group">
                 <label for="observation">Observation</label>
                 <input
                   id="observation"
@@ -112,7 +112,7 @@
                   class="form-control"
                   placeholder="Enter observation"
                 >
-              </div>
+              </div> -->
 
               <div class="form-group">
                 <label for="supervision">Last Supervision Date</label>
@@ -349,6 +349,22 @@ export default {
 
     registerStaff() {
       this.loadingy = true
+
+      if (!this.passport_file) {
+
+      this.loadingy = false
+
+      return  this.$toast({
+          component: ToastificationContent,
+          props: {
+            title: 'No profile picture selected',
+            icon: 'EditIcon',
+            variant: 'danger',
+          },
+        })
+
+        
+      }
 
       // console.log(this.fields)
 

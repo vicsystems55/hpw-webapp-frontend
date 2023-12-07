@@ -2,7 +2,12 @@
 
   <div class="card card-body">
 
-    
+   
+
+      <div class="text-center text-danger">
+       <button @click="goBack()" class="btn btn-primary">Go Back</button>
+      </div>
+   
 
     <h3 class="text-center text-primary">
       Supervision Questions
@@ -160,6 +165,12 @@ export default {
   },
 
   methods: {
+
+    goBack(){
+
+      this.$router.go(-1); 
+
+    },
 
     resolveAnswers(supervisionQuestionId) {
       const foundObject = this.supervisionAnswers.find(item => item.supervision_question_id == supervisionQuestionId)
