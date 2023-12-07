@@ -85,7 +85,8 @@
             class="form-control"
             placeholder="Enter response"
             @input="updateFormData('ans'+[supervisionQuestion.id], $event.target.value)"
-          >{{ supervisionAnswers.length>0?resolveAnswers(supervisionQuestion.id):'' }}</textarea>
+          >{{ supervisionAnswers.length>0?
+          resolveAnswers((supervisionQuestion.id)?supervisionQuestion.id:'0'):'' }}</textarea>
 
           <input
             :id="'ansx'+supervisionQuestion.id"
@@ -173,7 +174,13 @@ export default {
 
       console.log(foundObject)
 
-      return foundObject.answer
+      if(foundObject){
+        
+        return foundObject.answer
+      }else{
+        return '';
+      }
+
     },
 
     resolveImg(img) {
