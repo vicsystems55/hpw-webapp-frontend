@@ -4,8 +4,8 @@
 
    
 
-      <div class="text-center text-danger">
-       <button @click="goBack()" class="btn btn-primary">Go Back</button>
+      <div class="text-center text-danger py-2">
+       <a :href="'/staff-details/'+staffSupervisionData.staff_record_id"  class="btn btn-secondary">Back to staff details</a>
       </div>
    
 
