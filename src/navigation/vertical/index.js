@@ -82,6 +82,11 @@ export default [{
   ],
 },
 {
+  title: 'Trainings',
+  route: 'trainings',
+  icon: 'FileIcon',
+},
+{
   title: 'Notifications',
   route: 'notifications',
   icon: 'BellIcon',

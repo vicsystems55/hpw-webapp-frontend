@@ -314,6 +314,21 @@ const router = new VueRouter({
     },
 
     {
+      path: '/trainings',
+      name: 'trainings',
+      component: () => import('@/views/trainings/TrainingComponent.vue'),
+      meta: {
+        pageTitle: 'Home',
+        breadcrumb: [
+          {
+            text: 'Staff Trainings',
+            active: true,
+          },
+        ],
+      },
+    },
+
+    {
       path: '/file-browser',
       name: 'file-browser',
       component: () => import('@/views/FileBrowser.vue'),
