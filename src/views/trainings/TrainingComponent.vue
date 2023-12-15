@@ -3,13 +3,20 @@
     <div class="card table-responsive">
       <div class="card-body">
 
+      <div class="d-flex justify-content-start flex-wrap">
+        <div style="min-width: 200px;"  v-for="trainingProgramme,index in trainingProgrammes" :key="trainingProgramme.id" class="border m-1">
+          <h6>{{ index + 1 }}. {{ trainingProgramme.name }}</h6>
+        </div>
+
+      </div>
+
         <table class="table">
           <tr>
             <td></td>
-            <td v-for="trainingProgramme in trainingProgrammes" :key="trainingProgramme.id">
-              {{ trainingProgramme.name }}
+            <th v-for="trainingProgramme,index in trainingProgrammes" :key="trainingProgramme.id">
+              {{ index+1 }}
 
-            </td>
+            </th>
           </tr>
           <tr v-for="staffRecord in staffRecords" :key="staffRecord.id">
             <td>{{ staffRecord.fullname }}
@@ -17,7 +24,7 @@
             <button @click="generate(staffRecord.id)" class="btn btn-primary btn-sm">refresh</button>
             </td>
          
-            <td v-for="training in staffRecord.staff_trainings" :key="training.id">
+            <td v-for="training in staffRecord.staff_trainings" :key="training.id" class="border">
 
               {{ training.grade }}
               
@@ -121,3 +128,12 @@ export default {
   },
 }
 </script>
+<!-- <style scoped>
+th {
+  writing-mode: vertical-lr; /* vertical writing mode, from bottom to top */
+  text-orientation: upright; /* keeps the text upright */
+  transform: rotate(180deg);
+   /* additional rotation for browser compatibility */
+  white-space: nowrap; /* prevents text from wrapping */
+}
+</style> -->
