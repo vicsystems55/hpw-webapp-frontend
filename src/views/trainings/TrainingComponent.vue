@@ -100,6 +100,7 @@
               v-for="training in staffRecord.staff_trainings"
               :key="training.id"
               class="border"
+              :style="'background-color: '+returnColor(training.grade)"
             >
 
               {{ training.grade }}
@@ -150,18 +151,46 @@ export default {
   },
   methods: {
 
+    returnColor(grade){
+
+      if (grade == 1) {
+
+        return 'yellow';
+        
+      }
+
+      
+      if (grade == 2) {
+
+      return 'green';
+
+      }
+      if (grade == 3) {
+
+      return 'blue';
+
+      }
+
+      if (grade == 0) {
+
+      return 'white';
+
+      }
+    },
+
     postUpdate() {
       axios({
-        url: `${process.env.VUE_APP_BACKEND_URL}/api/staff-trainings`,
+        url: `${process.env.VUE_APP_BACKEND_URL}/api/staff-trainings/${this.selectedTrainingId}`,
         method: 'put',
-        data:{
-          grade: this.selStatus
+        data: {
+          grade: this.selStatus,
         },
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
       }).then(res => {
         console.log(res.data)
+        this.getStaffRecords()
       }).catch(error => {
         console.log(error)
       })
