@@ -66,10 +66,10 @@
 
         </div>
 
-        <h6>0. Not Trained</h6>
-        <h6>1. Familiar</h6>
-        <h6>2. Trained</h6>
-        <h6>3. Expert</h6>
+        <h6><span style="width: 100px; background-color: white;">____</span> 0. Not Trained </h6>
+        <h6><span style="width: 100px; background-color: yellow;">____</span> 1. Familiar </h6>
+        <h6><span style="width: 100px; background-color: green;">____</span> 2. Trained </h6>
+        <h6><span style="width: 100px; background-color: blue;">____</span> 3. Expert </h6>
 
         <table class="table">
           <tr>
