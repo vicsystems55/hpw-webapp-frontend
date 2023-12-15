@@ -12,7 +12,7 @@
             </td>
           </tr>
           <tr v-for="staffRecord in staffRecords" :key="staffRecord.id">
-            <td>{{ staffRecord.name }}</td>
+            <td>{{ staffRecord.fullname }}</td>
             <td></td>
           </tr>
         </table>
