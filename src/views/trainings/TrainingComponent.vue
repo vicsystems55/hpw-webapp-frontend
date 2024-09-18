@@ -72,17 +72,21 @@
         <h6><span style="width: 100px; background-color: blue;">____</span> 3. Expert </h6>
 
         <table class="table">
-          <tr>
-            <td />
-            <th
-              v-for="trainingProgramme,index in trainingProgrammes"
-              :key="trainingProgramme.id"
-            >
-              {{ index+1 }}
+          <thead>
+            <tr>
+              <td />
+              <th
+                v-for="trainingProgramme,index in trainingProgrammes"
+                :key="trainingProgramme.id"
+              >
+                {{ index+1 }}
+  
+              </th>
+            </tr>
 
-            </th>
-          </tr>
-          <tr
+          </thead>
+          <tbody>
+            <tr
             v-for="staffRecord in staffRecords"
             :key="staffRecord.id"
           >
@@ -115,6 +119,7 @@
             </td>
 
           </tr>
+          </tbody>
         </table>
 
       </div>
@@ -252,7 +257,8 @@ export default {
     },
 
     generate(staffRecordId) {
-      alert(staffRecordId)
+      
+      // alert(staffRecordId)
 
       axios({
         url: `${process.env.VUE_APP_BACKEND_URL}/api/generate-staff-trainings`,
