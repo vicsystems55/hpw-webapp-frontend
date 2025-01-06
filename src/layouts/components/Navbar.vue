@@ -20,11 +20,12 @@
     <div class="bookmark-wrapper align-items-center flex-grow-1 d-none d-lg-flex">
       <dark-Toggler class="d-none d-lg-block" />
 
-      <div class="text-center mx-auto">
-
-        <h4 class="btn btn-primary ">
-          {{ userData.name }}
-        </h4>
+      <div class="text-center mx-auto " style="width: 400px;">
+<label for="font-weight-bold" style="font-weight: bold; font-size: 15pt;">Switch Branch</label>
+     <select name="" id="" class="form-control">
+      <option value="">Branch 1</option>
+      <option value="">Branch 2</option>
+     </select>
 
       </div>
 

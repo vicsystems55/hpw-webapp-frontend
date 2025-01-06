@@ -2,119 +2,115 @@
   <div>
     <div>
 
-    <div
-      class="container"
-    >
-      <div class="row">
-        <div class="col-md-4">
-          <a :href="'/residence-management'">
-            <div
-              style="height: 120px;"
-              class="card border border-primary"
-            >
-              <div class="card-body">
-                <h4>Total Residence</h4>
-                <h2>{{ records.length }}</h2>
+      <div class="container">
+        <div class="row">
+          <div class="col-md-4">
+            <a :href="'/residence-management'">
+              <div style="height: 100px; padding: 10px;" class="card border border-primary d-flex ">
+                <div class="d-flex justify-content-between ">
+                  <!-- Add the image/icon -->
 
+                  <div class="">
+                    <h1>{{ records.length }}</h1>
+                    <h6>Total Residence</h6>
+                  </div>
+                  <img src="https://img.icons8.com/?size=100&id=97612&format=png&color=000000"
+                    alt="Total Residence Icon" style="width: 60px; height: 60px; margin-right: 10px;" />
+                </div>
               </div>
-            </div>
-          </a>
+
+            </a>
+          </div>
+
+          <div class="col-md-4">
+            <a :href="'/staff-records'">
+              <div style="height: 100px; padding: 10px;" class="card border border-warning d-flex ">
+                <div class="d-flex justify-content-between ">
+                  <!-- Add the image/icon -->
+
+                  <div class="">
+                    <h1>{{ total_staff }}</h1>
+                    <h6>Total Staff</h6>
+                  </div>
+                  <img src="https://img.icons8.com/?size=100&id=H9pCZtiXHXuz&format=png&color=000000"
+                    alt="Total Residence Icon" style="width: 60px; height: 60px; margin-right: 10px;" />
+                </div>
+              </div>
+            </a>
+          </div>
+          <div class="col-md-4">
+            <a :href="'/policies'">
+
+              <div style="height: 100px; padding: 10px;" class="card border border-success d-flex ">
+                <div class="d-flex justify-content-between ">
+                  <!-- Add the image/icon -->
+
+                  <div class="">
+                    <h1 class="font-weight-bold">{{ total_policies }}</h1>
+                    <h6>Policies</h6>
+                  </div>
+                  <img src="https://img.icons8.com/?size=100&id=GCWQkWqtBCgB&format=png&color=000000"
+                    alt="Total Residence Icon" style="width: 60px; height: 60px; margin-right: 10px;" />
+                </div>
+              </div>
+            </a>
+          </div>
         </div>
 
-        <div class="col-md-4">
-          <a :href="'/staff-records'">
-            <div
-              style="height: 120px;"
-              class="card border border-warning"
-            >
-              <div class="card-body">
-                <h4>Total Staff</h4>
-                <h2>{{ total_staff }}</h2>
-
-              </div>
-            </div>
-          </a>
-        </div>
-        <div class="col-md-4">
-          <a :href="'/policies'">
-
-            <div
-              style="height: 120px;"
-              class="card border border-success"
-            >
-              <div class="card-body">
-                <h4>Policies</h4>
-                <h2>{{ total_policies }}</h2>
-
-              </div>
-            </div>
-          </a>
-        </div>
       </div>
-
     </div>
-  </div>
 
-  <hr>
+    <hr>
 
-  <div class="container">
-    <div class="row">
-      <div class="col-md-6">
-        <h4 class="py-2">
-          Notifications
-        </h4>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <h4 class="py-2">
+            Notifications
+          </h4>
 
-        <div v-if="notifications">
+          <div v-if="notifications">
 
-          <div
-            v-for="notification in notifications"
-            :key="notification.index"
-            class="card mb-2"
-          >
-            <div class="card-body">
-              <div class="d-flex justify-content-start">
-                <feather-icon
-                  class="text-success"
-                  icon="BellIcon"
-                  size="27"
-                />
-                <div class="c px-2">
-                  <h6>{{ notification.subject }} </h6>
-                  <p>{{ notification.msg }}</p>
+            <div v-for="notification in notifications" :key="notification.index" class="car ">
+              <div class="card-body">
+                <div class="d-flex justify-content-start">
+                  <feather-icon class="text-success" icon="BellIcon" size="27" />
+                  <div class="c px-2">
+                    <h6>{{ notification.subject }} </h6>
+                    <p>{{ notification.msg }}</p>
+                  </div>
+
                 </div>
 
+                <span style="font-size: 8pt;" class="font-italic float-right">{{ notification.created_at }}</span>
+                <hr>
               </div>
-
-              <hr>
-              <span
-                style="font-size: 8pt;"
-                class="font-italic float-right"
-              >{{ notification.created_at }}</span>
             </div>
           </div>
-        </div>
-        <div
-          v-else
-          class="card mb-2"
-        >
-          <div class="card-body">
+          <div v-else class="card mb-2">
+            <div class="card-body">
 
-            <h6>No notifications yet.</h6>
+              <h6>No notifications yet.</h6>
+            </div>
           </div>
+
         </div>
+        <div class="col-md-6">
+          <h4 class="py-2">
+            Reminders
+          </h4>
 
-      </div>
-      <div class="col-md-6">
-        <h4 class="py-2">
-          Reminders
-        </h4>
+          <div class="card card text-center">
+            <div class="card-body py-5">
+              <img src="https://img.icons8.com/?size=100&id=bSQU0ahnukbD&format=png&color=000000"
+                alt="No reminders icon" class="mb-3" style="width: 50px; height: 50px;">
+              <h6>No reminders yet.</h6>
+            </div>
+          </div>
 
-        <div class="card card">
-          <h6 class="text-center py-5">No reminders yet.</h6>
         </div>
       </div>
     </div>
-  </div>
 
   </div>
 </template>
@@ -143,10 +139,6 @@ export default {
 
   methods: {
 
-    dashCardLink(routeName) {
-      this.$router.push('/some-route')
-    },
-
     getNotifications() {
       axios({
         url: `${process.env.VUE_APP_BACKEND_URL}/api/notifications`,
@@ -171,7 +163,7 @@ export default {
           'Content-Type': 'multipart/form-data',
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
-        params:{
+        params: {
           dashboard: true,
         },
         method: 'get',
