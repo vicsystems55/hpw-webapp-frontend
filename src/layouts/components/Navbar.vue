@@ -21,7 +21,7 @@
       <dark-Toggler class="d-none d-lg-block" />
 
       <div class="text-center mx-auto " style="width: 400px;">
-<label for="font-weight-bold" style="font-weight: bold; font-size: 15pt;">Switch Branch</label>
+
      <select name="" id="" class="form-control">
       <option value="">Branch 1</option>
       <option value="">Branch 2</option>
