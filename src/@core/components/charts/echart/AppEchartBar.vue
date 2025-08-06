@@ -1,25 +1,25 @@
 <template>
-  <e-charts
+  <vue-echarts
     ref="line"
-    autoresize
-    :options="option"
+    :option="option"
     theme="theme-color"
-    auto-resize
+    autoresize
+    style="width: 100%; height: 100%;"
   />
 </template>
 
 <script>
-import ECharts from 'vue-echarts'
-import 'echarts/lib/component/tooltip'
-import 'echarts/lib/component/legend'
-import 'echarts/lib/chart/bar'
-import theme from './theme.json'
 
-ECharts.registerTheme('theme-color', theme)
+
+import VueECharts from 'vue-echarts'
+import { use } from 'echarts/core'
+import { BarChart } from 'echarts/charts'
+import { TooltipComponent, LegendComponent, GridComponent } from 'echarts/components'
+use([BarChart, TooltipComponent, LegendComponent, GridComponent])
 
 export default {
   components: {
-    ECharts,
+    'vue-echarts': VueECharts,
   },
   props: {
     optionData: {
@@ -29,7 +29,22 @@ export default {
   },
   data() {
     return {
-      option: {
+      option: this.buildOption(this.optionData),
+    }
+  },
+  watch: {
+    optionData: {
+      handler(newVal) {
+        this.option = this.buildOption(newVal)
+      },
+      deep: true,
+      immediate: true,
+    },
+  },
+  methods: {
+    buildOption(optionData) {
+      if (!optionData) return {}
+      return {
         tooltip: {
           trigger: 'axis',
           axisPointer: {
@@ -39,12 +54,12 @@ export default {
         legend: {
           left: 0,
         },
-        grid: this.optionData.grid,
-        xAxis: this.optionData.xAxis,
-        yAxis: this.optionData.yAxis,
-        series: this.optionData.series,
-      },
-    }
+        grid: optionData.grid,
+        xAxis: optionData.xAxis,
+        yAxis: optionData.yAxis,
+        series: optionData.series,
+      }
+    },
   },
 }
 </script>

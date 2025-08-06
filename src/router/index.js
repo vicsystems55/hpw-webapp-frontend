@@ -432,6 +432,122 @@ const router = new VueRouter({
       },
     },
 
+    // New course and certificate routes
+    {
+      path: '/all-courses',
+      name: 'all-courses',
+      component: () => import('@/views/AllCourses.vue'), // Ensure this file exists at src/views/AllCourses.vue
+      meta: {
+        pageTitle: 'All Courses',
+        breadcrumb: [
+          {
+            text: 'All Courses',
+            active: true,
+          },
+        ],
+      },
+    },
+    {
+      path: '/course-details/:id',
+      name: 'course-details',
+      component: () => import('@/views/CourseDetails.vue'),
+      meta: {
+        pageTitle: 'Course Details',
+        breadcrumb: [
+          {
+            text: 'All Courses',
+            to: '/all-courses',
+            active: false,
+          },
+          {
+            text: 'Course Details',
+            active: true,
+          },
+        ],
+      },
+    },
+    {
+      path: '/certificates',
+      name: 'certificates',
+      component: () => import('@/views/Certificates.vue'),
+      meta: {
+        pageTitle: 'Certificates',
+        breadcrumb: [
+          {
+            text: 'Certificates',
+            active: true,
+          },
+        ],
+      },
+    },
+    {
+      path: '/certificate-details/:id',
+      name: 'certificate-details',
+      component: () => import('@/views/CertificateDetails.vue'),
+      meta: {
+        pageTitle: 'Certificate Details',
+        breadcrumb: [
+          {
+            text: 'Certificates',
+            to: '/certificates',
+            active: false,
+          },
+          {
+            text: 'Certificate Details',
+            active: true,
+          },
+        ],
+      },
+    },
+    {
+      path: '/course-analytics',
+      name: 'course-analytics',
+      component: () => import('@/views/CourseAnalytics.vue'),
+      meta: {
+        pageTitle: 'Course Analytics',
+        breadcrumb: [
+          {
+            text: 'Course Analytics',
+            active: true,
+          },
+        ],
+      },
+    },
+    {
+      path: '/my-performance',
+      name: 'my-performance',
+      component: () => import('@/views/MyPerformance.vue'),
+      meta: {
+        pageTitle: 'My Performance',
+        breadcrumb: [
+          {
+            text: 'My Performance',
+            active: true,
+          },
+        ],
+      },
+    },
+
+    {
+      path: '/create-course',
+      name: 'create-course',
+      component: () => import('@/views/CreateCourse.vue'),
+      meta: {
+        pageTitle: 'Create Course',
+        breadcrumb: [
+          {
+            text: 'All Courses',
+            to: '/all-courses',
+            active: false,
+          },
+          {
+            text: 'Create Course',
+            active: true,
+          },
+        ],
+      },
+    },
+
     {
       path: '/contractor-application',
       name: 'contractor-application',

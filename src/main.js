@@ -1,3 +1,7 @@
+// ECharts renderer registration for vue-echarts v6+
+import { CanvasRenderer } from 'echarts/renderers'
+import * as echarts from 'echarts/core'
+
 import Vue from 'vue'
 import { ToastPlugin, ModalPlugin } from 'bootstrap-vue'
 import VueCompositionAPI from '@vue/composition-api'
@@ -19,10 +23,11 @@ import '@/libs/toastification'
 
 // BSV Plugin Registration
 
-Vue.use(VueGoodTablePlugin);
+Vue.use(VueGoodTablePlugin)
 
 Vue.use(ToastPlugin)
 Vue.use(ModalPlugin)
+echarts.use([CanvasRenderer])
 
 // Composition API
 Vue.use(VueCompositionAPI)

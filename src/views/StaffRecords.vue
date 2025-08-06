@@ -1,199 +1,140 @@
+
 <template>
-  <div>
-
-    <div class="container">
-
-      <div
-            v-show="userData.role=='admin'"
-            class="mx-auto py-5 text-center"
-          >
-            <router-link :to="'/create-staff-record'">
-              <buttons class="btn btn-primary btn-lg">
-                Add New Staff.
-              </buttons>
-            </router-link>
+  <div class="containe ">
+    <div class="">
+      <div class="">
+        <!-- Stat Cards Row -->
+        <div class="row mb-4">
+          <div class="col-md-4 mb-3 mb-md-0">
+            <div class="card text-center shadow-sm border-0">
+              <div class="card-body">
+                <div class="mb-2">
+                  <feather-icon icon="UsersIcon" size="32" class="text-primary" />
+                </div>
+                <h5 class="card-title mb-1">No. Certified</h5>
+                <h2 class="card-text font-weight-bold">0</h2>
+              </div>
+            </div>
           </div>
-      <div class="row">
-        <div class="col-md-12 d-none">
-
-          <div
-            v-show="userData.role=='admin'"
-            class="mx-auto py-5 text-center"
-          >
-            <router-link :to="'/create-staff-record'">
-              <buttons class="btn btn-primary btn-lg">
-                Add New Staff
-              </buttons>
-            </router-link>
+          <div class="col-md-4 mb-3 mb-md-0">
+            <div class="card text-center shadow-sm border-0">
+              <div class="card-body">
+                <div class="mb-2">
+                  <feather-icon icon="UserXIcon" size="32" class="text-danger" />
+                </div>
+                <h5 class="card-title mb-1">Non-Certified</h5>
+                <h2 class="card-text font-weight-bold">0</h2>
+              </div>
+            </div>
           </div>
-
-          <div class="card">
-            <div class="card-body table-responsive">
-
-              <table class="table">
-                <thead>
+          <div class="col-md-4">
+            <div class="card text-center shadow-sm border-0">
+              <div class="card-body">
+                <div class="mb-2">
+                  <feather-icon icon="BookOpenIcon" size="32" class="text-warning" />
+                </div>
+                <h5 class="card-title mb-1">In Training</h5>
+                <h2 class="card-text font-weight-bold">0</h2>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Main Table Card -->
+        <div class="card shadow-sm mt-4">
+          <div class="card-header d-flex align-items-center justify-content-between bg-primary text-white">
+            <h4 class="mb-0">Staff Records</h4>
+            <button
+              v-if="userData && userData.role === 'admin'"
+              class="btn btn-success btn-lg"
+              @click="$router.push({ name: 'create-record' })"
+            >
+              <i class="fas fa-user-plus mr-2"></i>
+              Add New Staff
+            </button>
+          </div>
+          <div class="card-body mt-5">
+            <div class="mb-3">
+              <input
+                v-model="search"
+                type="text"
+                class="form-control"
+                placeholder="Search Staff"
+              />
+            </div>
+            <div class="table-responsive">
+              <table class="table table-hover align-middle">
+                <thead class="thead-light">
                   <tr>
                     <th>#</th>
-                    <th>Staff Name</th>
-                    <th>Department</th>
-                    <th>Date</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Created On</th>
                     <th>Status</th>
                     <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr class="d-none">
-                    <td>1</td>
-                    <td>John Doe</td>
-                    <td>Teen</td>
-                    <td>10-09-2023</td>
-                    <td><span class="badge badge-primary">active</span></td>
+                  <tr v-if="loading">
+                    <td colspan="6" class="text-center">Loading staff records...</td>
+                  </tr>
+                  <tr v-for="(item, idx) in formattedRecords" :key="item.id">
+                    <td>{{ idx + 1 }}</td>
+                    <td>{{ item.fullname }}</td>
+                    <td>{{ item.email }}</td>
+                    <td>{{ item.formattedDate }}</td>
                     <td>
-                      <button class="btn btn-sm btn-primary">
-                        view more
+                      <span class="badge badge-primary">{{ item.status }}</span>
+                    </td>
+                    <td>
+                      <button class="btn btn-sm btn-primary" @click="goToDetails(item.id)">
+                        View More
                       </button>
-                      <!-- <b-dropdown
-                          id="dropdown-1"
-                          v-ripple.400="'rgba(255, 255, 255, 0.15)'"
-                          text="Action"
-                          variant="primary"
-                        >
-                          <b-dropdown-item>View</b-dropdown-item>
-                          <b-dropdown-item>Authorize</b-dropdown-item>
-                          <b-dropdown-item>Notify Perm. Sec.</b-dropdown-item>
-                        </b-dropdown> -->
                     </td>
                   </tr>
-                  <tr
-                    v-for="record,key in records"
-                    :key="record.index"
-                  >
-                    <td>{{ key +1 }}</td>
-
-                    <td>{{ record.fullname }}</td>
-                    <td>{{ record.date }}</td>
-                    <td>{{ record.created_at }}</td>
-
-                    <td>
-                      <span class="badge badge-primary">{{ record.id }}</span>
-                    </td>
-                    <td>
-                      <a
-                        :href="'/staff-details/'+record.id"
-                        class="btn btn-sm btn-primary"
-                      >view more</a>
-                    </td>
-
+                  <tr v-if="!loading && filteredRecords.length === 0">
+                    <td colspan="6" class="text-center">No staff found.</td>
                   </tr>
                 </tbody>
               </table>
-
             </div>
           </div>
-
         </div>
       </div>
-
-      <div>
-        <vue-good-table
-          :columns="columns"
-          :rows="records"
-          max-height="500px"
-          :fixed-header="true"
-          @on-row-click="onRowClick"
-        />
-      </div>
     </div>
-
   </div>
 </template>
 
 <script>
+
 import axios from 'axios'
-import {
-  // BDropdown,
-  // BDropdownItem,
-  BCardText,
-} from 'bootstrap-vue'
 
 export default {
   name: 'StaffRecords',
   components: {
-
-    // BDropdown,
-    // BDropdownItem,
-    // eslint-disable-next-line vue/no-unused-components
-    BCardText,
+    'feather-icon': () => import('../@core/components/feather-icon/FeatherIcon.vue'),
   },
+
 
   data() {
     return {
       records: [],
-      userData: '',
-      columns: [
-        {
-          label: 'Name',
-          field: 'fullname',
-        },
-        {
-          label: 'Email',
-          field: 'email',
-          type: 'email',
-        },
-        {
-          label: 'Created On',
-          field: 'created_at',
-          // type: 'date',
-          // dateInputFormat: 'yyyy-MM-dd',
-          // dateOutputFormat: 'MMM do yy',
-        },
-        {
-          label: 'Status',
-          field: 'status',
-        },
-      ],
-      rows: [
-        {
-          id: 1, name: 'John', age: 20, createdAt: '', score: 0.03343,
-        },
-        {
-          id: 2, name: 'Jane', age: 24, createdAt: '2011-10-31', score: 0.03343,
-        },
-        {
-          id: 3, name: 'Susan', age: 16, createdAt: '2011-10-30', score: 0.03343,
-        },
-        {
-          id: 4, name: 'Chris', age: 55, createdAt: '2011-10-11', score: 0.03343,
-        },
-        {
-          id: 5, name: 'Dan', age: 40, createdAt: '2011-10-21', score: 0.03343,
-        },
-        {
-          id: 6, name: 'John', age: 20, createdAt: '2011-10-31', score: 0.03343,
-        },
-      ],
-
+      userData: null,
+      search: '',
+      loading: false,
     }
   },
 
   mounted() {
-    this.getRecords()
     this.userData = JSON.parse(localStorage.getItem('user_data'))
+    this.getRecords()
   },
 
   methods: {
-
-    onRowClick(params) {
-      return this.$router.push(`/staff-details/${params.row.id}`)
-
-    // params.row - row object
-    // params.pageIndex - index of this row on the current page.
-    // params.selected - if selection is enabled this argument
-    // indicates selected or not
-    // params.event - click event
+    goToDetails(id) {
+      this.$router.push(`/staff-details/${id}`)
     },
-
     getRecords() {
+      this.loading = true
       axios({
         url: `${process.env.VUE_APP_BACKEND_URL}/api/staff-records`,
         headers: {
@@ -201,14 +142,50 @@ export default {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
         method: 'get',
-      }).then(res => {
-        console.log(res)
-        this.records = res.data
-      }).catch(error => {
-        console.log(error)
+      })
+        .then(res => {
+          this.records = res.data
+        })
+        .catch(error => {
+          console.log(error)
+        })
+        .finally(() => {
+          this.loading = false
+        })
+    },
+  },
+  computed: {
+    filteredRecords() {
+      if (!this.search) return this.records
+      const s = this.search.toLowerCase()
+      return this.records.filter(item =>
+        (item.fullname && item.fullname.toLowerCase().includes(s)) ||
+        (item.email && item.email.toLowerCase().includes(s)) ||
+        (item.status && item.status.toLowerCase().includes(s))
+      )
+    },
+    formattedRecords() {
+      // Use filteredRecords and format the date
+      return this.filteredRecords.map(item => {
+        let formattedDate = item.created_at
+        if (item.created_at) {
+          try {
+            const date = new Date(item.created_at)
+            formattedDate = isNaN(date.getTime()) ? item.created_at :
+              new Intl.DateTimeFormat('en-US', {
+                year: 'numeric',
+                month: 'short',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit',
+              }).format(date)
+          } catch (e) {
+            // fallback to original
+          }
+        }
+        return { ...item, formattedDate }
       })
     },
-
   },
 
 }

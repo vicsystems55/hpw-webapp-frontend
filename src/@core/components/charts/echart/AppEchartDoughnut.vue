@@ -1,25 +1,25 @@
 <template>
-  <e-charts
+  <vue-echarts
     ref="line"
-    autoresize
-    :options="option"
+    :option="option"
     theme="theme-color"
-    auto-resize
+    autoresize
+    style="width: 100%; height: 100%;"
   />
 </template>
 
 <script>
-import ECharts from 'vue-echarts'
-import 'echarts/lib/component/tooltip'
-import 'echarts/lib/component/legend'
-import 'echarts/lib/chart/pie'
-import theme from './theme.json'
 
-ECharts.registerTheme('theme-color', theme)
+
+import VueECharts from 'vue-echarts'
+import { use } from 'echarts/core'
+import { PieChart } from 'echarts/charts'
+import { TooltipComponent, LegendComponent } from 'echarts/components'
+use([PieChart, TooltipComponent, LegendComponent])
 
 export default {
   components: {
-    ECharts,
+    'vue-echarts': VueECharts,
   },
   props: {
     series: {
@@ -29,7 +29,21 @@ export default {
   },
   data() {
     return {
-      option: {
+      option: this.buildOption(this.series),
+    }
+  },
+  watch: {
+    series: {
+      handler(newVal) {
+        this.option = this.buildOption(newVal)
+      },
+      deep: true,
+      immediate: true,
+    },
+  },
+  methods: {
+    buildOption(series) {
+      return {
         tooltip: {
           trigger: 'item',
           formatter: '{a} <br/>{b}: {c} ({d}%)',
@@ -38,9 +52,9 @@ export default {
           left: 10,
           bottom: '0',
         },
-        series: this.series,
-      },
-    }
+        series: series,
+      }
+    },
   },
 }
 </script>
