@@ -33,6 +33,7 @@
     "portal-vue": "2.1.7",
     "postcss-rtl": "1.7.3",
     "prismjs": "^1.29.0",
+    "quill": "^2.0.3",
     "swiper": "5.4.5",
     "uuid": "8.3.2",
     "vee-validate": "3.4.5",
@@ -63,6 +64,7 @@
     "vue-tour": "1.5.0",
     "vue-tree-halower": "1.8.3",
     "vue2-leaflet": "2.5.2",
+    "vue3-quill": "^0.3.1",
     "vuedraggable": "^2.24.3",
     "vuex": "3.6.0"
   },
