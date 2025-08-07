@@ -1,11 +1,11 @@
 
 <template>
   <div>
-    <div class="container py-4">
-      <h2 class="mb-4">Dashboard Overview</h2>
+    <div class="container-fluid py-1">
+      <h2 class="mb-1">Dashboard Overview</h2>
       <!-- Stat Cards Row -->
-      <div class="row mb-4">
-        <div class="col-md-4 mb-3">
+      <div class="row ">
+        <div class="col-md-4 m">
           <div class="card text-center shadow-sm border-0">
             <div class="card-body">
               <img src="https://img.icons8.com/?size=100&id=97612&format=png&color=000000" alt="Total Residence Icon" style="width: 40px; height: 40px; margin-bottom: 8px;" />
@@ -14,7 +14,7 @@
             </div>
           </div>
         </div>
-        <div class="col-md-4 mb-3">
+        <div class="col-md-4 ">
           <div class="card text-center shadow-sm border-0">
             <div class="card-body">
               <img src="https://img.icons8.com/?size=100&id=H9pCZtiXHXuz&format=png&color=000000" alt="Total Staff Icon" style="width: 40px; height: 40px; margin-bottom: 8px;" />
@@ -23,7 +23,7 @@
             </div>
           </div>
         </div>
-        <div class="col-md-4 mb-3">
+        <div class="col-md-4 ">
           <div class="card text-center shadow-sm border-0">
             <div class="card-body">
               <img src="https://img.icons8.com/?size=100&id=GCWQkWqtBCgB&format=png&color=000000" alt="Policies Icon" style="width: 40px; height: 40px; margin-bottom: 8px;" />
@@ -34,8 +34,8 @@
         </div>
       </div>
       <!-- Graphs Row -->
-      <div class="row mb-4">
-        <div class="col-md-7 mb-3">
+      <div class="row ">
+        <div class="col-md-7 ">
           <div class="card h-100">
             <div class="card-body">
               <h5 class="card-title">Overview</h5>
