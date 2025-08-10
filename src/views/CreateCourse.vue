@@ -1,6 +1,6 @@
 <template>
-  <div class="container py-2">
-    <div class="card mx-auto" style="max-width: 800px;">
+  <div class="container-fluid py-2">
+    <div class="card mx-auto" style="max-width: auto;">
       <div class="card-body">
     
         <!-- Stepper Navigation -->

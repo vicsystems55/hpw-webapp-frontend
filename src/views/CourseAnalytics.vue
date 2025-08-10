@@ -1,10 +1,9 @@
 
 <template>
-  <div class="container py-5">
-    <h2 class="mb-4">Course Analytics</h2>
+  <div class="container ">
     <!-- Stat Cards -->
-    <div class="row mb-4">
-      <div class="col-md-4 mb-3">
+    <div class="row ">
+      <div class="col-md-4 ">
         <div class="card text-center shadow-sm">
           <div class="card-body">
             <h5 class="card-title">Enrolled</h5>
@@ -12,7 +11,7 @@
           </div>
         </div>
       </div>
-      <div class="col-md-4 mb-3">
+      <div class="col-md-4 ">
         <div class="card text-center shadow-sm">
           <div class="card-body">
             <h5 class="card-title">Completed</h5>
@@ -20,7 +19,7 @@
           </div>
         </div>
       </div>
-      <div class="col-md-4 mb-3">
+      <div class="col-md-4 ">
         <div class="card text-center shadow-sm">
           <div class="card-body">
             <h5 class="card-title">In Progress</h5>

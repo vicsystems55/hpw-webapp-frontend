@@ -1,10 +1,10 @@
 
 <template>
-  <div class="container py-5">
-    <h2 class="mb-4">My Performance</h2>
+  <div class="container ">
+
     <!-- Stat Cards -->
-    <div class="row mb-4">
-      <div class="col-md-4 mb-3">
+    <div class="row ">
+      <div class="col-md-4 ">
         <div class="card text-center shadow-sm">
           <div class="card-body">
             <h5 class="card-title">Courses Taken</h5>
@@ -12,7 +12,7 @@
           </div>
         </div>
       </div>
-      <div class="col-md-4 mb-3">
+      <div class="col-md-4 ">
         <div class="card text-center shadow-sm">
           <div class="card-body">
             <h5 class="card-title">Courses Pending</h5>
@@ -20,7 +20,7 @@
           </div>
         </div>
       </div>
-      <div class="col-md-4 mb-3">
+      <div class="col-md-4 ">
         <div class="card text-center shadow-sm">
           <div class="card-body">
             <h5 class="card-title">Success Rate</h5>
@@ -31,7 +31,7 @@
     </div>
     <!-- Progress Bar & Donut Chart -->
     <div class="row mb-4">
-      <div class="col-md-8 mb-3">
+      <div class="col-md-8 ">
         <div class="card h-100">
           <div class="card-body">
             <h5 class="card-title">Overall Completion</h5>
@@ -53,7 +53,7 @@
       </div>
     </div>
     <!-- Recent Courses Table -->
-    <div class="card mt-4">
+    <div class="card ">
       <div class="card-body">
         <h5 class="card-title mb-3">Recent Courses</h5>
         <div class="table-responsive">
