@@ -7,6 +7,8 @@
 
           <div
 
+          v-if="userData.role === 'admin'"
+
             class="mx-auto py-5 text-center"
           >
             <router-link :to="'/create-policies'">

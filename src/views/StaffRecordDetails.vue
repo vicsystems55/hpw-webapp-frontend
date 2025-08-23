@@ -1,219 +1,138 @@
 <template>
-  <div>
+  <div class="container py-4">
 
-    <div class="containe">
-      <div class="card card-body">
-        <div class="">
+    <!-- Action Buttons -->
+    <div class="d-flex justify-content-end mb-3 gap-2">
+      <a :href="'/staff-details-update/' + record.id" class="btn btn-outline-primary btn-sm">
+        <i class="fas fa-edit"></i> Update
+      </a>
+      <button class="btn btn-outline-secondary btn-sm" @click="deactivateRecord()">
+        <i class="fas fa-ban"></i> Deactivate
+      </button>
+      <button class="btn btn-outline-danger btn-sm" @click="deleteRecord()">
+        <i class="fas fa-trash"></i> Delete
+      </button>
+    </div>
 
-          <div class="d-flex justify-content-end">
-            <div class="update p-1">
-              <a
-                :href="'/staff-details-update/'+record.id"
-                class="btn btn-primary btn-sm"
-              >
-                Update
-              </a>
-            </div>
-            <div class="activate p-1">
-              <button
-                class="btn btn-secondary btn-sm"
-                @click="deactivateRecord()"
-              >
-                Deactivate
-              </button>
-            </div>
-            <div class="update p-1">
-              <button
-                class="btn btn-danger btn-sm"
-                @click="deleteRecord()"
-              >
-                Delete
-              </button>
-            </div>
-          </div>
+    <!-- Staff Card -->
+    <div class="card shadow-lg border-0 rounded-3 p-4 mb-4">
+      <div class="row">
 
-          <div class="row ">
-            <div class="col-md-12">
+        <!-- Profile Image -->
+        <div class="col-md-4 text-center mb-3">
+          <img v-if="avatar || record.passport_file" id="previewImg"
+            @click="document.getElementById('customFile').click()" class="profile-img"
+            :src="resolveImg(record.passport_file)" />
+          <input id="customFile" ref="file" type="file" class="d-none" @change="previewFile4" />
+        </div>
 
-              <div class="col-md-12">
-                <div class="form-group mx-auto text-center">
-                  <img
-                    v-if="avatar"
-                    id="previewImg"
-                    onclick="document.getElementById('customFile').click()"
-                    style="height: 200px; width: 200px; object-fit: cover; border-radius: 50%;"
-                    class="shadow"
-                    :src="resolveImg(record.passport_file)"
-                  >
+        <!-- Details -->
+        <div class="col-md-8">
+          <h2 style="font-size: 24pt;" class="fw-bol mb-3">{{ record.fullname }}</h2>
+          <div class="row g-3">
 
-                  <img
-                    v-else
-                    id="previewImg"
-                    onclick="document.getElementById('customFile').click()"
-                    style="height: 200px; width: 200px; object-fit: cover; border-radius: 50%;"
-                    class="shadow"
-                    :src="resolveImg(record.passport_file)"
-                  >
 
-                </div>
-                <div class="text-center d-none">
-                  <input
-                    id="customFile"
-                    ref="file"
-                    type="file"
-                    @change="previewFile4"
-                  >
-
-                </div>
-
-                <div class="form-group text-center d-none">
-                  <button
-                    class="btn btn-primary btn-sm"
-                    @click="uploadAvatar()"
-                  >
-                    Upload
-                  </button>
-                </div>
-              </div>
-
-            </div>
-            <div class=" col-md-6 ">
-              <div class=" ">
-
-                <div class="form-group">
-                  <label for="name">Full name</label>
-                  <!-- <input
-                  id="name"
-                  v-model="fullname"
-                  type="text"
-                  class="form-control "
-                  placeholder="Enter your name"
-                > -->
-                  <h6>{{ record.fullname }}</h6>
-              
-                </div>
-
-                <div class="form-group">
-                  <label for="">Date of birth:</label>
-
-                  <h6>{{ record.date_of_birth }}</h6>
-                  <!-- <input
-                      v-model="date_of_birth"
-                      type="date"
-                      class="form-control"
-                      placeholder="Enter date"
-                    > -->
-                </div>
-
-                <div class="form-group">
-                  <label for="gender">Gender</label>
-                  <h6>{{ record.gender }}</h6>
-                  <!-- <select
-                      id="gender"
-                      v-model="gender"
-                      class="form-control"
-                    >
-                      <option :value="'male'">
-                        Male
-                      </option>
-                      <option :vvalue="'female'">
-                        Female
-                      </option>
-                      <option :vvalue="'not-say'">
-                        Rather Not Say
-                      </option>
-
-                    </select> -->
-                </div>
-
-                <div class="form-group">
-                  <label for="address">Address</label>
-
-                  <h6>{{ record.address }}</h6>
-                  <!-- <input
-                      id="address"
-                      v-model="address"
-                      type="text"
-                      class="form-control"
-                      placeholder="Enter Address"
-                    > -->
-                </div>
-
-              </div>
+            <div class="col-md-6">
+              <label class="text-muted">Email</label>
+              <p class="fw-semibold">{{ record.email }}</p>
             </div>
 
             <div class="col-md-6">
-
-              <h6>Qualifications</h6>
-
-              <div
-                v-for="qualification in record.qualifications"
-                :key="qualification.index"
-                class="qual"
-              >
-
-                <div class="form-group">
-                  <label for="">{{ qualification.qualification_title }}</label> <br>
-                  <a
-                    :href="resolveImg(qualification.file_path)"
-                    class="btn btn-primary btn-sm"
-                  >View doc</a>
-                  <!-- <input
-                        type="file"
-                        class="form-control-file"
-                        placeholder="Enter Room no."
-                        @change="previewPastRecords"
-                      > -->
-
-                </div>
-              </div>
-
-              <div class="form-group d-none">
-
-                <button
-                  class="btn btn-primary btn-lg btn-block"
-                  @click="createSubmission()"
-                >
-                  {{ loadingy ? 'Please wait...' : 'Submit' }}
-                </button>
-
-              </div>
-
+              <label class="text-muted">Date of Birth</label>
+              <p class="fw-semibold">{{ record.date_of_birth }}</p>
             </div>
-
+            <div class="col-md-6">
+              <label class="text-muted">Gender</label>
+              <p style="color: black; font-size: medium;" class="">{{ record.gender }}</p>
+            </div>
+            <div class="col-12">
+              <label class="text-muted">Address</label>
+              <p class="fw-semibold">{{ record.address }}</p>
+            </div>
           </div>
-
         </div>
       </div>
+    </div>
 
-      <div class="card card-body table-responsive">
-        <table class="table">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Schedule Date (30 Days Intv.)</th>
-              <th>Status</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="schedule,index in record.supervision_schedule" :key="schedule.index"
-            :class="schedule.status=='completed'?'bg-success text-white':'bg-white text-dark'"
-            >
-              <td>{{ index + 1 }}</td>
-              <td>{{ schedule.next_supervision_date }}</td>
-              <td>{{ schedule.status }}</td>
-              <td v-if="schedule.status=='active'">
-                <a :href="'/staff-supervision/'+schedule.id" class="btn btn-primary btn-sm " >view</a>
-              </td>
-              <td v-else>
-                <a :href="'/staff-supervision/'+schedule.id" class="btn btn-secondary btn-sm " >review</a>
-              </td>
-
-            </tr>
-          </tbody>
-        </table>
+    <!-- Qualifications -->
+    <div class="card shadow-sm border-0 rounded-3 p-4 mb-4">
+      <h5 class="fw-bold mb-3">Qualifications</h5>
+      <div v-for="qualification in record.qualifications" :key="qualification.index"
+        class="mb-3 p-3 border rounded d-flex justify-content-between align-items-center">
+        <div>
+          <h6 class="mb-1">{{ qualification.qualification_title }}</h6>
+        </div>
+        <a :href="resolveImg(qualification.file_path)" target="_blank" class="btn btn-sm btn-outline-primary">
+          View Document
+        </a>
       </div>
+    </div>
+
+
+    <!-- Credential Management -->
+    <div class="card shadow-sm border-0 rounded-3 p-4 mb-4">
+      <h5 class="fw-bold mb-3">Credential Management</h5>
+      <div class="row g-3">
+        <div class="col-md-6">
+          <label>Fullname</label>
+          <input v-model="record.fullname" type="text" class="form-control" placeholder="Enter fullname" />
+        </div>
+        <div class="col-md-6">
+          <label>Email</label>
+          <input v-model="record.email" type="email" class="form-control" placeholder="Enter email" />
+        </div>
+        <div class="col-md-6">
+          <label>Password</label>
+          <input v-model="credential.password" type="password" class="form-control" placeholder="Enter password" />
+        </div>
+        <div class="col-md-6">
+          <label>Confirm Password</label>
+          <input v-model="credential.password_confirmation" type="password" class="form-control"
+            placeholder="Confirm password" />
+        </div>
+      </div>
+      <div class="mt-3">
+        <button class="btn btn-primary" :disabled="creating" @click="createCredentials">
+          {{ creating ? 'Creating...' : 'Create Credentials' }}
+        </button>
+      </div>
+    </div>
+
+    <!-- Supervision Schedule -->
+    <div class="card shadow-sm border-0 rounded-3 p-4">
+      <h5 class="fw-bold mb-3">Supervision Schedule</h5>
+      <table class="table table-hover align-middle">
+        <thead class="table-light">
+          <tr>
+            <th>#</th>
+            <th>Schedule Date (30 Days Interval)</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(schedule, index) in record.supervision_schedule" :key="schedule.index"
+            :class="schedule.status === 'completed' ? 'table-success' : ''">
+            <td>{{ index + 1 }}</td>
+            <td>{{ schedule.next_supervision_date }}</td>
+            <td>
+              <span :class="[
+                'badge',
+                schedule.status === 'completed' ? 'bg-success' :
+                  schedule.status === 'active' ? 'bg-primary' : 'bg-secondary'
+              ]">
+                {{ schedule.status }}
+              </span>
+            </td>
+            <td>
+              <a :href="'/staff-supervision/' + schedule.id" class="btn btn-sm"
+                :class="schedule.status === 'active' ? 'btn-outline-primary' : 'btn-outline-secondary'">
+                {{ schedule.status === 'active' ? 'View' : 'Review' }}
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
 
   </div>
@@ -221,16 +140,8 @@
 
 <script>
 import axios from 'axios'
-import AppCollapse from '@core/components/app-collapse/AppCollapse.vue'
-import AppCollapseItem from '@core/components/app-collapse/AppCollapseItem.vue'
-import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
 
 export default {
-  components: {
-
-    AppCollapse,
-    AppCollapseItem,
-  },
   data() {
     return {
       record: '',
@@ -259,50 +170,45 @@ export default {
       discharge_date: '',
       allergies: '',
       avatar: null,
-
       loadingy: false,
-
+      credential: {
+        fullname: '',
+        email: '',
+        password: '',
+        password_confirmation: ''
+      },
     }
   },
+
   mounted() {
     this.userData = JSON.parse(localStorage.getItem('user_data'))
-
     this.getSubmissionStatus()
   },
 
   methods: {
-
     deactivateRecord() {
-      const confirmation = confirm('Are you sure?')
-
-      if (confirmation) {
-        alert('deleted')
-      } else {
-        alert('cancelled')
+      if (confirm('Are you sure you want to deactivate this staff?')) {
+        alert('Staff deactivated (demo action).')
       }
     },
 
     deleteRecord() {
-      // eslint-disable-next-line no-restricted-globals
-      const confirmation = confirm('Are you sure?')
-
-      if (confirmation) {
+      if (confirm('Are you sure you want to delete this record?')) {
         axios({
           url: `${process.env.VUE_APP_BACKEND_URL}/api/staff-records/${this.$route.params.id}`,
           method: 'delete',
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`,
           },
-        }).then(res => {
-          console.log(res)
-        }).catch(error => {
-          console.log(error)
         })
-        this.$router.push('/staff-records')
-
-        alert('deleted')
-      } else {
-        alert('cancelled')
+          .then(() => {
+            this.$router.push('/staff-records')
+            alert('Record deleted successfully')
+          })
+          .catch(error => {
+            console.error(error)
+            alert('Something went wrong')
+          })
       }
     },
 
@@ -311,28 +217,16 @@ export default {
     },
 
     previewFile4(event) {
-      console.log(event)
-
       if (event.target.files.length > 0) {
         const src = URL.createObjectURL(event.target.files[0])
         const preview = document.getElementById('previewImg')
         preview.src = src
-        // preview.style.display = "block";
+        this.passport_file = event.target.files[0]
       }
-
-      this.passport_file = event.target.files[0]
-
-      console.log(this.passport_file)
     },
 
     previewPastRecords(event) {
-      console.log(event)
-
       if (event.target.files.length > 0) {
-        // const src = URL.createObjectURL(event.target.files[0])
-        // const preview = document.getElementById('previewImg')
-        // preview.src = src
-        // preview.style.display = "block";
         this.past_records_file = event.target.files[0]
       }
     },
@@ -344,30 +238,64 @@ export default {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
-      }).then(res => {
-        console.log(res)
-        this.record = res.data
-      }).catch(error => {
-        console.log(error)
       })
+        .then(res => {
+          this.record = res.data
+        })
+        .catch(error => {
+          console.error(error)
+        })
     },
 
+    createCredentials() {
+      if (!this.record.email || !this.credential.password) {
+        alert('Please fill in all fields')
+        return
+      }
+      if (this.credential.password !== this.credential.password_confirmation) {
+        alert('Passwords do not match')
+        return
+      }
+
+      this.creating = true
+      axios.post(`${process.env.VUE_APP_BACKEND_URL}/api/create-staff-credentials`, {
+        name: this.record.fullname,
+        email: this.record.email,
+        password: this.credential.password,
+        password_confirmation: this.credential.password_confirmation
+      })
+        .then((res) => {
+          console.log("✅ Register API Response:", res) // log full response
+          alert('Credentials created successfully')
+          this.creating = false
+        })
+        .catch((err) => {
+          console.error("❌ Register API Error:", err.response || err) // log error response if available
+          alert('Failed to create credentials')
+          this.creating = false
+        })
+    },
   },
 }
 </script>
 
-  <style>
-  .scroll-card::-webkit-scrollbar {
-    width: 16px;
-  }
 
-  .scroll-card::-webkit-scrollbar-track {
-    background-color: #e4e4e4;
-    border-radius: 100px;
-  }
+<style scoped>
+*{
+  color: black;
+  font-size: medium;
+}
+.profile-img {
+  height: 200px;
+  width: 200px;
+  object-fit: cover;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s;
+}
 
-  .scroll-card::-webkit-scrollbar-thumb {
-    background-color: #d4aa70;
-    border-radius: 100px;
-  }
-  </style>
+.profile-img:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+</style>

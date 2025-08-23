@@ -72,6 +72,7 @@
         <!-- Step 2: Course Outline -->
         <CourseOutlineStep
           v-if="currentStep === 1"
+          :courseId="course.id"
           :outline="course.outline"
           :quillOptions="quillOptions"
           @add-outline-section="addOutlineSection"

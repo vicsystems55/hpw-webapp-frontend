@@ -3,31 +3,16 @@
     <div class="card table-responsive">
       <div class="card-body">
 
-        <b-button
-          :id="'modalBtn'"
-          v-ripple.400="'rgba(113, 102, 240, 0.15)'"
-          v-b-modal.modal-no-footer
-          v-b-modal.modal-1
-
-          class="d-none"
-          variant="outline-primary"
-        >
+        <b-button :id="'modalBtn'" v-ripple.400="'rgba(113, 102, 240, 0.15)'" v-b-modal.modal-no-footer
+          v-b-modal.modal-1 class="d-none" variant="outline-primary">
           Basic Modal
         </b-button>
 
-        <b-modal
-          id="modal-1"
-          :footer-class="'d-none'"
-          :title="'Update Training for : '+selectedName"
-        >
+        <b-modal id="modal-1" :footer-class="'d-none'" :title="'Update Training for : ' + selectedName">
           <b-card-text>
 
             <div class="form-group">
-              <select
-                id=""
-                v-model="selStatus"
-                class="form-control"
-              >
+              <select id="" v-model="selStatus" class="form-control">
                 <option :value="'0'">
                   Not Trained
                 </option>
@@ -44,81 +29,89 @@
               </select>
             </div>
             <div class="form-group">
-              <button
-                class="btn btn-primary btn-"
-                @click="postUpdate()"
-              >
+              <button class="btn btn-primary btn-" @click="postUpdate()">
                 Update
               </button>
             </div>
           </b-card-text>
         </b-modal>
 
-        <div class="d-flex justify-content-start flex-wrap">
-          <div
-            v-for="trainingProgramme,index in trainingProgrammes"
-            :key="trainingProgramme.id"
-            style="min-width: 200px;"
-            class="border m-1"
-          >
-            <h6>{{ index + 1 }}. {{ trainingProgramme.name }}</h6>
-          </div>
+  <div class="container mt-3">
 
+  <!-- Training Programmes -->
+  <div class="row">
+    <div 
+      class="col-md-3 col-sm-6 mb-3" 
+      v-for="(trainingProgramme, index) in trainingProgrammes" 
+      :key="trainingProgramme.id"
+    >
+      <div class="card h-100 border-primary">
+        <div class="card-body p-2">
+          <h6 class="card-title mb-0">
+            {{ index + 1 }}. {{ trainingProgramme.name }}
+          </h6>
         </div>
+      </div>
+    </div>
+  </div>
 
-        <h6><span style="width: 100px; background-color: white;">____</span> 0. Not Trained </h6>
-        <h6><span style="width: 100px; background-color: yellow;">____</span> 1. Familiar </h6>
-        <h6><span style="width: 100px; background-color: green;">____</span> 2. Trained </h6>
-        <h6><span style="width: 100px; background-color: blue;">____</span> 3. Expert </h6>
+  <!-- Legend -->
+  <div class="mt-4">
+    <h5 class="mb-3">Legend</h5>
+    <div class="row">
+      <div class="col-md-3 col-sm-6 d-flex align-items-center mb-2">
+        <span class="d-inline-block me-2" style="width: 40px; height: 20px; background-color: white; border: 1px solid #ccc;"></span>
+        <span>0. Not Trained</span>
+      </div>
+      <div class="col-md-3 col-sm-6 d-flex align-items-center mb-2">
+        <span class="d-inline-block me-2" style="width: 40px; height: 20px; background-color: yellow;"></span>
+        <span>1. Familiar</span>
+      </div>
+      <div class="col-md-3 col-sm-6 d-flex align-items-center mb-2">
+        <span class="d-inline-block me-2" style="width: 40px; height: 20px; background-color: green;"></span>
+        <span>2. Trained</span>
+      </div>
+      <div class="col-md-3 col-sm-6 d-flex align-items-center mb-2">
+        <span class="d-inline-block me-2" style="width: 40px; height: 20px; background-color: blue;"></span>
+        <span>3. Expert</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
 
         <table class="table">
           <thead>
             <tr>
               <td />
-              <th
-                v-for="trainingProgramme,index in trainingProgrammes"
-                :key="trainingProgramme.id"
-              >
-                {{ index+1 }}
-  
+              <th v-for="trainingProgramme, index in trainingProgrammes" :key="trainingProgramme.id">
+                {{ index + 1 }}
+
               </th>
             </tr>
 
           </thead>
           <tbody>
-            <tr
-            v-for="staffRecord in staffRecords"
-            :key="staffRecord.id"
-          >
-            <td>{{ staffRecord.fullname }}
-              <br>
-              <button
-                class="btn btn-primary btn-sm"
-                @click="generate(staffRecord.id)"
-              >
-                refresh
-              </button>
-            </td>
+            <tr v-for="staffRecord in staffRecords" :key="staffRecord.id">
+              <td>{{ staffRecord.fullname }}
+                <br>
+                <button class="btn btn-primary btn-sm" @click="generate(staffRecord.id)">
+                  refresh
+                </button>
+              </td>
 
-            <td
-              v-for="training in staffRecord.staff_trainings"
-              :key="training.id"
-              class="border"
-              :style="'background-color: '+returnColor(training.grade)"
-            >
+              <td v-for="training in staffRecord.staff_trainings" :key="training.id" class="border"
+                :style="'background-color: ' + returnColor(training.grade)">
 
-              {{ training.grade }}
+                {{ training.grade }}
 
-              <feather-icon
-                class="text-success"
-                icon="EditIcon"
-                size="10"
-                @click="updateStatus(training.id, staffRecord.fullname)"
-              />
+                <feather-icon class="text-success" icon="EditIcon" size="10"
+                  @click="updateStatus(training.id, staffRecord.fullname)" />
 
-            </td>
+              </td>
 
-          </tr>
+            </tr>
           </tbody>
         </table>
 
@@ -147,38 +140,40 @@ export default {
       selectedName: '',
       selectedTrainingId: '',
       selStatus: '',
+      userData: '',
     }
   },
   mounted() {
     // this.getTrainings()
     this.getStaffRecords()
     // this.getStaffTrainings()
+     this.userData = JSON.parse(localStorage.getItem('user_data'))
   },
   methods: {
 
-    returnColor(grade){
+    returnColor(grade) {
 
       if (grade == 1) {
 
         return 'yellow';
-        
+
       }
 
-      
+
       if (grade == 2) {
 
-      return 'green';
+        return 'green';
 
       }
       if (grade == 3) {
 
-      return 'blue';
+        return 'blue';
 
       }
 
       if (grade == 0) {
 
-      return 'white';
+        return 'white';
 
       }
     },
@@ -233,8 +228,16 @@ export default {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
       }).then(res => {
-        console.log(res)
+        // console.log(res)
         this.staffRecords = res.data
+
+        // Check role
+        if (this.userData.role === 'staff') {
+          this.staffRecords = res.data.filter(
+            record => record.email === this.userData.email,
+          )
+        }
+        console.log(this.staffRecords)
         this.getTrainings()
       }).catch(error => {
         console.log(error)
@@ -257,7 +260,7 @@ export default {
     },
 
     generate(staffRecordId) {
-      
+
       // alert(staffRecordId)
 
       axios({

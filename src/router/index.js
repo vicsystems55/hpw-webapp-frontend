@@ -279,7 +279,7 @@ const router = new VueRouter({
 
     {
       path: '/create-staff-record',
-      name: 'create-record',
+      name: 'create-staff-record',
       component: () => import('@/views/CreateStaff.vue'),
       meta: {
         pageTitle: 'Home',

@@ -1,14 +1,19 @@
-
 <template>
+
+
   <div>
-    <div class="container-fluid py-1">
+    <div v-if="staffRole">
+      <StaffDashboard />
+    </div>
+    <div v-else class="container-fluid py-1">
       <h2 class="mb-1">Dashboard Overview</h2>
       <!-- Stat Cards Row -->
       <div class="row ">
         <div class="col-md-4 m">
           <div class="card text-center shadow-sm border-0">
             <div class="card-body">
-              <img src="https://img.icons8.com/?size=100&id=97612&format=png&color=000000" alt="Total Residence Icon" style="width: 40px; height: 40px; margin-bottom: 8px;" />
+              <img src="https://img.icons8.com/?size=100&id=97612&format=png&color=000000" alt="Total Residence Icon"
+                style="width: 40px; height: 40px; margin-bottom: 8px;" />
               <h5 class="card-title mb-1">Total Residence</h5>
               <h2 class="card-text font-weight-bold">{{ records.length }}</h2>
             </div>
@@ -17,7 +22,8 @@
         <div class="col-md-4 ">
           <div class="card text-center shadow-sm border-0">
             <div class="card-body">
-              <img src="https://img.icons8.com/?size=100&id=H9pCZtiXHXuz&format=png&color=000000" alt="Total Staff Icon" style="width: 40px; height: 40px; margin-bottom: 8px;" />
+              <img src="https://img.icons8.com/?size=100&id=H9pCZtiXHXuz&format=png&color=000000" alt="Total Staff Icon"
+                style="width: 40px; height: 40px; margin-bottom: 8px;" />
               <h5 class="card-title mb-1">Total Staff</h5>
               <h2 class="card-text font-weight-bold">{{ total_staff }}</h2>
             </div>
@@ -26,7 +32,8 @@
         <div class="col-md-4 ">
           <div class="card text-center shadow-sm border-0">
             <div class="card-body">
-              <img src="https://img.icons8.com/?size=100&id=GCWQkWqtBCgB&format=png&color=000000" alt="Policies Icon" style="width: 40px; height: 40px; margin-bottom: 8px;" />
+              <img src="https://img.icons8.com/?size=100&id=GCWQkWqtBCgB&format=png&color=000000" alt="Policies Icon"
+                style="width: 40px; height: 40px; margin-bottom: 8px;" />
               <h5 class="card-title mb-1">Policies</h5>
               <h2 class="card-text font-weight-bold">{{ total_policies }}</h2>
             </div>
@@ -80,7 +87,8 @@
           <h4 class="py-2">Reminders</h4>
           <div class="card card text-center">
             <div class="card-body py-5">
-              <img src="https://img.icons8.com/?size=100&id=bSQU0ahnukbD&format=png&color=000000" alt="No reminders icon" class="mb-3" style="width: 50px; height: 50px;">
+              <img src="https://img.icons8.com/?size=100&id=bSQU0ahnukbD&format=png&color=000000"
+                alt="No reminders icon" class="mb-3" style="width: 50px; height: 50px;">
               <h6>No reminders yet.</h6>
             </div>
           </div>
@@ -94,15 +102,18 @@
 import axios from 'axios'
 import AppEchartBar from '@/@core/components/charts/echart/AppEchartBar.vue'
 import AppEchartDoughnut from '@/@core/components/charts/echart/AppEchartDoughnut.vue'
+import StaffDashboard from './StaffDashboard.vue'
 
 export default {
   components: {
     AppEchartBar,
     AppEchartDoughnut,
+    StaffDashboard,
     'feather-icon': () => import('../@core/components/feather-icon/FeatherIcon.vue'),
   },
   data() {
     return {
+      staffRole: false,
       notifications: [],
       records: [],
       total_policies: 0,
@@ -162,10 +173,16 @@ export default {
     },
   },
   mounted() {
+    this.checkRole()
     this.getNotifications()
     this.getRecords()
   },
   methods: {
+
+    checkRole() {
+      const role = localStorage.getItem('user_role');
+      this.staffRole = role === 'staff';
+    },
     getNotifications() {
       axios({
         url: `${process.env.VUE_APP_BACKEND_URL}/api/notifications`,

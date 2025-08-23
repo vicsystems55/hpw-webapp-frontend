@@ -1,4 +1,85 @@
-export default [
+// index.js
+
+const role = localStorage.getItem('user_role'); // get role
+
+// Menus for staff
+const staffMenu = [
+  {
+    title: 'Dashboard',
+    route: 'home',
+    icon: 'HomeIcon',
+  },
+  {
+    title: 'Courses',
+    icon: 'BookOpenIcon',
+    children: [
+      {
+        title: 'All Courses',
+        icon: 'FileIcon',
+        route: { name: 'all-courses' },
+      },
+      {
+        title: 'Course Analytics',
+        icon: 'BarChart2Icon',
+        route: { name: 'course-analytics' },
+      },
+      {
+        title: 'My Performance',
+        icon: 'TrendingUpIcon',
+        route: { name: 'my-performance' },
+      },
+
+    ],
+  },
+    {
+    title: 'Certificates',
+    icon: 'AwardIcon',
+    children: [
+      {
+        title: 'All Certificates',
+        icon: 'FileIcon',
+        route: { name: 'certificates' },
+      },
+    ],
+  },
+    {
+    title: 'File Manager',
+    route: 'file-manager',
+    icon: 'DatabaseIcon',
+    children: [
+      { title: 'Overview', route: 'file-manager' },
+      { title: 'File Browser', route: { name: 'file-browser' } },
+
+    ],
+  },
+    {
+    title: 'Calendar',
+    route: 'calendar',
+    icon: 'CalendarIcon',
+  },
+  {
+    title: 'Policies',
+    route: 'policies',
+    icon: 'ShieldIcon',
+    children: [
+      { title: 'All Policies', icon: 'FileIcon', route: { name: 'policies' } },
+      
+    ],
+  },
+  {
+    title: 'Trainings',
+    route: 'trainings',
+    icon: 'FileIcon',
+  },
+  {
+    title: 'Notifications',
+    route: 'notifications',
+    icon: 'BellIcon',
+  },
+];
+
+// Menus for admin (full access)
+const adminMenu = [
   {
     title: 'Dashboard',
     route: 'home',
@@ -14,11 +95,9 @@ export default [
         icon: 'FileIcon',
         route: { name: 'residents-management' },
       },
-
       {
         title: 'Staff Records',
         icon: 'FileIcon',
-
         route: { name: 'staff-records' },
       },
     ],
@@ -60,41 +139,17 @@ export default [
       },
     ],
   },
-  // {
-  //   title: 'Departments',
-  //   route: 'departments',
-  //   icon: 'FileIcon',
-  // },
   {
     title: 'File Manager',
     route: 'file-manager',
     icon: 'DatabaseIcon',
     children: [
-      {
-        title: 'Overview',
-        route: 'file-manager',
-      },
-      {
-        title: 'File Browser',
-        route: { name: 'file-browser' },
-      },
-
-      {
-        title: 'Activity',
-        route: { name: 'file-activity-log' },
-      },
-
-      {
-        title: 'Settings',
-        route: { name: 'disk-settings' },
-      },
+      { title: 'Overview', route: 'file-manager' },
+      { title: 'File Browser', route: { name: 'file-browser' } },
+      { title: 'Activity', route: { name: 'file-activity-log' } },
+      { title: 'Settings', route: { name: 'disk-settings' } },
     ],
   },
-  // {
-  //   title: 'Payroll',
-  //   route: 'notifications',
-  //   icon: 'FileIcon',
-  // },
   {
     title: 'Calendar',
     route: 'calendar',
@@ -105,12 +160,7 @@ export default [
     route: 'policies',
     icon: 'ShieldIcon',
     children: [
-      {
-        title: 'All Policies',
-        icon: 'FileIcon',
-        route: { name: 'policies' },
-      },
-
+      { title: 'All Policies', icon: 'FileIcon', route: { name: 'policies' } },
       {
         title: 'Create Policy',
         icon: 'FileIcon',
@@ -134,3 +184,6 @@ export default [
     icon: 'SettingsIcon',
   },
 ];
+
+// Export based on role
+export default role === 'staff' ? staffMenu : adminMenu;

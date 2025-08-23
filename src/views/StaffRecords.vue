@@ -46,7 +46,7 @@
             <button
               v-if="userData && userData.role === 'admin'"
               class="btn btn-success btn-lg"
-              @click="$router.push({ name: 'create-record' })"
+              @click="$router.push({ name: 'create-staff-record' })"
             >
               <i class="fas fa-user-plus mr-2"></i>
               Add New Staff
