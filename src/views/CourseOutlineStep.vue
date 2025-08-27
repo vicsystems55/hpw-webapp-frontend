@@ -82,6 +82,7 @@ import { quillEditor } from 'vue-quill-editor'
 import 'quill/dist/quill.core.css'
 import 'quill/dist/quill.snow.css'
 import 'quill/dist/quill.bubble.css'
+
 import axios from 'axios'
 
 // Register the module
@@ -107,14 +108,25 @@ export default {
         modules: {
 
           toolbar: [
-            [{ header: [1, 2, false] }],
+            [{ header: [1, 2, 3, false] }],
             ['bold', 'italic', 'underline', 'strike'],
             [{ list: 'ordered' }, { list: 'bullet' }],
+            [{ align: [] }],
             ['link', 'image', 'video'],
             ['clean'],
           ],
-          imageResize: {
-            modules: ['Resize', 'DisplaySize', 'Toolbar'],
+           resize: {
+            // Optional: localize texts or hide toolbar options
+            locale: {
+              altTip: 'Hold Alt to scale',
+              center: 'Center',
+              floatLeft: 'Left',
+              floatRight: 'Right',
+              restore: 'Restore',
+            },
+            // Example: hide alignment tools if undesired
+            // toolbar: { alingTools: false },
+            // showSize: true, // display dimensions
           },
         },
       },
@@ -126,6 +138,7 @@ export default {
   },
 
   methods: {
+       
     async getCourseOutlines() {
       try {
         const courseId = localStorage.getItem('currentCourseId') || this.courseId
@@ -244,5 +257,10 @@ export default {
 .my-quill-editor .ql-editor {
   padding: 16px;         /* inner margin */
   font-family: 'Arial';  /* custom font */
+}
+.ql-editor iframe,
+.ql-editor video {
+  max-width: 100%;
+  height: auto;
 }
 </style>

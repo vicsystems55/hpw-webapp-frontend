@@ -5,6 +5,7 @@ import { ToastPlugin, ModalPlugin } from 'bootstrap-vue'
 import VueCompositionAPI from '@vue/composition-api'
 import VueGoodTablePlugin from 'vue-good-table'
 import ImageResize from 'quill-image-resize-module-react'
+import ResizeModule from '@botom/quill-resize-module'
 import Quill from 'quill'
 import router from './router'
 import store from './store'
@@ -16,6 +17,9 @@ import '@/libs/toastification'
 
 
 Quill.register('modules/imageResize', ImageResize)
+Quill.register('modules/resize', ResizeModule)
+
+
 
 Vue.use(VueGoodTablePlugin)
 Vue.use(ToastPlugin)
