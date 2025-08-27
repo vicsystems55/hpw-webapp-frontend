@@ -17,7 +17,7 @@
     </ul>
 
     <!-- Left Col -->
-    <div class="bookmark-wrapper align-items-center flex-grow-1 d-none d-lg-flex">
+    <div class="bookmark-wrapper align-items-center flex-grow-1 d-non d-lg-flex">
       <dark-Toggler class="d-none " />
 
       <div class="text-center mx-auto " style="width: 400px;">
@@ -45,13 +45,13 @@
         toggle-class="d-flex align-items-center dropdown-user-link"
         class="dropdown-user"
       >
-    
+
         <template #button-content>
           <div class="d-sm-flex d-none user-nav">
             <p class="user-name font-weight-bolder mb-0">
-              {{userData.name.toUpperCase()}}
+              {{ userData.name.toUpperCase() }}
             </p>
-            <span class="user-status">..</span>
+            <span class="user-status">{{ userData.role }}</span>
           </div>
           <b-avatar
             size="40"

@@ -3,7 +3,7 @@
 
   <div>
     <div v-if="staffRole">
-      <StaffDashboard />
+       <StaffDashboard :notifications="notifications" />
     </div>
     <div v-else class="container-fluid py-1">
       <h2 class="mb-1">Dashboard Overview</h2>

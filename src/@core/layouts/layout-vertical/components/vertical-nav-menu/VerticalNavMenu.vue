@@ -9,7 +9,7 @@
     @mouseleave="updateMouseHovered(false)"
   >
     <!-- main menu header-->
-    <div class="navbar-header expanded">
+    <div class="navbar-header expanded mb-5">
       <slot
         name="header"
         :toggleVerticalMenuActive="toggleVerticalMenuActive"
@@ -30,14 +30,14 @@
                   alt="logo"
                 />
               </span>
-              <h2 class="brand-text">
+              <h2 class="brand-text h6">
                 {{ appName }}
               </h2>
             </b-link>
           </li>
 
           <!-- Toggler Button -->
-          <li class="nav-item nav-toggle">
+          <li class="nav-item nav-toggle d-none">
             <b-link class="nav-link modern-nav-toggle">
               <feather-icon
                 icon="XIcon"

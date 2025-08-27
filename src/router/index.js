@@ -1,13 +1,13 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
+import Vue from 'vue';
+import VueRouter from 'vue-router';
 
-Vue.use(VueRouter)
+Vue.use(VueRouter);
 
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   scrollBehavior() {
-    return { x: 0, y: 0 }
+    return { x: 0, y: 0 };
   },
   routes: [
     {
@@ -139,9 +139,8 @@ const router = new VueRouter({
           {
             text: 'Policies',
             active: false,
-            to: '/policies'
+            to: '/policies',
             // component: () => import('@/views/Policies.vue'),
-
           },
           {
             text: 'Policy Details',
@@ -169,7 +168,8 @@ const router = new VueRouter({
     {
       path: '/staff-supervision/:id',
       name: 'staff-supervision',
-      component: () => import('@/views/supervision/StaffSupervisionDetails.vue'),
+      component: () =>
+        import('@/views/supervision/StaffSupervisionDetails.vue'),
       meta: {
         pageTitle: 'Manage Supervision',
 
@@ -178,7 +178,6 @@ const router = new VueRouter({
             text: 'Staff Record Details',
             active: false,
             to: '/staff-records',
-
           },
           {
             text: 'Staff Supervision Details',
@@ -191,7 +190,8 @@ const router = new VueRouter({
     {
       path: '/preview-staff-supervision/:id',
       name: 'preview-staff-supervision',
-      component: () => import('@/views/supervision/PreviewStaffSupervisionDetails.vue'),
+      component: () =>
+        import('@/views/supervision/PreviewStaffSupervisionDetails.vue'),
       meta: {
         pageTitle: 'Preview Supervision',
         layout: 'full',
@@ -549,6 +549,18 @@ const router = new VueRouter({
     },
 
     {
+      path: '/course/success',
+      name: 'CourseSuccess',
+      component: () => import('@/views/CourseSuccess.vue'),
+    },
+
+    {
+      path: '/assessment-completed',
+      name: 'AssessmentCompleted',
+      component: () => import('@/views/AssessmentComplete.vue'),
+    },
+
+    {
       path: '/contractor-application',
       name: 'contractor-application',
       component: () => import('@/views/error/ContractorApplication.vue'),
@@ -562,28 +574,33 @@ const router = new VueRouter({
       redirect: 'error-404',
     },
   ],
-})
+});
 
 // ? For splash screen
 // Remove afterEach hook if you are not using splash screen
 router.afterEach(() => {
   // Remove initial loading
-  console.log(router.currentRoute.name)
-  const appLoading = document.getElementById('loading-bg')
+  console.log(router.currentRoute.name);
+  const appLoading = document.getElementById('loading-bg');
   if (appLoading) {
-    appLoading.style.display = 'none'
+    appLoading.style.display = 'none';
   }
-  if (localStorage.getItem('token') || router.currentRoute.name === 'register' || router.currentRoute.name === 'track-submission' || router.currentRoute.name === 'contractor-application') {
-    console.log('yes')
+  if (
+    localStorage.getItem('token') ||
+    router.currentRoute.name === 'register' ||
+    router.currentRoute.name === 'track-submission' ||
+    router.currentRoute.name === 'contractor-application'
+  ) {
+    console.log('yes');
     // eslint-disable-next-line no-undef
     // next()
   } else {
-    console.log('no board')
+    console.log('no board');
     router.push({
       path: '/login',
       replace: true,
-    })
+    });
   }
-})
+});
 
-export default router
+export default router;
