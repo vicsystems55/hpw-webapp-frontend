@@ -1,606 +1,78 @@
-import Vue from 'vue';
-import VueRouter from 'vue-router';
+import { createRouter, createWebHistory } from 'vue-router'
+import { useAuthStore } from '../stores/auth'
+import AppShell from '../layouts/AppShell.vue'
 
-Vue.use(VueRouter);
-
-const router = new VueRouter({
-  mode: 'history',
-  base: process.env.BASE_URL,
-  scrollBehavior() {
-    return { x: 0, y: 0 };
+const routes = [
+  {
+    path: '/login',
+    name: 'login',
+    component: () => import('../views/LoginView.vue'),
+    meta: { guest: true, title: 'Sign in' },
   },
-  routes: [
-    {
-      path: '/',
-      name: 'home',
-      component: () => import('@/views/Home.vue'),
-      meta: {
-        pageTitle: 'Home',
-        breadcrumb: [
-          {
-            text: 'Home',
-            active: true,
-          },
-        ],
-      },
-    },
-    {
-      path: '/second-page',
-      name: 'second-page',
-      component: () => import('@/views/SecondPage.vue'),
-      meta: {
-        pageTitle: 'Second Page',
-        breadcrumb: [
-          {
-            text: 'Second Page',
-            active: true,
-          },
-        ],
-      },
-    },
+  {
+    path: '/',
+    component: AppShell,
+    children: [
+      { path: '', name: 'dashboard', component: () => import('../views/DashboardView.vue'), meta: { permission: 'dashboard.view', title: 'Overview' } },
+      { path: 'profile', name: 'profile', component: () => import('../views/StaffProfileView.vue'), meta: { permission: 'staff.profile.view', roles: ['staff'], title: 'My profile' } },
+      { path: 'residents', name: 'residents', component: () => import('../views/ResidentsView.vue'), meta: { permission: 'residents.manage', title: 'Residents' } },
+      { path: 'staff', name: 'staff', component: () => import('../views/StaffView.vue'), meta: { permission: 'staff.manage', title: 'Staff records' } },
+      { path: 'staff-access', name: 'staff-access', component: () => import('../views/StaffAccessView.vue'), meta: { permission: 'users.manage', roles: ['admin'], title: 'Staff access' } },
+      { path: 'supervision', name: 'supervision', component: () => import('../views/SupervisionView.vue'), meta: { permission: 'supervision.manage', title: 'Supervision' } },
+      { path: 'my-supervision', name: 'my-supervision', component: () => import('../views/MySupervisionView.vue'), meta: { permission: 'supervision.view-own', roles: ['staff'], title: 'My supervision' } },
+      { path: 'courses', name: 'courses', component: () => import('../views/CoursesView.vue'), meta: { permission: 'courses.view', title: 'Courses' } },
+      { path: 'performance', name: 'performance', component: () => import('../views/PerformanceView.vue'), meta: { permission: 'performance.view-own', roles: ['staff'], title: 'My performance' } },
+      { path: 'certificates', name: 'certificates', component: () => import('../views/CertificatesView.vue'), meta: { permission: 'certificates.issue', title: 'Certificates' } },
+      { path: 'policies', name: 'policies', component: () => import('../views/PoliciesView.vue'), meta: { permission: 'policies.view', title: 'Policies' } },
+      { path: 'calendar', name: 'calendar', component: () => import('../views/CalendarView.vue'), meta: { permission: 'calendar.manage', title: 'Calendar' } },
+      { path: 'training', name: 'training', component: () => import('../views/TrainingView.vue'), meta: { permissions: ['training.manage', 'training.view-own'], title: 'Training' } },
+      { path: 'files', name: 'files', component: () => import('../views/FilesView.vue'), meta: { permission: 'files.view', title: 'Files' } },
+      { path: 'notifications', name: 'notifications', component: () => import('../views/NotificationsView.vue'), meta: { permission: 'notifications.view', title: 'Notifications' } },
+      { path: 'settings', name: 'settings', component: () => import('../views/SettingsView.vue'), meta: { permission: 'organisation.manage', title: 'Settings' } },
+      { path: 'forbidden', name: 'forbidden', component: () => import('../views/ForbiddenView.vue'), meta: { title: 'Access denied' } },
+    ],
+  },
+  { path: '/:pathMatch(.*)*', redirect: '/' },
+]
 
-    {
-      path: '/management',
-      name: 'residents-management',
-      component: () => import('@/views/ResidentsManagement.vue'),
-      meta: {
-        pageTitle: 'Manage Records',
-        breadcrumb: [
-          {
-            text: 'Residents Management',
-            active: true,
-          },
-        ],
-      },
-    },
+const router = createRouter({
+  history: createWebHistory(),
+  routes,
+  scrollBehavior: () => ({ top: 0 }),
+})
 
-    {
-      path: '/record/:id',
-      name: 'record',
-      component: () => import('@/views/Record.vue'),
-      meta: {
-        pageTitle: 'Details Page',
-        breadcrumb: [
-          {
-            text: "Resident's Details",
-            active: true,
-          },
-        ],
-      },
-    },
+router.beforeEach(async to => {
+  const auth = useAuthStore()
+  document.title = `${to.meta.title || 'Portal'} · Hope Pathway`
 
-    {
-      path: '/staff-records',
-      name: 'staff-records',
-      component: () => import('@/views/StaffRecords.vue'),
-      meta: {
-        pageTitle: 'Manage Records',
-        breadcrumb: [
-          {
-            text: 'Staff Records',
-            active: true,
-          },
-        ],
-      },
-    },
-
-    {
-      path: '/calendar',
-      name: 'calendar',
-      component: () => import('@/views/calendar/Calendar.vue'),
-      meta: {
-        pageTitle: 'Manage Schedules',
-        breadcrumb: [
-          {
-            text: 'Schedules',
-            active: true,
-          },
-        ],
-      },
-    },
-
-    {
-      path: '/policies',
-      name: 'policies',
-      component: () => import('@/views/Policies.vue'),
-      meta: {
-        pageTitle: 'Manage Policies',
-        breadcrumb: [
-          {
-            text: 'Policies',
-            active: true,
-          },
-        ],
-      },
-    },
-
-    {
-      path: '/create-policies',
-      name: 'create-policies',
-      component: () => import('@/views/CreatePolicies.vue'),
-      meta: {
-        pageTitle: 'Manage Policies',
-        breadcrumb: [
-          {
-            text: 'Policies',
-            active: true,
-          },
-        ],
-      },
-    },
-
-    {
-      path: '/policy/:id',
-      name: 'policy',
-      component: () => import('@/views/Policy.vue'),
-      meta: {
-        pageTitle: 'Manage Policies',
-        breadcrumb: [
-          {
-            text: 'Policies',
-            active: false,
-            to: '/policies',
-            // component: () => import('@/views/Policies.vue'),
-          },
-          {
-            text: 'Policy Details',
-            active: true,
-          },
-        ],
-      },
-    },
-
-    {
-      path: '/staff-details/:id',
-      name: 'staff-details',
-      component: () => import('@/views/StaffRecordDetails.vue'),
-      meta: {
-        pageTitle: 'Manage Records',
-
-        breadcrumb: [
-          {
-            text: 'Staff Record Details',
-            active: true,
-          },
-        ],
-      },
-    },
-    {
-      path: '/staff-supervision/:id',
-      name: 'staff-supervision',
-      component: () =>
-        import('@/views/supervision/StaffSupervisionDetails.vue'),
-      meta: {
-        pageTitle: 'Manage Supervision',
-
-        breadcrumb: [
-          {
-            text: 'Staff Record Details',
-            active: false,
-            to: '/staff-records',
-          },
-          {
-            text: 'Staff Supervision Details',
-            active: true,
-          },
-        ],
-      },
-    },
-
-    {
-      path: '/preview-staff-supervision/:id',
-      name: 'preview-staff-supervision',
-      component: () =>
-        import('@/views/supervision/PreviewStaffSupervisionDetails.vue'),
-      meta: {
-        pageTitle: 'Preview Supervision',
-        layout: 'full',
-
-        // breadcrumb: [
-        //   {
-        //     text: 'Staff Record Details',
-        //     active: false,
-        //     to: '/staff-records',
-
-        //   },
-        //   {
-        //     text: 'Staff Supervision Details',
-        //     active: true,
-        //   },
-        // ],
-      },
-    },
-
-    {
-      path: '/staff-details-update/:id',
-      name: 'staff-details-update',
-      component: () => import('@/views/StaffUpdate.vue'),
-      meta: {
-        pageTitle: 'Manage Records',
-
-        breadcrumb: [
-          {
-            text: 'Staff Record Details',
-            active: true,
-          },
-        ],
-      },
-    },
-
-    {
-      path: '/update-record/:id',
-      name: 'record',
-      component: () => import('@/views/UpdateRecord.vue'),
-      meta: {
-        pageTitle: 'Details Page',
-        breadcrumb: [
-          {
-            text: "Update Resident's Details",
-            active: true,
-          },
-        ],
-      },
-    },
-
-    {
-      path: '/create-submission',
-      name: 'create-submission',
-      component: () => import('@/views/CreateSubmission.vue'),
-      meta: {
-        pageTitle: 'Create Submission',
-        breadcrumb: [
-          {
-            text: 'Create Submission',
-            active: true,
-          },
-        ],
-      },
-    },
-
-    {
-      path: '/create-record',
-      name: 'create-record',
-      component: () => import('@/views/CreateRecord.vue'),
-      meta: {
-        pageTitle: 'Home',
-        breadcrumb: [
-          {
-            text: 'Residents Management',
-            name: 'residents-management',
-            active: false,
-          },
-          {
-            text: 'Create Record',
-            active: true,
-          },
-        ],
-      },
-    },
-
-    {
-      path: '/create-staff-record',
-      name: 'create-staff-record',
-      component: () => import('@/views/CreateStaff.vue'),
-      meta: {
-        pageTitle: 'Home',
-        breadcrumb: [
-          {
-            text: 'Staff Records',
-            name: 'staff-records',
-            path: '/staff-records',
-            active: false,
-          },
-          {
-            text: 'Create Record',
-            active: true,
-          },
-        ],
-      },
-    },
-
-    {
-      path: '/file-manager',
-      name: 'file-manager',
-      component: () => import('@/views/FilemanagerComponent.vue'),
-      meta: {
-        pageTitle: 'Home',
-        breadcrumb: [
-          {
-            text: 'File Manager',
-            active: true,
-          },
-        ],
-      },
-    },
-
-    {
-      path: '/trainings',
-      name: 'trainings',
-      component: () => import('@/views/trainings/TrainingComponent.vue'),
-      meta: {
-        pageTitle: 'Home',
-        breadcrumb: [
-          {
-            text: 'Staff Trainings',
-            active: true,
-          },
-        ],
-      },
-    },
-
-    {
-      path: '/file-browser',
-      name: 'file-browser',
-      component: () => import('@/views/FileBrowser.vue'),
-      meta: {
-        pageTitle: 'Home',
-        breadcrumb: [
-          {
-            text: 'File Manager',
-            active: true,
-          },
-        ],
-      },
-    },
-
-    {
-      path: '/departments',
-      name: 'departments',
-      component: () => import('@/views/Departments.vue'),
-      meta: {
-        pageTitle: 'Departments',
-        breadcrumb: [
-          {
-            text: 'Departments',
-            active: true,
-          },
-        ],
-      },
-    },
-
-    {
-      path: '/notifications',
-      name: 'notifications',
-      component: () => import('@/views/Notifications.vue'),
-      meta: {
-        pageTitle: 'Notifications',
-        breadcrumb: [
-          {
-            text: 'Notifications',
-            active: true,
-          },
-        ],
-      },
-    },
-
-    {
-      path: '/settings',
-      name: 'settings',
-      component: () => import('@/views/Settings.vue'),
-      meta: {
-        pageTitle: 'Settings',
-        breadcrumb: [
-          {
-            text: 'Settings',
-            active: true,
-          },
-        ],
-      },
-    },
-
-    {
-      path: '/login',
-      name: 'login',
-      component: () => import('@/views/Login.vue'),
-      meta: {
-        layout: 'full',
-      },
-    },
-
-    {
-      path: '/register',
-      name: 'register',
-      component: () => import('@/views/Register.vue'),
-      meta: {
-        layout: 'full',
-      },
-    },
-    {
-      path: '/error-404',
-      name: 'error-404',
-      component: () => import('@/views/error/Error404.vue'),
-      meta: {
-        layout: 'full',
-      },
-    },
-
-    {
-      path: '/submission-success',
-      name: 'submission-success',
-      component: () => import('@/views/error/SubmissionSuccess.vue'),
-      meta: {
-        layout: 'full',
-      },
-    },
-
-    {
-      path: '/track-submission',
-      name: 'track-submission',
-      component: () => import('@/views/error/TrackSubmission.vue'),
-      meta: {
-        layout: 'full',
-      },
-    },
-
-    // New course and certificate routes
-    {
-      path: '/all-courses',
-      name: 'all-courses',
-      component: () => import('@/views/AllCourses.vue'), // Ensure this file exists at src/views/AllCourses.vue
-      meta: {
-        pageTitle: 'All Courses',
-        breadcrumb: [
-          {
-            text: 'All Courses',
-            active: true,
-          },
-        ],
-      },
-    },
-    {
-      path: '/course-details/:id',
-      name: 'course-details',
-      component: () => import('@/views/CourseDetails.vue'),
-      meta: {
-        pageTitle: 'Course Details',
-        breadcrumb: [
-          {
-            text: 'All Courses',
-            to: '/all-courses',
-            active: false,
-          },
-          {
-            text: 'Course Details',
-            active: true,
-          },
-        ],
-      },
-    },
-    {
-      path: '/certificates',
-      name: 'certificates',
-      component: () => import('@/views/Certificates.vue'),
-      meta: {
-        pageTitle: 'Certificates',
-        breadcrumb: [
-          {
-            text: 'Certificates',
-            active: true,
-          },
-        ],
-      },
-    },
-    {
-      path: '/certificate-details/:id',
-      name: 'certificate-details',
-      component: () => import('@/views/CertificateDetails.vue'),
-      meta: {
-        pageTitle: 'Certificate Details',
-        breadcrumb: [
-          {
-            text: 'Certificates',
-            to: '/certificates',
-            active: false,
-          },
-          {
-            text: 'Certificate Details',
-            active: true,
-          },
-        ],
-      },
-    },
-    {
-      path: '/course-analytics',
-      name: 'course-analytics',
-      component: () => import('@/views/CourseAnalytics.vue'),
-      meta: {
-        pageTitle: 'Course Analytics',
-        breadcrumb: [
-          {
-            text: 'Course Analytics',
-            active: true,
-          },
-        ],
-      },
-    },
-    {
-      path: '/my-performance',
-      name: 'my-performance',
-      component: () => import('@/views/MyPerformance.vue'),
-      meta: {
-        pageTitle: 'My Performance',
-        breadcrumb: [
-          {
-            text: 'My Performance',
-            active: true,
-          },
-        ],
-      },
-    },
-
-    {
-      path: '/create-course',
-      name: 'create-course',
-      component: () => import('@/views/CreateCourse.vue'),
-      meta: {
-        pageTitle: 'Create Course',
-        breadcrumb: [
-          {
-            text: 'All Courses',
-            to: '/all-courses',
-            active: false,
-          },
-          {
-            text: 'Create Course',
-            active: true,
-          },
-        ],
-      },
-    },
-
-    {
-      path: '/course/success',
-      name: 'CourseSuccess',
-      component: () => import('@/views/CourseSuccess.vue'),
-    },
-
-    {
-      path: '/assessment-completed',
-      name: 'AssessmentCompleted',
-      component: () => import('@/views/AssessmentComplete.vue'),
-    },
-
-    {
-      path: '/contractor-application',
-      name: 'contractor-application',
-      component: () => import('@/views/error/ContractorApplication.vue'),
-      meta: {
-        layout: 'full',
-      },
-    },
-
-    {
-      path: '*',
-      redirect: 'error-404',
-    },
-  ],
-});
-
-// ? For splash screen
-// Remove afterEach hook if you are not using splash screen
-router.afterEach(() => {
-  // Remove initial loading
-  console.log(router.currentRoute.name);
-  const appLoading = document.getElementById('loading-bg');
-  if (appLoading) {
-    appLoading.style.display = 'none';
+  if (to.meta.guest) {
+    return auth.isAuthenticated ? { name: 'dashboard' } : true
   }
-  if (
-    localStorage.getItem('token') ||
-    router.currentRoute.name === 'register' ||
-    router.currentRoute.name === 'track-submission' ||
-    router.currentRoute.name === 'contractor-application'
-  ) {
-    console.log('yes');
-    // eslint-disable-next-line no-undef
-    // next()
-  } else {
-    console.log('no board');
-    router.push({
-      path: '/login',
-      replace: true,
-    });
-  }
-});
 
-export default router;
+  if (!auth.isAuthenticated) return { name: 'login', query: { redirect: to.fullPath } }
+
+  if (auth.permissions.length === 0) {
+    try {
+      await auth.refreshUser()
+    } catch {
+      await auth.logout()
+      return { name: 'login' }
+    }
+  }
+
+  if (to.meta.permission && !auth.hasPermission(to.meta.permission)) {
+    return { name: 'forbidden' }
+  }
+
+  if (to.meta.permissions && !to.meta.permissions.some(permission => auth.hasPermission(permission))) {
+    return { name: 'forbidden' }
+  }
+
+  if (to.meta.roles && !to.meta.roles.includes(auth.user?.role)) {
+    return { name: 'forbidden' }
+  }
+
+  return true
+})
+
+export default router

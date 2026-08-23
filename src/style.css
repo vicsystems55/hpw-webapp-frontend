@@ -1,0 +1,80 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand-blue: #087fc3;
+  --color-brand-blue-dark: #075f92;
+  --color-brand-orange: #f55b00;
+  --color-brand-navy: #102a43;
+  --color-brand-mint: #22b8a7;
+  --color-brand-sky: #eaf7ff;
+  --color-brand-cream: #fff8ed;
+  --color-brand-yellow: #f5b942;
+  --font-sans: "Manrope", "Segoe UI", sans-serif;
+}
+
+:root {
+  color: #102a43;
+  background: #f4f8fb;
+  font-family: var(--font-sans);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  margin: 0;
+  background:
+    radial-gradient(circle at 8% 5%, rgba(8, 127, 195, 0.08), transparent 25rem),
+    radial-gradient(circle at 95% 2%, rgba(245, 91, 0, 0.08), transparent 22rem),
+    #f4f8fb;
+}
+
+button,
+a,
+input,
+select,
+textarea {
+  transition-duration: 160ms;
+  transition-property: color, background-color, border-color, box-shadow, transform, opacity;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid rgba(8, 127, 195, 0.25);
+  outline-offset: 2px;
+}
+
+.card {
+  border: 1px solid rgba(16, 42, 67, 0.08);
+  border-radius: 1.25rem;
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: 0 12px 38px rgba(16, 42, 67, 0.07);
+}
+
+.page-enter-active,
+.page-leave-active {
+  transition: opacity 180ms ease, transform 180ms ease;
+}
+
+.page-enter-from,
+.page-leave-to {
+  opacity: 0;
+  transform: translateY(6px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
