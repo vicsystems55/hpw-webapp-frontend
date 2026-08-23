@@ -35,7 +35,7 @@ const filtered = computed(() => items.value.filter(item => [item.fullname, item.
           <div><p class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Qualifications</p><p class="mt-1 text-lg font-black text-brand-navy">{{ item.qualifications?.length || 0 }}</p></div>
           <div><p class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Supervisions</p><p class="mt-1 text-lg font-black text-brand-navy">{{ item.supervision_schedule?.length || 0 }}</p></div>
         </div>
-        <button class="mt-5 flex w-full items-center justify-center gap-2 rounded-xl bg-slate-50 px-4 py-2.5 text-sm font-extrabold text-brand-navy hover:bg-brand-sky hover:text-brand-blue"><BadgeCheck :size="17" /> View staff profile</button>
+        <RouterLink :to="`/staff/${item.id}`" class="mt-5 flex w-full items-center justify-center gap-2 rounded-xl bg-slate-50 px-4 py-2.5 text-sm font-extrabold text-brand-navy hover:bg-brand-sky hover:text-brand-blue"><BadgeCheck :size="17" /> View staff profile</RouterLink>
       </article>
     </div>
   </div>
