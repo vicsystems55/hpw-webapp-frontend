@@ -14,7 +14,7 @@
     "@fullcalendar/interaction": "^6.1.21",
     "@fullcalendar/list": "^6.1.21",
     "@fullcalendar/timegrid": "^6.1.21",
-    "@fullcalendar/vue3": "^7.0.2",
+    "@fullcalendar/vue3": "6.1.21",
     "@lucide/vue": "^1.33.0",
     "axios": "^1.19.0",
     "pinia": "^4.0.3",
