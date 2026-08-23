@@ -1,11 +1,13 @@
 <script setup>
 import { computed, onMounted, reactive, ref } from 'vue'
-import { DayPilot, DayPilotCalendar, DayPilotMonth } from '@daypilot/daypilot-lite-vue'
+import DayPilotVue from '@daypilot/daypilot-lite-vue'
 import { ChevronLeft, ChevronRight, MapPin, Plus, Save, Trash2, X } from '@lucide/vue'
 import api from '../services/api'
 import PageHeader from '../components/ui/PageHeader.vue'
 import LoadingState from '../components/ui/LoadingState.vue'
 import ErrorBanner from '../components/ui/ErrorBanner.vue'
+
+const { DayPilot, DayPilotCalendar, DayPilotMonth } = DayPilotVue
 
 const events = ref([])
 const loading = ref(true)
