@@ -21,7 +21,7 @@ async function submit() {
 
   try {
     await auth.login({ email: email.value, password: password.value }, portal.value)
-    router.replace(route.query.redirect || '/')
+    router.replace(auth.user?.must_change_password ? '/change-password' : (route.query.redirect || '/'))
   } catch (error) {
     const errors = error.response?.data?.errors
     errorMessage.value = error.response?.data?.message || errors?.email?.[0] || 'We could not sign you in. Please check your details.'

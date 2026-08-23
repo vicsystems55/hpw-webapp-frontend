@@ -1,6 +1,6 @@
 <script setup>
 import { computed, ref } from 'vue'
-import { Bell, ChevronDown, LogOut, Menu, Search } from '@lucide/vue'
+import { Bell, ChevronDown, KeyRound, LogOut, Menu, Search } from '@lucide/vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '../../stores/auth'
 
@@ -47,6 +47,9 @@ async function signOut() {
           </button>
 
           <div v-if="menuOpen" class="absolute right-0 mt-2 w-48 rounded-2xl border border-slate-200 bg-white p-2 shadow-xl">
+            <RouterLink to="/change-password" class="flex w-full items-center gap-2 rounded-xl px-3 py-2.5 text-sm font-semibold text-slate-600 hover:bg-brand-sky hover:text-brand-blue" @click="menuOpen = false">
+              <KeyRound :size="17" /> Change password
+            </RouterLink>
             <button class="flex w-full items-center gap-2 rounded-xl px-3 py-2.5 text-sm font-semibold text-slate-600 hover:bg-red-50 hover:text-red-600" @click="signOut">
               <LogOut :size="17" /> Sign out
             </button>

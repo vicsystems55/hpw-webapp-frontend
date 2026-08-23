@@ -29,6 +29,7 @@ const routes = [
       { path: 'files', name: 'files', component: () => import('../views/FilesView.vue'), meta: { permission: 'files.view', title: 'Files' } },
       { path: 'notifications', name: 'notifications', component: () => import('../views/NotificationsView.vue'), meta: { permission: 'notifications.view', title: 'Notifications' } },
       { path: 'settings', name: 'settings', component: () => import('../views/SettingsView.vue'), meta: { permission: 'organisation.manage', title: 'Settings' } },
+      { path: 'change-password', name: 'change-password', component: () => import('../views/ChangePasswordView.vue'), meta: { title: 'Change password' } },
       { path: 'forbidden', name: 'forbidden', component: () => import('../views/ForbiddenView.vue'), meta: { title: 'Access denied' } },
     ],
   },
@@ -58,6 +59,10 @@ router.beforeEach(async to => {
       await auth.logout()
       return { name: 'login' }
     }
+  }
+
+  if (auth.user?.must_change_password && to.name !== 'change-password') {
+    return { name: 'change-password' }
   }
 
   if (to.meta.permission && !auth.hasPermission(to.meta.permission)) {

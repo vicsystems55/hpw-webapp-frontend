@@ -57,6 +57,13 @@ export const useAuthStore = defineStore('auth', () => {
     }
   }
 
+  async function changePassword(payload) {
+    const { data } = await api.put('/change-password', payload)
+    user.value = data.user_data
+    persist()
+    return data
+  }
+
   return {
     token,
     user,
@@ -67,5 +74,6 @@ export const useAuthStore = defineStore('auth', () => {
     login,
     logout,
     refreshUser,
+    changePassword,
   }
 })
