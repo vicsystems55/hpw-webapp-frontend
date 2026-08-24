@@ -56,6 +56,36 @@ const calendarEvents = computed(() => events.value.map(event => {
   }
 }))
 
+const activeEventDays = computed(() => new Set(events.value.map(event => dateOnly(event.start))))
+
+function styleMonthCell(args) {
+  const day = dateOnly(args.cell.start.toString())
+  const today = dateOnly(DayPilot.Date.today().toString())
+  const dayOfWeek = new Date(`${day}T00:00:00`).getDay()
+
+  if (dayOfWeek === 0 || dayOfWeek === 6) args.cell.properties.backColor = '#fffaf3'
+  if (activeEventDays.value.has(day)) {
+    args.cell.properties.backColor = '#eaf7ff'
+    args.cell.properties.cssClass = 'hpw-active-day'
+  }
+  if (day === today) {
+    args.cell.properties.backColor = '#fff1e7'
+    args.cell.properties.cssClass = 'hpw-today'
+  }
+}
+
+function styleTimeCell(args) {
+  const day = dateOnly(args.cell.start.toString())
+  if (activeEventDays.value.has(day)) args.cell.properties.backColor = '#f1faff'
+  if (day === dateOnly(DayPilot.Date.today().toString())) args.cell.properties.backColor = '#fff7ed'
+}
+
+function styleTimeHeader(args) {
+  const day = dateOnly(args.header.start.toString())
+  if (activeEventDays.value.has(day)) args.header.backColor = '#dff4ff'
+  if (day === dateOnly(DayPilot.Date.today().toString())) args.header.backColor = '#ffe4cf'
+}
+
 const visibleTitle = computed(() => {
   const date = new Date(`${dateOnly(startDate.value.toString())}T00:00:00`)
   if (activeView.value === 'day') return date.toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })
@@ -207,8 +237,8 @@ onMounted(loadEvents)
         </div>
       </div>
 
-      <DayPilotMonth v-if="activeView === 'month'" :start-date="startDate" :events="calendarEvents" :week-starts="1" :event-height="28" :cell-height="110" event-click-handling="Enabled" time-range-selected-handling="Enabled" @event-click="openEvent" @time-range-selected="args => selectRange(args, true)" @event-moved="moveEvent" @event-resized="moveEvent" />
-      <DayPilotCalendar v-else :view-type="activeView === 'week' ? 'Week' : 'Day'" :start-date="startDate" :events="calendarEvents" :week-starts="1" :business-begins-hour="7" :business-ends-hour="21" :day-begins-hour="6" :day-ends-hour="22" :cell-duration="30" height-spec="BusinessHoursNoScroll" event-click-handling="Enabled" time-range-selected-handling="Enabled" @event-click="openEvent" @time-range-selected="args => selectRange(args, false)" @event-moved="moveEvent" @event-resized="moveEvent" />
+      <DayPilotMonth v-if="activeView === 'month'" :start-date="startDate" :events="calendarEvents" :week-starts="1" :event-height="28" :cell-height="110" :on-before-cell-render="styleMonthCell" event-click-handling="Enabled" time-range-selected-handling="Enabled" @event-click="openEvent" @time-range-selected="args => selectRange(args, true)" @event-moved="moveEvent" @event-resized="moveEvent" />
+      <DayPilotCalendar v-else :view-type="activeView === 'week' ? 'Week' : 'Day'" :start-date="startDate" :events="calendarEvents" :week-starts="1" :business-begins-hour="7" :business-ends-hour="21" :day-begins-hour="6" :day-ends-hour="22" :cell-duration="30" :on-before-cell-render="styleTimeCell" :on-before-header-render="styleTimeHeader" height-spec="BusinessHoursNoScroll" event-click-handling="Enabled" time-range-selected-handling="Enabled" @event-click="openEvent" @time-range-selected="args => selectRange(args, false)" @event-moved="moveEvent" @event-resized="moveEvent" />
     </section>
     <div class="mt-4 flex flex-wrap gap-3"><span v-for="category in categories" :key="category" class="inline-flex items-center gap-2 text-xs font-bold text-slate-500"><span class="h-2.5 w-2.5 rounded-full" :style="{ backgroundColor: colours[category] }" />{{ category }}</span></div>
 
@@ -236,5 +266,8 @@ onMounted(loadEvents)
 .calendar-nav { width: 2.5rem; }
 .calendar-today { padding: 0 .9rem; }
 .calendar-shell [class*="month_default_main"], .calendar-shell [class*="calendar_default_main"] { border-color: #e2e8f0 !important; font-family: inherit !important; }
+.calendar-shell .hpw-active-day [class*="cell_header"] { color: #087fc3 !important; font-weight: 900 !important; }
+.calendar-shell .hpw-today { box-shadow: inset 0 0 0 2px #f55b00; }
+.calendar-shell .hpw-today [class*="cell_header"] { color: #f55b00 !important; font-weight: 900 !important; }
 @media (max-width: 639px) { .calendar-shell { min-height: 430px; padding: .75rem; } .calendar-shell [class*="month_default_event_inner"] { font-size: 11px !important; } }
 </style>
