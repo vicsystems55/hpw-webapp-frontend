@@ -1,18 +1,24 @@
 <script setup>
 import { computed, onMounted, ref } from 'vue'
-import { ArrowLeft, CalendarDays, FileText, HeartPulse, Home, Mail, Phone, ShieldAlert, UserRound, Utensils } from '@lucide/vue'
-import { useRoute } from 'vue-router'
+import { ArrowLeft, CalendarDays, FileText, HeartPulse, Home, Phone, ShieldAlert, Trash2, UserRound, Utensils } from '@lucide/vue'
+import { useRoute, useRouter } from 'vue-router'
 import api from '../services/api'
+import { useAuthStore } from '../stores/auth'
 import PageHeader from '../components/ui/PageHeader.vue'
 import LoadingState from '../components/ui/LoadingState.vue'
 import ErrorBanner from '../components/ui/ErrorBanner.vue'
 import StatusBadge from '../components/ui/StatusBadge.vue'
+import ConfirmDeleteModal from '../components/ui/ConfirmDeleteModal.vue'
 
 const route = useRoute()
+const router = useRouter()
+const auth = useAuthStore()
 const resident = ref(null)
 const caregiver = ref(null)
 const loading = ref(true)
 const error = ref('')
+const deleteOpen = ref(false)
+const deleting = ref(false)
 const storageBase = (api.defaults.baseURL || '').replace(/\/api\/?$/, '/storage/')
 const fileUrl = path => path ? `${storageBase}${path}` : null
 const initials = computed(() => resident.value?.fullname?.split(' ').map(part => part[0]).slice(0, 2).join('').toUpperCase() || 'HP')
@@ -34,13 +40,27 @@ async function loadResident() {
   }
 }
 
+async function removeResident() {
+  deleting.value = true
+  error.value = ''
+  try {
+    await api.delete(`/residents-management/${resident.value.id}`)
+    await router.push('/residents')
+  } catch (requestError) {
+    error.value = requestError.response?.data?.message || 'The resident record could not be removed.'
+    deleteOpen.value = false
+  } finally {
+    deleting.value = false
+  }
+}
+
 onMounted(loadResident)
 </script>
 
 <template>
   <div>
     <RouterLink to="/residents" class="mb-4 inline-flex items-center gap-2 text-sm font-extrabold text-brand-blue"><ArrowLeft :size="17" /> Back to residents</RouterLink>
-    <PageHeader title="Resident details" description="Identity, contacts, care needs and key records in one place." />
+    <PageHeader title="Resident details" description="Identity, contacts, care needs and key records in one place."><template #actions><button v-if="resident && auth.hasPermission('residents.manage')" class="inline-flex items-center gap-2 rounded-xl bg-red-600 px-4 py-2.5 text-sm font-extrabold text-white hover:bg-red-700" @click="deleteOpen = true"><Trash2 :size="17" /> Remove resident</button></template></PageHeader>
     <ErrorBanner :message="error" @dismiss="error = ''" />
     <LoadingState v-if="loading" />
     <div v-else-if="resident" class="space-y-5">
@@ -55,6 +75,7 @@ onMounted(loadResident)
         <section class="card p-5"><h3 class="flex items-center gap-2 font-black text-brand-navy"><CalendarDays :size="19" class="text-brand-blue" /> Notes and documents</h3><p class="mt-4 rounded-xl bg-slate-50 p-4 text-sm leading-6 text-slate-600">{{ resident.special_requests_or_notes || 'No special requests or care notes recorded.' }}</p><div class="mt-4 flex flex-wrap gap-2"><a v-if="resident.government_details_file" :href="fileUrl(resident.government_details_file)" target="_blank" class="doc-link">Government details</a><a v-if="resident.past_records_file" :href="fileUrl(resident.past_records_file)" target="_blank" class="doc-link">Past records</a></div></section>
       </div>
     </div>
+    <ConfirmDeleteModal :open="deleteOpen" :busy="deleting" title="Remove resident record?" :item-name="resident?.fullname" warning="The resident profile and its uploaded files will be permanently deleted." @cancel="deleteOpen = false" @confirm="removeResident" />
   </div>
 </template>
 

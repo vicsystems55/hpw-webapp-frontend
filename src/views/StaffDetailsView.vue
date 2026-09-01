@@ -1,18 +1,24 @@
 <script setup>
 import { computed, onMounted, ref } from 'vue'
-import { ArrowLeft, Award, CalendarClock, Download, FileCheck2, FileText, GraduationCap, Mail, MapPin, Phone, ShieldCheck, UserRound } from '@lucide/vue'
-import { useRoute } from 'vue-router'
+import { ArrowLeft, Award, CalendarClock, Download, FileCheck2, FileText, GraduationCap, Mail, MapPin, Phone, ShieldCheck, Trash2, UserRound } from '@lucide/vue'
+import { useRoute, useRouter } from 'vue-router'
 import api from '../services/api'
+import { useAuthStore } from '../stores/auth'
 import PageHeader from '../components/ui/PageHeader.vue'
 import LoadingState from '../components/ui/LoadingState.vue'
 import ErrorBanner from '../components/ui/ErrorBanner.vue'
 import EmptyState from '../components/ui/EmptyState.vue'
 import StatusBadge from '../components/ui/StatusBadge.vue'
+import ConfirmDeleteModal from '../components/ui/ConfirmDeleteModal.vue'
 
 const route = useRoute()
+const router = useRouter()
+const auth = useAuthStore()
 const staff = ref(null)
 const loading = ref(true)
 const error = ref('')
+const deleteOpen = ref(false)
+const deleting = ref(false)
 const initials = computed(() => staff.value?.fullname?.split(' ').map(part => part[0]).slice(0, 2).join('').toUpperCase() || 'HP')
 const storageBase = (api.defaults.baseURL || '').replace(/\/api\/?$/, '/storage/')
 const fileUrl = path => path ? `${storageBase}${path}` : null
@@ -47,13 +53,27 @@ async function loadStaff() {
   }
 }
 
+async function removeStaff() {
+  deleting.value = true
+  error.value = ''
+  try {
+    await api.delete(`/staff-records/${staff.value.id}`)
+    await router.push('/staff')
+  } catch (requestError) {
+    error.value = requestError.response?.data?.message || 'The staff record could not be removed.'
+    deleteOpen.value = false
+  } finally {
+    deleting.value = false
+  }
+}
+
 onMounted(loadStaff)
 </script>
 
 <template>
   <div>
     <RouterLink to="/staff" class="mb-4 inline-flex items-center gap-2 text-sm font-extrabold text-brand-blue hover:text-brand-blue-dark"><ArrowLeft :size="17" /> Back to staff records</RouterLink>
-    <PageHeader title="Staff profile" description="Employment, compliance, supervision and development details in one place." />
+    <PageHeader title="Staff profile" description="Employment, compliance, supervision and development details in one place."><template #actions><button v-if="staff && auth.hasPermission('staff.manage')" class="inline-flex items-center gap-2 rounded-xl bg-red-600 px-4 py-2.5 text-sm font-extrabold text-white hover:bg-red-700" @click="deleteOpen = true"><Trash2 :size="17" /> Remove staff</button></template></PageHeader>
     <ErrorBanner :message="error" @dismiss="error = ''" />
     <LoadingState v-if="loading" />
     <div v-else-if="staff" class="space-y-5">
@@ -73,5 +93,6 @@ onMounted(loadStaff)
         </div>
       </div>
     </div>
+    <ConfirmDeleteModal :open="deleteOpen" :busy="deleting" title="Remove staff record?" :item-name="staff?.fullname" warning="The staff profile, qualifications, schedules, uploaded documents and linked login access will be removed or disabled." @cancel="deleteOpen = false" @confirm="removeStaff" />
   </div>
 </template>

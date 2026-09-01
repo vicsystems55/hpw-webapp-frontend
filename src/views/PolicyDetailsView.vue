@@ -1,7 +1,7 @@
 <script setup>
 import { onMounted, reactive, ref } from 'vue'
-import { ArrowLeft, CalendarClock, Download, FileCheck2, Pencil, Save, ShieldCheck, X } from '@lucide/vue'
-import { useRoute } from 'vue-router'
+import { ArrowLeft, CalendarClock, Download, FileCheck2, Pencil, Save, ShieldCheck, Trash2, X } from '@lucide/vue'
+import { useRoute, useRouter } from 'vue-router'
 import api from '../services/api'
 import { useAuthStore } from '../stores/auth'
 import PageHeader from '../components/ui/PageHeader.vue'
@@ -9,8 +9,10 @@ import LoadingState from '../components/ui/LoadingState.vue'
 import ErrorBanner from '../components/ui/ErrorBanner.vue'
 import EmptyState from '../components/ui/EmptyState.vue'
 import StatusBadge from '../components/ui/StatusBadge.vue'
+import ConfirmDeleteModal from '../components/ui/ConfirmDeleteModal.vue'
 
 const route = useRoute()
+const router = useRouter()
 const auth = useAuthStore()
 const policy = ref(null)
 const loading = ref(true)
@@ -18,6 +20,8 @@ const saving = ref(false)
 const error = ref('')
 const success = ref('')
 const modalOpen = ref(false)
+const deleteOpen = ref(false)
+const deleting = ref(false)
 const attachment = ref(null)
 const attachmentTitle = ref('')
 const form = reactive({ name: '', type: '', exp_date: '', content: '' })
@@ -68,6 +72,20 @@ async function saveReview() {
   }
 }
 
+async function removePolicy() {
+  deleting.value = true
+  error.value = ''
+  try {
+    await api.delete(`/policies/${policy.value.id}`)
+    await router.push('/policies')
+  } catch (requestError) {
+    error.value = requestError.response?.data?.message || 'The policy could not be removed.'
+    deleteOpen.value = false
+  } finally {
+    deleting.value = false
+  }
+}
+
 onMounted(loadPolicy)
 </script>
 
@@ -75,7 +93,7 @@ onMounted(loadPolicy)
   <div>
     <p v-if="error && modalOpen" class="fixed left-1/2 top-5 z-[80] w-[min(90vw,40rem)] -translate-x-1/2 rounded-xl bg-red-50 px-4 py-3 text-sm font-bold text-red-700 shadow-xl">{{ error }}</p>
     <RouterLink to="/policies" class="mb-4 inline-flex items-center gap-2 text-sm font-extrabold text-brand-blue"><ArrowLeft :size="17" /> Back to policies</RouterLink>
-    <PageHeader title="Policy review" description="Read the current guidance, inspect supporting documents and record the next review."><template #actions><button v-if="policy && auth.hasPermission('policies.manage')" class="inline-flex items-center gap-2 rounded-xl bg-brand-blue px-4 py-2.5 text-sm font-extrabold text-white" @click="openReview"><Pencil :size="17" /> Review policy</button></template></PageHeader>
+    <PageHeader title="Policy review" description="Read the current guidance, inspect supporting documents and record the next review."><template #actions><button v-if="policy && auth.hasPermission('policies.manage')" class="inline-flex items-center gap-2 rounded-xl border border-red-200 bg-red-50 px-4 py-2.5 text-sm font-extrabold text-red-700 hover:bg-red-100" @click="deleteOpen = true"><Trash2 :size="17" /> Remove policy</button><button v-if="policy && auth.hasPermission('policies.manage')" class="inline-flex items-center gap-2 rounded-xl bg-brand-blue px-4 py-2.5 text-sm font-extrabold text-white" @click="openReview"><Pencil :size="17" /> Review policy</button></template></PageHeader>
     <ErrorBanner :message="error" @dismiss="error = ''" />
     <div v-if="success" class="mb-5 rounded-2xl bg-emerald-50 px-4 py-3 text-sm font-bold text-emerald-700">{{ success }}</div>
     <LoadingState v-if="loading" />
@@ -85,6 +103,7 @@ onMounted(loadPolicy)
     </div>
 
     <div v-if="modalOpen" class="fixed inset-0 z-[70] overflow-y-auto bg-brand-navy/65 p-4 backdrop-blur-sm" role="dialog" aria-modal="true"><section class="mx-auto my-6 w-full max-w-2xl rounded-3xl bg-white p-6 shadow-2xl"><div class="flex items-start justify-between gap-4"><div><p class="text-xs font-extrabold uppercase tracking-[.18em] text-brand-orange">Governance review</p><h2 class="mt-1 text-2xl font-black text-brand-navy">Review policy</h2></div><button class="rounded-xl p-2 text-slate-400 hover:bg-slate-100" @click="modalOpen = false"><X :size="21" /></button></div><form class="mt-6 grid gap-4 sm:grid-cols-2" @submit.prevent="saveReview"><label class="field sm:col-span-2"><span>Policy name *</span><input v-model="form.name" required /></label><label class="field"><span>Category</span><input v-model="form.type" /></label><label class="field"><span>Next review date *</span><input v-model="form.exp_date" type="date" required /></label><label class="field sm:col-span-2"><span>Reviewed policy content *</span><textarea v-model="form.content" rows="12" required /></label><label class="field"><span>New attachment title</span><input v-model="attachmentTitle" /></label><label class="field"><span>New attachment</span><input type="file" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" @change="attachment = $event.target.files?.[0] || null" /></label><div class="flex justify-end gap-3 border-t border-slate-100 pt-5 sm:col-span-2"><button type="button" class="rounded-xl px-5 py-3 text-sm font-extrabold text-slate-500" @click="modalOpen = false">Cancel</button><button :disabled="saving" class="inline-flex items-center gap-2 rounded-xl bg-brand-blue px-5 py-3 text-sm font-extrabold text-white disabled:opacity-50"><Save :size="18" /> {{ saving ? 'Saving…' : 'Save review' }}</button></div></form></section></div>
+    <ConfirmDeleteModal :open="deleteOpen" :busy="deleting" title="Remove policy?" :item-name="policy?.name" warning="The policy and all attached documents will be permanently deleted." @cancel="deleteOpen = false" @confirm="removePolicy" />
   </div>
 </template>
 
