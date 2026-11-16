@@ -24,6 +24,7 @@ const routes = [
       { path: 'my-supervision', name: 'my-supervision', component: () => import('../views/MySupervisionView.vue'), meta: { permission: 'supervision.view-own', roles: ['staff'], title: 'My supervision' } },
       { path: 'courses', name: 'courses', component: () => import('../views/CoursesView.vue'), meta: { permission: 'courses.view', title: 'Courses' } },
       { path: 'performance', name: 'performance', component: () => import('../views/PerformanceView.vue'), meta: { permission: 'performance.view-own', roles: ['staff'], title: 'My performance' } },
+      { path: 'performance-matrix', name: 'performance-matrix', component: () => import('../views/AdminPerformanceMatrixView.vue'), meta: { permission: 'performance.view-all', roles: ['admin'], title: 'Performance matrix' } },
       { path: 'certificates', name: 'certificates', component: () => import('../views/CertificatesView.vue'), meta: { permission: 'certificates.issue', title: 'Certificates' } },
       { path: 'policies', name: 'policies', component: () => import('../views/PoliciesView.vue'), meta: { permission: 'policies.view', title: 'Policies' } },
       { path: 'policies/:id', name: 'policy-details', component: () => import('../views/PolicyDetailsView.vue'), meta: { permission: 'policies.view', title: 'Policy review' } },
