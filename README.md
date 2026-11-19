@@ -64,6 +64,8 @@ Netlify should use the repository root as its base directory, `npm run build` as
 
 ## Completed supervision archive
 
+For sessions attached to a current staff profile, open **Staff records → View staff profile → Supervision history → View answers**. Each row shows its saved-answer count; **Show all sessions** reveals the full history. The answers open in a read-only dialog, including duplicate saved versions and any missing-question warnings. A scheduled date or active status alone does not prove that responses exist.
+
 Administrators can open **Supervision archive** from the sidebar or **Supervision → Completed archive** at `/supervision/archive`.
 
 The viewer shows private historical staff snapshots and completed supervision sessions. Choose a source archive and staff member, then open a session to read its original saved responses. Multiple responses and uncertain question wording remain flagged. **Print session** prints only the selected historical record.

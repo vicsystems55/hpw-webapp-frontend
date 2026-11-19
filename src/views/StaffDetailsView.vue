@@ -1,6 +1,6 @@
 <script setup>
 import { computed, onMounted, ref } from 'vue'
-import { ArrowLeft, Award, CalendarClock, Download, FileCheck2, FileText, GraduationCap, Mail, MapPin, Phone, ShieldCheck, Trash2, UserRound } from '@lucide/vue'
+import { Archive, ArrowLeft, Award, CalendarClock, Download, Eye, FileCheck2, FileText, GraduationCap, Mail, MapPin, Phone, ShieldCheck, Trash2, UserRound } from '@lucide/vue'
 import { useRoute, useRouter } from 'vue-router'
 import api from '../services/api'
 import { useAuthStore } from '../stores/auth'
@@ -10,6 +10,7 @@ import ErrorBanner from '../components/ui/ErrorBanner.vue'
 import EmptyState from '../components/ui/EmptyState.vue'
 import StatusBadge from '../components/ui/StatusBadge.vue'
 import ConfirmDeleteModal from '../components/ui/ConfirmDeleteModal.vue'
+import SupervisionAnswersDialog from '../components/supervision/SupervisionAnswersDialog.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -19,6 +20,10 @@ const loading = ref(true)
 const error = ref('')
 const deleteOpen = ref(false)
 const deleting = ref(false)
+const selectedSupervision = ref(null)
+const showAllSupervisions = ref(false)
+const supervisionHistory = computed(() => staff.value?.supervision_schedule || [])
+const visibleSupervisions = computed(() => showAllSupervisions.value ? supervisionHistory.value : supervisionHistory.value.slice(0, 6))
 const initials = computed(() => staff.value?.fullname?.split(' ').map(part => part[0]).slice(0, 2).join('').toUpperCase() || 'HP')
 const storageBase = (api.defaults.baseURL || '').replace(/\/api\/?$/, '/storage/')
 const fileUrl = path => path ? `${storageBase}${path}` : null
@@ -88,11 +93,24 @@ onMounted(loadStaff)
         <div class="space-y-5">
           <section class="card p-5"><div class="flex items-center justify-between"><h3 class="flex items-center gap-2 font-black text-brand-navy"><Award :size="19" class="text-brand-orange" /> Qualifications</h3><span class="rounded-full bg-brand-sky px-2.5 py-1 text-xs font-extrabold text-brand-blue">{{ staff.qualifications?.length || 0 }}</span></div><EmptyState v-if="!staff.qualifications?.length" class="mt-4" title="No qualifications recorded" message="Qualifications added to this staff record will appear here." :icon="Award" /><div v-else class="mt-4 grid gap-3 sm:grid-cols-2"><article v-for="item in staff.qualifications" :key="item.id" class="rounded-xl border border-slate-100 bg-slate-50 p-4"><p class="font-extrabold text-brand-navy">{{ item.qualification_title || item.qualification || 'Qualification' }}</p><a v-if="item.file_path" :href="fileUrl(item.file_path)" target="_blank" rel="noopener" class="mt-2 inline-flex text-xs font-bold text-brand-blue">View certificate</a></article></div></section>
           <section class="card p-5"><div class="flex items-center justify-between"><div><h3 class="flex items-center gap-2 font-black text-brand-navy"><FileText :size="19" class="text-brand-blue" /> Staff-uploaded documents</h3><p class="mt-1 text-xs text-slate-500">Private files submitted through the staff portal</p></div><span class="rounded-full bg-brand-sky px-2.5 py-1 text-xs font-extrabold text-brand-blue">{{ staff.documents?.length || 0 }}</span></div><EmptyState v-if="!staff.documents?.length" class="mt-4" title="No staff uploads" message="Documents and course certificates uploaded by this staff member will appear here." :icon="FileText" /><div v-else class="mt-4 grid gap-3 sm:grid-cols-2"><article v-for="document in staff.documents" :key="document.id" class="rounded-xl border border-slate-100 bg-slate-50 p-4"><p class="text-[11px] font-extrabold uppercase tracking-wider text-brand-blue">{{ documentLabels[document.type] || 'Document' }}</p><p class="mt-1 font-extrabold text-brand-navy">{{ document.title }}</p><p v-if="document.course_name" class="mt-1 text-sm text-slate-500">{{ document.course_name }}</p><div class="mt-2 flex flex-wrap gap-2 text-xs text-slate-400"><span>{{ document.original_name }}</span><span>{{ formatBytes(document.file_size) }}</span><span v-if="document.issued_on">Issued {{ formatDate(document.issued_on) }}</span><span v-if="document.expires_on">Expires {{ formatDate(document.expires_on) }}</span></div><button class="mt-3 inline-flex items-center gap-2 rounded-lg bg-white px-3 py-2 text-xs font-extrabold text-brand-blue shadow-sm" @click="downloadDocument(document)"><Download :size="15" /> Download privately</button></article></div></section>
-          <section class="card p-5"><div class="flex items-center justify-between"><h3 class="flex items-center gap-2 font-black text-brand-navy"><CalendarClock :size="19" class="text-brand-blue" /> Supervision history</h3><span class="rounded-full bg-brand-sky px-2.5 py-1 text-xs font-extrabold text-brand-blue">{{ staff.supervision_schedule?.length || 0 }}</span></div><EmptyState v-if="!staff.supervision_schedule?.length" class="mt-4" title="No supervision sessions" message="Scheduled supervision will appear here." :icon="CalendarClock" /><div v-else class="mt-4 space-y-3"><article v-for="item in staff.supervision_schedule.slice(0, 6)" :key="item.id" class="flex items-center justify-between gap-3 rounded-xl border border-slate-100 p-4"><div><p class="text-xs font-bold uppercase tracking-wider text-slate-400">Scheduled</p><p class="mt-1 font-extrabold text-brand-navy">{{ formatDate(item.next_supervision_date) }}</p></div><StatusBadge :status="item.status" /></article></div></section>
+          <section class="card p-5">
+            <div class="flex items-center justify-between gap-3"><h3 class="flex items-center gap-2 font-black text-brand-navy"><CalendarClock :size="19" class="text-brand-blue" /> Supervision history</h3><span class="rounded-full bg-brand-sky px-2.5 py-1 text-xs font-extrabold text-brand-blue">{{ supervisionHistory.length }}</span></div>
+            <p class="mt-2 text-xs leading-5 text-slate-500">Select a session to read its saved responses.</p>
+            <EmptyState v-if="!supervisionHistory.length" class="mt-4" title="No supervision sessions" message="Scheduled supervision will appear here." :icon="CalendarClock" />
+            <div v-else class="mt-4 space-y-3">
+              <article v-for="item in visibleSupervisions" :key="item.id" class="flex flex-col gap-3 rounded-xl border border-slate-100 p-4 sm:flex-row sm:items-center sm:justify-between">
+                <div><p class="text-xs font-bold uppercase tracking-wider text-slate-400">Scheduled</p><p class="mt-1 font-extrabold text-brand-navy">{{ formatDate(item.next_supervision_date) }}</p><p v-if="item.answers_count !== undefined" class="mt-1 text-xs text-slate-500">{{ item.answers_count }} saved {{ Number(item.answers_count) === 1 ? 'answer' : 'answers' }}</p></div>
+                <div class="flex flex-wrap items-center gap-3"><StatusBadge :status="item.status" /><button v-if="auth.hasPermission('supervision.manage')" type="button" :aria-label="`View supervision answers scheduled ${formatDate(item.next_supervision_date)}`" class="inline-flex items-center gap-2 rounded-xl bg-brand-sky px-3 py-2.5 text-xs font-extrabold text-brand-blue hover:bg-sky-100" @click="selectedSupervision = item"><Eye :size="16" /> View answers</button></div>
+              </article>
+            </div>
+            <button v-if="supervisionHistory.length > 6" type="button" :aria-expanded="showAllSupervisions" class="mt-4 text-sm font-extrabold text-brand-blue" @click="showAllSupervisions = !showAllSupervisions">{{ showAllSupervisions ? 'Show recent sessions' : `Show all ${supervisionHistory.length} sessions` }}</button>
+            <RouterLink v-if="auth.isAdmin && auth.hasPermission('supervision.manage')" to="/supervision/archive" class="mt-5 flex items-center gap-2 border-t border-slate-100 pt-4 text-xs font-extrabold text-brand-blue"><Archive :size="17" /> Open historical backup archive</RouterLink>
+          </section>
           <section class="card p-5"><div class="flex items-center justify-between"><h3 class="flex items-center gap-2 font-black text-brand-navy"><GraduationCap :size="19" class="text-brand-mint" /> Training</h3><span class="rounded-full bg-emerald-50 px-2.5 py-1 text-xs font-extrabold text-emerald-700">{{ staff.staff_trainings?.length || 0 }}</span></div><EmptyState v-if="!staff.staff_trainings?.length" class="mt-4" title="No training assignments" message="Assigned programmes and grades will appear here." :icon="GraduationCap" /><div v-else class="mt-4 grid gap-3 sm:grid-cols-2"><article v-for="item in staff.staff_trainings" :key="item.id" class="rounded-xl border border-slate-100 p-4"><p class="font-extrabold text-brand-navy">{{ item.training_programme?.name || item.training_programme?.title || 'Training programme' }}</p><p class="mt-2 text-sm font-bold text-brand-blue">Grade: {{ item.grade || 'Not graded' }}</p></article></div></section>
         </div>
       </div>
     </div>
     <ConfirmDeleteModal :open="deleteOpen" :busy="deleting" title="Remove staff record?" :item-name="staff?.fullname" warning="The staff profile, qualifications, schedules, uploaded documents and linked login access will be removed or disabled." @cancel="deleteOpen = false" @confirm="removeStaff" />
+    <SupervisionAnswersDialog v-if="staff && auth.hasPermission('supervision.manage')" :schedule="selectedSupervision" :staff-id="staff.id" :staff-name="staff.fullname || ''" @close="selectedSupervision = null" />
   </div>
 </template>
