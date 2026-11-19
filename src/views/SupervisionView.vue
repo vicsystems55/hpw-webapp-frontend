@@ -1,5 +1,5 @@
 <script setup>
-import { ClipboardCheck, GripVertical, MessageSquareText, Plus } from '@lucide/vue'
+import { Archive, ClipboardCheck, GripVertical, MessageSquareText, Plus } from '@lucide/vue'
 import { useApiList } from '../composables/useApiList'
 import PageHeader from '../components/ui/PageHeader.vue'
 import LoadingState from '../components/ui/LoadingState.vue'
@@ -11,7 +11,7 @@ const { items, loading, error } = useApiList('/staff-supervision', data => data.
 
 <template>
   <div>
-    <PageHeader title="Staff supervision" description="Build reflective, consistent supervision conversations that support staff and care quality."><template #actions><button class="inline-flex items-center gap-2 rounded-xl bg-brand-blue px-4 py-2.5 text-sm font-extrabold text-white"><Plus :size="18" /> Add question</button></template></PageHeader>
+    <PageHeader title="Staff supervision" description="Build reflective, consistent supervision conversations that support staff and care quality."><template #actions><RouterLink to="/supervision/archive" class="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-extrabold text-brand-blue"><Archive :size="18" /> Completed archive</RouterLink><button class="inline-flex items-center gap-2 rounded-xl bg-brand-blue px-4 py-2.5 text-sm font-extrabold text-white"><Plus :size="18" /> Add question</button></template></PageHeader>
     <ErrorBanner :message="error" @dismiss="error = ''" />
     <div class="mb-6 rounded-2xl border border-brand-blue/15 bg-brand-sky p-5"><div class="flex gap-3"><span class="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-white text-brand-blue"><MessageSquareText :size="19" /></span><div><h2 class="font-extrabold text-brand-navy">Supervision question bank</h2><p class="mt-1 text-sm leading-6 text-slate-500">These questions form the shared structure for staff supervision sessions.</p></div></div></div>
     <LoadingState v-if="loading" />

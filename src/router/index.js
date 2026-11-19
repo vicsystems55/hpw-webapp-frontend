@@ -21,6 +21,7 @@ const routes = [
       { path: 'staff/:id', name: 'staff-details', component: () => import('../views/StaffDetailsView.vue'), meta: { permission: 'staff.manage', roles: ['admin'], title: 'Staff profile' } },
       { path: 'staff-access', name: 'staff-access', component: () => import('../views/StaffAccessView.vue'), meta: { permission: 'users.manage', roles: ['admin'], title: 'Staff access' } },
       { path: 'supervision', name: 'supervision', component: () => import('../views/SupervisionView.vue'), meta: { permission: 'supervision.manage', title: 'Supervision' } },
+      { path: 'supervision/archive', name: 'supervision-archive', component: () => import('../views/SupervisionArchiveView.vue'), meta: { permission: 'supervision.manage', roles: ['admin'], title: 'Supervision archive' } },
       { path: 'my-supervision', name: 'my-supervision', component: () => import('../views/MySupervisionView.vue'), meta: { permission: 'supervision.view-own', roles: ['staff'], title: 'My supervision' } },
       { path: 'courses', name: 'courses', component: () => import('../views/CoursesView.vue'), meta: { permission: 'courses.view', title: 'Courses' } },
       { path: 'performance', name: 'performance', component: () => import('../views/PerformanceView.vue'), meta: { permission: 'performance.view-own', roles: ['staff'], title: 'My performance' } },

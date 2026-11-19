@@ -1,4 +1,5 @@
 import {
+  Archive,
   Award,
   Bell,
   BookOpen,
@@ -23,6 +24,7 @@ export const navigation = [
   { label: 'Staff records', to: '/staff', icon: ShieldCheck, permission: 'staff.manage', roles: ['admin'] },
   { label: 'Staff access', to: '/staff-access', icon: UserRoundCog, permission: 'users.manage', roles: ['admin'] },
   { label: 'Supervision', to: '/supervision', icon: ClipboardCheck, permission: 'supervision.manage', roles: ['admin'] },
+  { label: 'Supervision archive', to: '/supervision/archive', icon: Archive, permission: 'supervision.manage', roles: ['admin'] },
   { label: 'My supervision', to: '/my-supervision', icon: ClipboardCheck, permission: 'supervision.view-own', roles: ['staff'] },
   { label: 'Courses', to: '/courses', icon: BookOpen, permission: 'courses.view' },
   { label: 'My performance', to: '/performance', icon: GraduationCap, permission: 'performance.view-own', roles: ['staff'] },

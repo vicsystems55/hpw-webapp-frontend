@@ -61,3 +61,13 @@ VITE_API_URL=https://api.hopepathway.co.uk/api
 ```
 
 Netlify should use the repository root as its base directory, `npm run build` as the build command, and `dist` as the publish directory.
+
+## Completed supervision archive
+
+Administrators can open **Supervision archive** from the sidebar or **Supervision → Completed archive** at `/supervision/archive`.
+
+The viewer shows private historical staff snapshots and completed supervision sessions. Choose a source archive and staff member, then open a session to read its original saved responses. Multiple responses and uncertain question wording remain flagged. **Print session** prints only the selected historical record.
+
+To import prepared records, choose **Import archive**, select `archive.json`, review the source, staff and counts, and confirm. The original SQL backup, ZIP, manifest and standalone HTML viewer are not import files. Imported records stay separate from current staff and supervision IDs.
+
+The Laravel backend supplies the protected archive endpoints and private file storage. Deploy the frontend and backend together and clear old Laravel route caches. No database migration is needed for this feature. Confidential archive files are transferred through the admin importer or backend console; they are never included in frontend source files or the Netlify build.
